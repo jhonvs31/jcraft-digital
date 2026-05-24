@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/jhonvega/Downloads/**)",
+      "Bash(pandoc JCraft_Manual_de_Marca.docx -o /tmp/jcraft_manual.md)",
+      "Read(//tmp/**)",
+      "Read(//private/tmp/**)",
+      "Bash(cp /Users/jhonvega/Downloads/JCraft_Manual_de_Marca.docx .)",
+      "Bash(python3 -c ' *)",
+      "Bash(cp /Users/jhonvega/Downloads/JCraft_Manual_de_Marca.docx /Users/jhonvega/Documents/JCraft/assets/ 2>/dev/null; ls /Users/jhonvega/Documents/JCraft/)",
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(git -C /Users/jhonvega/Documents/JCraft status)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}
