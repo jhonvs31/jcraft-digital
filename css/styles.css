@@ -168,7 +168,7 @@ p  { font-size: 16px; color: var(--negro-suave); margin-bottom: 16px; }
   align-items: center;
   gap: 10px;
 }
-.nav-logo img { height: 44px; width: auto; }
+.nav-logo img { height: 64px; width: auto; }
 .nav-logo-text {
   font-family: var(--font-titulo);
   font-weight: 800;
@@ -1134,7 +1134,7 @@ textarea.form-control { resize: vertical; min-height: 130px; }
 }
 .footer-brand { }
 .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-.footer-logo img { height: 40px; }
+.footer-logo img { height: 56px; }
 .footer-logo-text {
   font-family: var(--font-titulo);
   font-size: 18px;
