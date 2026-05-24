@@ -1259,6 +1259,32 @@ textarea.form-control { resize: vertical; min-height: 130px; }
 .scroll-top.show { display: flex; }
 .scroll-top:hover { background: var(--azul-marino); transform: translateY(-2px); }
 
+/* ============ Responsive Grid Utilities ============ */
+/* Reemplazan inline styles que no responden a media queries */
+.rg-mision {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.rg-featured {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.rg-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.rg-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
 /* ============ Filtros Portfolio ============ */
 .filter-tabs {
   display: flex;
@@ -1309,7 +1335,7 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   .why-grid           { grid-template-columns: 1fr; }
   .why-visual         { display: none; }
   .contact-grid       { grid-template-columns: 1fr; }
-  .team-grid          { grid-template-columns: 1fr; max-width: 320px; }
+  .team-grid          { grid-template-columns: 1fr; max-width: 360px; }
   .values-grid        { grid-template-columns: repeat(2, 1fr); }
   .nav-menu           { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--blanco); box-shadow: 0 8px 24px rgba(0,0,0,0.1); padding: 16px; gap: 4px; }
   .nav-menu.open      { display: flex; }
@@ -1324,12 +1350,24 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   .form-row           { grid-template-columns: 1fr; }
   .contact-form       { padding: 28px 20px; }
   .cta-banner .btn-group { flex-direction: column; align-items: center; }
+  /* Grids que usaban inline styles */
+  .process-grid       { grid-template-columns: 1fr; }
+  .rg-mision          { grid-template-columns: 1fr; }
+  .rg-featured        { grid-template-columns: 1fr; gap: 24px; padding: 28px !important; }
+  .rg-3col            { grid-template-columns: 1fr; }
+  .rg-4col            { grid-template-columns: repeat(2, 1fr); }
+  /* Servicios detail */
+  .service-detail-card { padding: 28px 20px; }
 }
 
 @media (max-width: 480px) {
-  .values-grid { grid-template-columns: 1fr; }
+  .values-grid  { grid-template-columns: 1fr; }
+  .rg-4col      { grid-template-columns: 1fr; }
   .hero-actions { flex-direction: column; }
   .hero-actions .btn { width: 100%; justify-content: center; }
+  .container    { padding: 0 16px; }
+  .page-hero    { padding: 120px 0 60px; }
+  .section-header { margin-bottom: 36px; }
 }
 
 /* ============ Animaciones de entrada ============ */
