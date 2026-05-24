@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cómo crear un calendario de contenidos en 30 minutos | JCraft Digital</title>
+  <meta name="description" content="La constancia en redes sociales es clave. Te enseñamos un método simple para planificar un mes entero de contenido sin invertir horas.">
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .article-hero { padding: 140px 0 60px; background: linear-gradient(135deg, var(--azul-marino), var(--azul-principal)); }
+    .article-body { max-width: 780px; margin: 0 auto; padding: 56px 24px 80px; }
+    .article-body h2 { font-size: 26px; color: var(--azul-marino); margin: 40px 0 16px; }
+    .article-body h3 { font-size: 20px; color: var(--azul-principal); margin: 28px 0 12px; }
+    .article-body p { font-size: 16px; line-height: 1.8; color: var(--negro-suave); margin-bottom: 18px; }
+    .article-body ul { margin: 0 0 18px 0; padding-left: 0; }
+    .article-body ul li { font-size: 16px; line-height: 1.8; color: var(--negro-suave); margin-bottom: 8px; list-style: none; padding-left: 20px; position: relative; }
+    .article-body ul li::before { content: '→'; position: absolute; left: 0; color: var(--cian-acento); font-weight: 700; }
+    .article-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 20px; }
+    .highlight-box { background: var(--azul-claro); border-left: 4px solid var(--azul-principal); border-radius: 0 var(--radius) var(--radius) 0; padding: 20px 24px; margin: 28px 0; }
+    .highlight-box p { margin: 0; color: var(--azul-marino); font-weight: 500; }
+    .pillar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+    .pillar-card { background: var(--blanco); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-card); }
+    .pillar-card .pillar-icon { font-size: 24px; margin-bottom: 8px; }
+    .pillar-card h3 { font-size: 15px; color: var(--azul-marino); margin: 0 0 6px; }
+    .pillar-card p { font-size: 13px; color: var(--gris-azulado); margin: 0; line-height: 1.6; }
+    .calendar-example { background: var(--blanco); border-radius: 16px; padding: 28px; box-shadow: var(--shadow-card); margin: 28px 0; }
+    .calendar-example h3 { font-size: 16px; color: var(--azul-marino); margin: 0 0 16px; }
+    .cal-row { display: grid; grid-template-columns: 80px 1fr; gap: 12px; align-items: start; margin-bottom: 12px; border-bottom: 1px solid var(--azul-claro); padding-bottom: 12px; }
+    .cal-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .cal-day { font-family: var(--font-titulo); font-size: 12px; font-weight: 700; color: var(--azul-principal); background: var(--azul-claro); padding: 4px 8px; border-radius: 6px; text-align: center; }
+    .cal-content { font-size: 14px; color: var(--negro-suave); line-height: 1.5; }
+    .article-cta { background: linear-gradient(135deg, var(--azul-marino), var(--azul-principal)); border-radius: 20px; padding: 40px; text-align: center; margin-top: 56px; }
+    .article-cta h3 { color: var(--blanco); margin-bottom: 12px; }
+    .article-cta p { color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.8); font-family: var(--font-titulo); font-size: 14px; font-weight: 600; margin-bottom: 24px; }
+    @media(max-width:600px){.pillar-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <a href="../index.html" class="nav-logo"><img src="../assets/logo-horizontal.svg" alt="JCraft Digital" style="height:48px;"></a>
+        <ul class="nav-menu">
+          <li><a href="../index.html" class="nav-link">Inicio</a></li>
+          <li><a href="../servicios.html" class="nav-link">Servicios</a></li>
+          <li><a href="../portafolio.html" class="nav-link">Portafolio</a></li>
+          <li><a href="../nosotros.html" class="nav-link">Nosotros</a></li>
+          <li><a href="../blog.html" class="nav-link">Blog</a></li>
+          <li><a href="../contacto.html" class="nav-link nav-cta btn btn-primary btn-sm">Contactar</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Menú"><span></span><span></span><span></span></button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="article-hero">
+    <div class="container" style="position:relative;z-index:1;">
+      <a href="../blog.html" class="back-link">← Volver al Blog</a>
+      <div class="badge badge-white" style="margin-bottom:16px;">Redes Sociales</div>
+      <h1 style="color:var(--blanco); max-width:720px; margin-bottom:20px;">Cómo crear un calendario de contenidos para redes sociales en 30 minutos</h1>
+      <div class="article-meta">
+        <span>📅 8 Abril 2026</span>
+        <span>⏱️ 4 min de lectura</span>
+        <span>✍️ JCraft Digital</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="article-body">
+
+    <p>Uno de los mayores problemas que tienen las pymes con sus redes sociales no es la falta de ideas — es la falta de organización. Se publica cuando "hay tiempo" o cuando se acuerdan, sin consistencia ni estrategia. El calendario de contenidos resuelve exactamente eso.</p>
+
+    <div class="highlight-box"><p>📅 Un calendario de contenidos no necesita ser elaborado. Una tabla simple en Google Sheets o Notion con fecha, red, formato y tema es suficiente para transformar tu presencia en redes de caótica a constante y estratégica.</p></div>
+
+    <h2>Paso 1: Define tus pilares de contenido (5 minutos)</h2>
+    <p>Los pilares de contenido son las categorías temáticas de tu negocio. Tener entre 3 y 4 pilares claros hace que nunca te quedes sin ideas y que tu perfil sea variado pero coherente.</p>
+
+    <div class="pillar-grid">
+      <div class="pillar-card"><div class="pillar-icon">📚</div><h3>Educativo</h3><p>Enseña algo útil a tu audiencia. Posiciona tu marca como experta en el tema.</p></div>
+      <div class="pillar-card"><div class="pillar-icon">🛠️</div><h3>Portafolio / Resultados</h3><p>Muestra tu trabajo, antes y después, casos de éxito y proyectos realizados.</p></div>
+      <div class="pillar-card"><div class="pillar-icon">👥</div><h3>Humanización</h3><p>El detrás de cámaras, el equipo, el proceso, los valores. Conecta a nivel humano.</p></div>
+      <div class="pillar-card"><div class="pillar-icon">💬</div><h3>Conversión</h3><p>Ofertas, servicios, llamados a la acción directos. El 20% que vende directamente.</p></div>
+    </div>
+
+    <h2>Paso 2: Decide la frecuencia de publicación (2 minutos)</h2>
+    <p>Antes de llenar el calendario, define cuántas veces por semana vas a publicar. Sé honesto con tu capacidad real. Es mejor 3 publicaciones semanales de calidad que 7 mediocres. Para empezar, recomendamos:</p>
+    <ul>
+      <li><strong>Instagram feed:</strong> 3 veces por semana</li>
+      <li><strong>Stories:</strong> Diariamente (son fáciles y rápidas)</li>
+      <li><strong>Reels:</strong> 1-2 por semana</li>
+      <li><strong>Facebook:</strong> Puedes replicar el contenido de Instagram automáticamente</li>
+    </ul>
+
+    <h2>Paso 3: Elige tus formatos (3 minutos)</h2>
+    <p>No todo el contenido es igual. Alterna formatos para mantener el interés de tu audiencia:</p>
+    <ul>
+      <li>Carrusel (muy buen alcance orgánico en Instagram)</li>
+      <li>Imagen estática con frase o dato</li>
+      <li>Reel corto (30-60 segundos)</li>
+      <li>Video vertical formato TikTok</li>
+      <li>Infografía</li>
+      <li>Story interactiva (encuesta, pregunta, quiz)</li>
+    </ul>
+
+    <h2>Paso 4: Llena el calendario del mes (15 minutos)</h2>
+    <p>Con tus pilares, frecuencia y formatos definidos, llena el calendario. Aquí un ejemplo para una semana:</p>
+
+    <div class="calendar-example">
+      <h3>Ejemplo: semana tipo para una pyme de servicios</h3>
+      <div class="cal-row"><div class="cal-day">Lunes</div><div class="cal-content">📚 Educativo — Carrusel: "3 cosas que debes saber antes de contratar [tu servicio]"</div></div>
+      <div class="cal-row"><div class="cal-day">Martes</div><div class="cal-content">📸 Stories — Detrás de cámaras del día a día</div></div>
+      <div class="cal-row"><div class="cal-day">Miércoles</div><div class="cal-content">🛠️ Portafolio — Reel mostrando un proyecto reciente (antes/después)</div></div>
+      <div class="cal-row"><div class="cal-day">Jueves</div><div class="cal-content">📸 Stories — Encuesta o pregunta para generar interacción</div></div>
+      <div class="cal-row"><div class="cal-day">Viernes</div><div class="cal-content">💬 Conversión — Post presentando tu servicio estrella con llamado a la acción claro</div></div>
+      <div class="cal-row"><div class="cal-day">Sábado</div><div class="cal-content">👥 Humanización — Foto del equipo o del proceso de trabajo</div></div>
+    </div>
+
+    <h2>Paso 5: Prepara el contenido en tandas (5 minutos de organización)</h2>
+    <p>Una vez tengas el calendario, dedica un bloque de tiempo semanal (2-3 horas los domingos, por ejemplo) a preparar todo el contenido de la semana siguiente. Diseña las piezas, graba los videos, redacta los textos. Así evitas el estrés de publicar "en el momento" y la calidad mejora.</p>
+
+    <div class="highlight-box"><p>🛠️ Herramientas que recomendamos para gestionar tu calendario: Google Sheets (gratuito, simple), Notion (gratis con funciones avanzadas), o Metricool (permite programar publicaciones directamente y ver analítica). Elige la que más se adapte a tu estilo de trabajo.</p></div>
+
+    <h2>El secreto: la constancia supera al talento</h2>
+    <p>No necesitas que cada publicación sea perfecta. Necesitas que sea consistente. Una cuenta que publica 3 veces por semana durante 6 meses, aunque el contenido sea sencillo, va a crecer más que una que publica brillantemente una vez al mes.</p>
+    <p>El algoritmo premia la regularidad. Tu audiencia premia la confiabilidad. Y ambas cosas se construyen con un buen calendario.</p>
+
+    <div class="article-cta">
+      <h3>¿Quieres que manejemos tus redes por ti?</h3>
+      <p>Nos encargamos de la estrategia, el contenido y la publicación.</p>
+      <a href="../contacto.html" class="btn btn-white btn-lg">Quiero delegar mis redes</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><div class="footer-logo"><img src="../assets/logo-horizontal.svg" alt="JCraft Digital" style="height:56px;" onerror="this.style.display='none'"></div><p class="footer-desc">Agencia de marketing digital especializada en pymes.</p><div class="footer-social"><a href="https://instagram.com/jcraftdigital" class="footer-social-link" target="_blank">📸</a><a href="https://facebook.com/jcraftdigital" class="footer-social-link" target="_blank">👥</a><a href="https://wa.me/573000000000" class="footer-social-link" target="_blank">💬</a></div></div>
+        <div class="footer-col"><h4>Servicios</h4><ul class="footer-links"><li><a href="../servicios.html" class="footer-link">→ Redes Sociales</a></li><li><a href="../servicios.html" class="footer-link">→ Diseño Web</a></li><li><a href="../servicios.html" class="footer-link">→ Pauta Digital</a></li></ul></div>
+        <div class="footer-col"><h4>Empresa</h4><ul class="footer-links"><li><a href="../nosotros.html" class="footer-link">→ Nosotros</a></li><li><a href="../portafolio.html" class="footer-link">→ Portafolio</a></li><li><a href="../blog.html" class="footer-link">→ Blog</a></li></ul></div>
+        <div class="footer-col"><h4>Contacto</h4><div class="footer-contact-item"><span>📧</span><a href="mailto:hola@jcraftdigital.com">hola@jcraftdigital.com</a></div><div class="footer-contact-item"><span>📱</span><a href="https://wa.me/573000000000">+57 300 000 0000</a></div></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 JCraft Digital — Todos los derechos reservados.</p></div>
+    </div>
+  </footer>
+  <a href="https://wa.me/573000000000" class="whatsapp-float" target="_blank">💬</a>
+  <button class="scroll-top">↑</button>
+  <script src="../js/main.js"></script>
+</body>
+</html>
