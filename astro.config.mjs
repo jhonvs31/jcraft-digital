@@ -21,7 +21,11 @@ export default defineConfig({
   integrations: [sitemap({
     filter: (page) => !/\/(404|links)(\.html)?$/.test(page),
     serialize(item) {
-      const path = new URL(item.url).pathname.replace(/^\//, '');
+      // El sitemap genera las URLs sin «.html», pero con format 'file' las páginas viven en «.html» (sin él darían 404).
+      const url = new URL(item.url);
+      if (url.pathname !== '/' && !url.pathname.endsWith('.html')) url.pathname += '.html';
+      item.url = url.href;
+      const path = url.pathname.replace(/^\//, '');
       const d = lastmod[path] || (path === 'blog.html' || path === '' ? newest : undefined);
       if (d) item.lastmod = new Date(`${d}T12:00:00-05:00`).toISOString();
       return item;
