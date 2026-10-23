@@ -99,7 +99,7 @@ const latest = posts.filter((p) => !p.featured).slice(0, 3);
           <ul class="relative mt-8 space-y-5">
             {approach.map((a, i) => (<li class="flex items-center gap-4 border-b border-white/10 pb-5 text-xl font-bold last:border-0"><span class="num-out text-3xl">{i + 1}</span>{a}</li>))}
           </ul>
-          {claims.show && <p class="relative mt-8 font-display text-6xl font-black"><span data-count="30" data-suffix="+">30+</span><span class="mt-2 block text-base font-medium text-white/60">Clientes que confiaron en nosotros</span></p>}
+          {claims.show && <p class="relative mt-8 font-display text-6xl font-black"><span data-count={claims.clients}>{claims.clients}</span><span class="mt-2 block text-base font-medium text-white/60">Clientes que confiaron en nosotros</span></p>}
         </div>
       </div>
     </div>
@@ -142,7 +142,7 @@ const latest = posts.filter((p) => !p.featured).slice(0, 3);
     </div>
   </section>
 
-  {claims.show && (
+  {claims.showTestimonials && (
     <section class="bg-deep py-28 sm:py-36">
       <div class="wrap">
         <span class="eyebrow" data-reveal>Testimonios</span>
