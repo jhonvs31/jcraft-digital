@@ -19,7 +19,7 @@ export default defineConfig({
   build: { format: 'file' },
   trailingSlash: 'ignore',
   integrations: [sitemap({
-    filter: (page) => !page.endsWith('/404.html') && !page.endsWith('/404'),
+    filter: (page) => !/\/(404|links)(\.html)?$/.test(page),
     serialize(item) {
       const path = new URL(item.url).pathname.replace(/^\//, '');
       const d = lastmod[path] || (path === 'blog.html' || path === '' ? newest : undefined);

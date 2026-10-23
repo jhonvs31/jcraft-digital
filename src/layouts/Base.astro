@@ -7,9 +7,9 @@ import { contact, team } from '../data/site';
 
 interface Props {
   title: string; description: string; page?: string; image?: string; type?: 'website' | 'article';
-  noindex?: boolean; crumbs?: { name: string; page: string }[]; schema?: object[];
+  noindex?: boolean; crumbs?: { name: string; page: string }[]; schema?: object[]; bare?: boolean;
 }
-const { title, description, page = 'index.html', image = 'og.jpg', type = 'website', noindex = false, crumbs = [], schema = [] } = Astro.props;
+const { title, description, page = 'index.html', image = 'og.jpg', type = 'website', noindex = false, crumbs = [], schema = [], bare = false } = Astro.props;
 const abs = (p: string) => new URL(u(p), Astro.site).href;
 const home = abs('');
 const canonical = page === 'index.html' ? home : abs(page);
@@ -69,13 +69,13 @@ const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
   </head>
   <body class="overflow-x-hidden">
     <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-cyan focus:px-5 focus:py-3 focus:font-bold focus:text-navy">Saltar al contenido</a>
-    <Header current={page} />
+    {!bare && <Header current={page} />}
     <main id="contenido"><slot /></main>
-    <Footer />
-    <a href={wa('Hola! Me interesa saber más sobre sus servicios.')} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"
+    {!bare && <Footer />}
+    {!bare && <a href={wa('Hola! Me interesa saber más sobre sus servicios.')} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"
       class="fixed right-5 bottom-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_16px_40px_-10px_rgba(37,211,102,.7)] transition hover:scale-110">
       <svg viewBox="0 0 24 24" class="h-7 w-7" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4.9 2.9.8 3.4.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
-    </a>
+    </a>}
     <script>import '../scripts/motion.ts';</script>
   </body>
 </html>

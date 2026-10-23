@@ -1,0 +1,60 @@
+---
+// Página de enlaces para la bio de Instagram (tipo Linktree).
+// Cada enlace lleva UTM para medir en Google Analytics / Search Console las visitas que llegan desde Instagram.
+import Base from '../layouts/Base.astro';
+import posts from '../data/posts.json';
+import { contact } from '../data/site';
+import { u, wa } from '../lib/url';
+
+const utm = (path: string, content: string) => `${u(path)}?utm_source=instagram&utm_medium=bio&utm_campaign=linkinbio&utm_content=${content}`;
+const latest = posts[0];
+const links = [
+  { href: wa('Hola JCraft! Vengo de Instagram y quiero una consulta gratuita.'), icon: '💬', title: 'Consulta gratuita por WhatsApp', sub: 'Respuesta en horario laboral', primary: true, ext: true },
+  { href: utm('servicios.html', 'servicios'), icon: '🧭', title: 'Nuestros servicios', sub: 'Redes · Web · Pauta · Diseño · Estrategia' },
+  { href: utm('portafolio.html', 'portafolio'), icon: '🗂️', title: 'Portafolio', sub: 'Proyectos en Colombia, México y EE. UU.' },
+  { href: utm(`blog/${latest.slug}.html`, 'ultimo_articulo'), icon: latest.emoji, title: 'Nuevo en el blog', sub: latest.title },
+  { href: utm('blog.html', 'blog'), icon: '📚', title: 'Blog: tips para pymes', sub: 'Marketing digital sin tecnicismos' },
+  { href: utm('contacto.html', 'contacto'), icon: '✍️', title: 'Cuéntanos tu proyecto', sub: 'Formulario de contacto' },
+  { href: `mailto:${contact.email}`, icon: '📧', title: 'Escríbenos un correo', sub: contact.email },
+];
+---
+<Base title="Enlaces | JCraft Digital" description="Todos los enlaces de JCraft Digital: consulta gratuita por WhatsApp, servicios, portafolio, blog y contacto." page="links.html" noindex bare>
+  <section class="grain relative min-h-[100svh] overflow-hidden bg-deep px-5 py-14">
+    <div class="gridlines absolute inset-0"></div>
+    <div class="glow -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2"></div>
+    <div class="glow bottom-[-20%] right-[-30%] h-[420px] w-[420px] opacity-50"></div>
+    <div class="relative mx-auto flex max-w-md flex-col items-center text-center">
+      <div class="relative" data-reveal>
+        <div class="absolute -inset-1.5 rounded-full bg-gradient-to-br from-cyan via-blue to-cyan opacity-90 blur-[2px]"></div>
+        <img src={u('assets/jhon-cata.jpg')} alt="Jhon y Cata, fundadores de JCraft Digital" width="120" height="120" class="relative h-28 w-28 rounded-full border-4 border-deep object-cover" />
+      </div>
+      <img src={u('assets/logo-white.png')} alt="JCraft Digital" width="150" height="48" class="mt-6 h-10 w-auto" data-reveal />
+      <h1 class="mt-5 text-3xl sm:text-4xl" data-reveal>Hacemos que tu negocio <em class="k">se vea</em></h1>
+      <p class="mt-3 text-white/70" data-reveal>Diseño, marketing y tecnología para pymes · Colombia y LATAM</p>
+
+      <ul class="mt-9 w-full space-y-3.5" data-stagger>
+        {links.map((l) => (
+          <li data-reveal>
+            <a href={l.href} target={l.ext ? '_blank' : undefined} rel={l.ext ? 'noopener' : undefined} data-magnetic
+              class:list={['group flex w-full items-center gap-4 rounded-2xl px-5 py-4 text-left transition duration-300 hover:-translate-y-0.5',
+                l.primary ? 'bg-cyan text-navy shadow-[0_18px_40px_-12px_rgba(0,188,212,.7)]' : 'border border-white/12 bg-white/[.06] backdrop-blur-xl hover:border-cyan/60 hover:bg-white/[.1]']}>
+              <span class:list={['grid h-11 w-11 shrink-0 place-items-center rounded-xl text-xl', l.primary ? 'bg-navy/10' : 'bg-white/[.08]']} aria-hidden="true">{l.icon}</span>
+              <span class="min-w-0 flex-1">
+                <span class="block font-display text-[17px] font-extrabold leading-tight">{l.title}</span>
+                <span class:list={['mt-0.5 block truncate text-sm', l.primary ? 'text-navy/75' : 'text-white/55']}>{l.sub}</span>
+              </span>
+              <span class="text-lg transition group-hover:translate-x-1" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="mt-9 flex gap-3" data-reveal>
+        {[['Facebook', contact.facebook], ['LinkedIn', contact.linkedin], ['Web', utm('index.html', 'web')]].map(([n, h]) => (
+          <a href={h} target={n === 'Web' ? undefined : '_blank'} rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan hover:text-cyan">{n}</a>
+        ))}
+      </div>
+      <p class="mt-10 text-xs text-white/40">© {new Date().getFullYear()} JCraft Digital · {contact.phone}</p>
+    </div>
+  </section>
+</Base>

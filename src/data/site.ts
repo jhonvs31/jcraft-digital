@@ -122,8 +122,7 @@ export const values = [
 export const history = [
   { year: '2023', title: 'El origen', text: 'Jhon y Catalina, dos esposos con habilidades complementarias, deciden unir fuerzas. La idea de JCraft Digital nace de una conversación de pareja: "¿Por qué las pymes no tienen acceso a marketing digital de calidad?"' },
   { year: '2024', title: 'Primeros clientes', text: 'Comenzamos con los primeros proyectos: diseño web para un restaurante local y gestión de redes para una boutique. Los resultados superaron expectativas y la recomendación de boca en boca comenzó a funcionar.' },
-  // POR VERIFICAR: «más de 30 clientes satisfechos».
-  { year: '2025', title: 'JCraft Digital oficial', text: 'Lanzamos JCraft Digital como agencia formal, con identidad de marca propia, portafolio de servicios completo y más de 30 clientes satisfechos. El viaje apenas comienza.' },
+  { year: '2025', title: 'JCraft Digital oficial', text: 'Lanzamos JCraft Digital como agencia formal, con identidad de marca propia, portafolio de servicios completo y clientes en Colombia, México y Estados Unidos. El viaje apenas comienza.' },
   { year: '→', title: 'Lo que viene', text: 'Seguimos creciendo, aprendiendo y mejorando. Nuestro objetivo es claro: ser la agencia de referencia para pymes que quieren crecer en el mundo digital.' },
 ];
 
@@ -140,20 +139,25 @@ export const afterContact = [
   { n: '4', title: '¡Empezamos!', text: 'Si estás de acuerdo, arrancamos. Sin burocracia, con toda la energía del primer día.' },
 ];
 
-// ── POR VERIFICAR · cifras y testimonios heredados de la versión anterior.
-// Para ocultarlos sin borrar nada, pon `show: false`.
+// ── Cifras: se calculan a partir del portafolio para que coincidan en toda la web.
+// Si se agrega un cliente al portafolio, las cifras se actualizan solas.
+const clientCount = portfolio.length;
+const countries = new Set(portfolio.map((p) => (p.place.includes('México') ? 'México' : p.place.includes('Estados Unidos') ? 'Estados Unidos' : 'Colombia'))).size;
+
 export const claims = {
   show: true,
+  // Testimonios ocultos por decisión de Jhon (23-oct-2026): no estaban verificados. Solo se publican testimonios reales con permiso.
+  showTestimonials: false,
+  clients: clientCount,
   stats: [
-    { value: 50, suffix: '+', label: 'Proyectos realizados' },
-    { value: 30, suffix: '+', label: 'Clientes satisfechos' },
+    { value: clientCount, suffix: '', label: 'Clientes en el portafolio' },
+    { value: countries, suffix: '', label: 'Países atendidos' },
     { value: 100, suffix: '%', label: 'Compromiso total' },
   ],
-  // Ojo: estas cifras (de portafolio.html) no coinciden con las del inicio (50+ / 30+).
   portfolioStats: [
-    { value: 10, suffix: '+', label: 'Proyectos completados' },
-    { value: 10, suffix: '+', label: 'Clientes satisfechos' },
-    { value: 2, suffix: '', label: 'Países atendidos' },
+    { value: clientCount, suffix: '', label: 'Proyectos en el portafolio' },
+    { value: clientCount, suffix: '', label: 'Clientes atendidos' },
+    { value: countries, suffix: '', label: 'Países atendidos' },
     { value: 100, suffix: '%', label: 'Compromiso en cada proyecto' },
   ],
   testimonials: [
