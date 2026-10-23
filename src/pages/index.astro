@@ -1,0 +1,188 @@
+---
+import Base from '../layouts/Base.astro';
+import Title from '../components/Title.astro';
+import Cta from '../components/Cta.astro';
+import { services, contentService, why, approach, process, portfolio, claims } from '../data/site';
+import posts from '../data/posts.json';
+import { u, wa } from '../lib/url';
+const cards = [...services.slice(0, 4), contentService, services[4]];
+const featured = portfolio.filter((p) => p.home);
+const latest = posts.filter((p) => !p.featured).slice(0, 3);
+---
+<Base title="JCraft Digital | Agencia de Marketing Digital" description="Diseño web, redes sociales y pauta digital para pymes. Hacemos crecer tu negocio en internet.">
+  <!-- HERO -->
+  <section class="grain relative min-h-[100svh] overflow-hidden bg-deep pt-36 pb-20 sm:pt-44">
+    <div class="gridlines absolute inset-0"></div>
+    <div class="glow -top-48 right-[-15%] h-[760px] w-[760px]" data-parallax="-120"></div>
+    <div class="glow bottom-[-35%] left-[-20%] h-[620px] w-[620px] opacity-60" data-parallax="80"></div>
+    <div class="wrap relative grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
+      <div>
+        <span class="eyebrow" data-reveal>Agencia de Marketing Digital</span>
+        <Title as="h1" text="Tu negocio merece *brillar en digital*" class="mt-7 text-[clamp(3.2rem,6.2vw,6.4rem)]" />
+        <p class="mt-8 max-w-xl text-lg text-white/70 sm:text-xl" data-reveal>Ayudamos a pymes y emprendedores a construir su presencia digital de forma estratégica, creativa y efectiva. Diseño, marketing y tecnología en un solo lugar.</p>
+        <div class="mt-10 flex flex-wrap gap-4" data-reveal>
+          <a href={u('contacto.html')} class="btn btn-primary" data-magnetic>Hablemos de tu proyecto <span aria-hidden="true">→</span></a>
+          <a href={u('portafolio.html')} class="btn btn-ghost" data-magnetic>Ver portafolio</a>
+        </div>
+        {claims.show && (
+          <dl class="mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-white/10 pt-8" data-stagger>
+            {claims.stats.map((s) => (
+              <div data-reveal><dt class="sr-only">{s.label}</dt>
+                <dd class="font-display text-4xl font-black text-white sm:text-5xl"><span data-count={s.value} data-suffix={s.suffix}>{s.value}{s.suffix}</span></dd>
+                <dd class="mt-1 text-sm text-white/55">{s.label}</dd></div>
+            ))}
+          </dl>
+        )}
+      </div>
+      <div class="relative" data-reveal>
+        <div class="relative overflow-hidden rounded-[32px] shadow-[0_60px_120px_-40px_rgba(0,188,212,.45)]" data-curtain>
+          <img src={u('assets/jhon-cata.jpg')} alt="Jhon Vega y Catalina Escobar — Fundadores de JCraft Digital" width="900" height="1100" class="h-[560px] w-full object-cover" fetchpriority="high" />
+          <div class="absolute inset-0 bg-gradient-to-t from-deep/70 via-transparent to-transparent"></div>
+          <p class="absolute bottom-6 left-6 right-6 font-display text-2xl font-black leading-tight">Jhon y Cata<br /><em class="k text-3xl">Diseño · Marketing · Tecnología</em></p>
+        </div>
+        <div class="glass absolute -left-6 -top-6 hidden px-5 py-4 sm:block" data-parallax="-40">
+          <p class="text-xs font-bold tracking-[.2em] text-cyan uppercase">Consulta</p><p class="font-display text-xl font-black">Diagnóstico gratuito</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUESINA -->
+  <div class="marquee overflow-hidden border-y border-white/10 bg-navy py-6" aria-hidden="true">
+    <div class="marquee-track flex w-max gap-12 font-display text-3xl font-black whitespace-nowrap sm:text-5xl">
+      {[0, 1].map(() => cards.map((c) => <span class="flex items-center gap-12">{c.short}<em class="k">✦</em></span>))}
+    </div>
+  </div>
+
+  <!-- SERVICIOS -->
+  <section class="relative bg-deep py-28 sm:py-36">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-8">
+        <div class="max-w-3xl">
+          <span class="eyebrow" data-reveal>Nuestros servicios</span>
+          <Title text="Todo lo que tu marca necesita *para crecer*" class="mt-6 text-5xl sm:text-7xl" />
+        </div>
+        <p class="max-w-md text-lg text-white/65" data-reveal>Combinamos diseño, estrategia y tecnología para impulsar tu presencia digital con resultados reales.</p>
+      </div>
+      <div class="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
+        {cards.map((c, i) => (
+          <article data-reveal data-tilt class="glass group relative overflow-hidden p-8 transition-colors hover:border-cyan/50">
+            <div class="glow -right-20 -top-20 h-60 w-60 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+            <div class="flex items-start justify-between"><span class="text-4xl" aria-hidden="true">{c.icon}</span><span class="num-out text-5xl">{String(i + 1).padStart(2, '0')}</span></div>
+            <h3 class="mt-8 text-3xl">{c.short}</h3>
+            <p class="mt-4 text-white/65">{c.teaser}</p>
+          </article>
+        ))}
+      </div>
+      <div class="mt-12" data-reveal><a href={u('servicios.html')} class="btn btn-primary" data-magnetic>Ver todos los servicios →</a></div>
+    </div>
+  </section>
+
+  <!-- POR QUÉ JCRAFT -->
+  <section class="on-paper relative bg-paper py-28 text-navy sm:py-36">
+    <div class="wrap grid gap-16 lg:grid-cols-[1.1fr_1fr]">
+      <div>
+        <span class="eyebrow" data-reveal>¿Por qué JCraft?</span>
+        <Title text="El equipo digital que *tu pyme necesita*" class="mt-6 text-5xl sm:text-6xl" />
+        <p class="mt-6 max-w-xl text-lg text-navy/70" data-reveal>No somos una agencia genérica. Somos dos especialistas que trabajan juntos en cada proyecto con la atención que mereces.</p>
+        <ul class="mt-12 grid gap-6 sm:grid-cols-2" data-stagger>
+          {why.map((w) => (
+            <li data-reveal class="card-paper p-6"><span class="text-3xl" aria-hidden="true">{w.icon}</span><h3 class="mt-4 text-xl">{w.title}</h3><p class="mt-2 text-navy/70">{w.text}</p></li>
+          ))}
+        </ul>
+        <div class="mt-10" data-reveal><a href={u('nosotros.html')} class="btn btn-navy" data-magnetic>Conocer el equipo</a></div>
+      </div>
+      <div class="lg:sticky lg:top-32 lg:self-start" data-reveal>
+        <div class="relative overflow-hidden rounded-[32px] bg-navy p-10 text-white">
+          <div class="glow -right-24 -bottom-24 h-72 w-72"></div>
+          <p class="text-xs font-extrabold tracking-[.2em] text-cyan uppercase">Nuestro enfoque</p>
+          <ul class="relative mt-8 space-y-5">
+            {approach.map((a, i) => (<li class="flex items-center gap-4 border-b border-white/10 pb-5 text-xl font-bold last:border-0"><span class="num-out text-3xl">{i + 1}</span>{a}</li>))}
+          </ul>
+          {claims.show && <p class="relative mt-8 font-display text-6xl font-black"><span data-count="30" data-suffix="+">30+</span><span class="mt-2 block text-base font-medium text-white/60">Clientes que confiaron en nosotros</span></p>}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section class="relative overflow-hidden bg-deep py-28 sm:py-36">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Cómo trabajamos</span>
+      <Title text="Un proceso simple que *da resultados*" class="mt-6 max-w-4xl text-5xl sm:text-7xl" />
+      <div class="relative mt-20">
+        <div class="absolute top-7 right-0 left-0 hidden h-px bg-white/10 lg:block"><div class="h-full bg-cyan" data-line></div></div>
+        <ol class="grid gap-10 lg:grid-cols-4" data-stagger>
+          {process.map((p) => (
+            <li data-reveal class="relative"><span class="relative z-10 grid h-14 w-14 place-items-center rounded-full bg-cyan font-display text-lg font-black text-navy">{p.n}</span>
+              <h3 class="mt-6 text-3xl">{p.title}</h3><p class="mt-3 text-white/65">{p.text}</p></li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTAFOLIO -->
+  <section class="on-paper bg-paper py-28 text-navy sm:py-36">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-8">
+        <div><span class="eyebrow" data-reveal>Portafolio</span><Title text="Proyectos que *hablan por nosotros*" class="mt-6 max-w-3xl text-5xl sm:text-7xl" /></div>
+        <p class="max-w-md text-lg text-navy/70" data-reveal>Cada proyecto es una historia de crecimiento. Estos son algunos de nuestros trabajos más recientes.</p>
+      </div>
+      <div class="mt-16 grid gap-6 lg:grid-cols-3" data-stagger>
+        {featured.map((p) => (
+          <article data-reveal data-tilt class="card-paper group overflow-hidden">
+            <div class="relative grid h-56 place-items-center overflow-hidden bg-navy text-7xl"><div class="glow h-72 w-72 opacity-70 transition-transform duration-700 group-hover:scale-125"></div><span class="relative" aria-hidden="true">{p.emoji}</span>
+              <span class="absolute top-4 left-4 rounded-full bg-cyan px-3 py-1 text-xs font-extrabold text-navy">{p.tag}</span></div>
+            <div class="p-7"><h3 class="text-2xl">{p.name}</h3><p class="mt-3 text-navy/70">{p.short}</p><p class="mt-5 text-sm font-bold text-blue">{p.result}</p></div>
+          </article>
+        ))}
+      </div>
+      <div class="mt-12" data-reveal><a href={u('portafolio.html')} class="btn btn-navy" data-magnetic>Ver portafolio completo →</a></div>
+    </div>
+  </section>
+
+  {claims.show && (
+    <section class="bg-deep py-28 sm:py-36">
+      <div class="wrap">
+        <span class="eyebrow" data-reveal>Testimonios</span>
+        <Title text="Lo que dicen *nuestros clientes*" class="mt-6 text-5xl sm:text-7xl" />
+        <div class="mt-16 grid gap-6 lg:grid-cols-3" data-stagger>
+          {claims.testimonials.map((t) => (
+            <figure data-reveal class="glass flex flex-col p-8">
+              <div class="text-cyan" aria-label={`${t.stars} de 5 estrellas`}>{'★'.repeat(t.stars)}</div>
+              <blockquote class="mt-5 flex-1 text-lg text-white/85">“{t.text}”</blockquote>
+              <figcaption class="mt-8 flex items-center gap-4"><span class="grid h-12 w-12 place-items-center rounded-full bg-cyan font-display font-black text-navy">{t.initials}</span>
+                <span><span class="block font-bold">{t.name}</span><span class="text-sm text-white/55">{t.role}</span></span></figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Cta eyebrow="¿Listo para crecer?" title="¿Listo para que tu negocio se vea tan bueno en internet *como es en la realidad?*"
+    text="Agendar una consulta gratuita es el primer paso. Sin compromiso, con todo el valor." primary="Consulta gratuita" waText="Hola! Me interesa saber más sobre sus servicios." />
+
+  <!-- BLOG -->
+  <section class="on-paper bg-paper py-28 text-navy sm:py-36">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-8">
+        <div><span class="eyebrow" data-reveal>Blog</span><Title text="Tips y tendencias de *marketing digital*" class="mt-6 max-w-3xl text-5xl sm:text-6xl" /></div>
+        <p class="max-w-md text-lg text-navy/70" data-reveal>Compartimos lo que sabemos para que tú también crezcas.</p>
+      </div>
+      <div class="mt-14 grid gap-6 md:grid-cols-3" data-stagger>
+        {latest.map((p) => (
+          <a href={u(`blog/${p.slug}.html`)} data-reveal class="card-paper group block p-7 transition hover:-translate-y-1">
+            <span class="text-4xl" aria-hidden="true">{p.emoji}</span>
+            <p class="mt-6 text-xs font-extrabold tracking-[.18em] text-blue uppercase">{p.categoryName}</p>
+            <h3 class="mt-3 text-2xl leading-tight group-hover:text-blue">{p.title}</h3>
+            <p class="mt-3 text-navy/65">{p.excerpt}</p>
+            <p class="mt-6 flex justify-between text-sm font-semibold text-navy/50"><span>{p.date}</span><span class="text-blue">Leer más →</span></p>
+          </a>
+        ))}
+      </div>
+      <div class="mt-12" data-reveal><a href={u('blog.html')} class="btn btn-navy" data-magnetic>Ver todos los artículos</a></div>
+    </div>
+  </section>
+</Base>

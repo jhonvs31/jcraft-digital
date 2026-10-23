@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Title from '../components/Title.astro';
+import posts from '../data/posts.json';
+import { contact } from '../data/site';
+import { u } from '../lib/url';
+const featured = posts.find((p) => p.featured)!;
+const rest = posts.filter((p) => !p.featured);
+const filters = [{ id: 'all', label: 'Todos' }, { id: 'redes', label: 'Redes Sociales' }, { id: 'web', label: 'Diseño Web' }, { id: 'pauta', label: 'Pauta Digital' }, { id: 'marca', label: 'Marca' }, { id: 'seo', label: 'SEO' }];
+---
+<Base title="Blog | JCraft Digital" description="Tips, tendencias y estrategias de marketing digital para pymes, sin tecnicismos." page="blog.html">
+  <PageHero crumb="Blog" title="Blog *JCraft Digital*" text="Compartimos lo que sabemos para que tu negocio crezca. Tips, tendencias y estrategias de marketing digital sin tecnicismos." />
+
+  <section class="bg-deep pb-20">
+    <div class="wrap">
+      <a href={u(`blog/${featured.slug}.html`)} data-reveal class="glass group relative grid gap-8 overflow-hidden p-8 sm:p-12 lg:grid-cols-[1.5fr_1fr]">
+        <div class="glow -right-24 -top-24 h-96 w-96"></div>
+        <div class="relative">
+          <span class="eyebrow">⭐ Artículo destacado</span>
+          <h2 class="mt-6 text-4xl leading-tight group-hover:text-cyan sm:text-5xl">{featured.title}</h2>
+          <p class="mt-5 max-w-2xl text-lg text-white/70">{featured.excerpt}</p>
+          <p class="mt-6 flex flex-wrap gap-5 text-sm font-semibold text-white/55"><span>📅 {featured.date}</span><span>⏱️ {featured.readTime} de lectura</span><span class="text-cyan">{featured.categoryName}</span></p>
+          <span class="btn btn-primary mt-8">Leer artículo completo</span>
+        </div>
+        <div class="relative grid place-items-center text-[9rem]" aria-hidden="true">{featured.emoji}</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="on-paper bg-paper py-24 text-navy sm:py-32">
+    <div class="wrap">
+      <div class="flex flex-wrap gap-3" data-filters="#articulos" role="group" aria-label="Filtrar artículos" data-reveal>
+        {filters.map((f, i) => (
+          <button type="button" data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border-2 border-navy/15 px-5 py-2.5 font-bold transition hover:border-navy aria-pressed:border-navy aria-pressed:bg-navy aria-pressed:text-white">{f.label}</button>
+        ))}
+      </div>
+      <div id="articulos" class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-stagger>
+        {rest.map((p) => (
+          <a href={u(`blog/${p.slug}.html`)} data-cat={p.category} data-reveal class="card-paper group flex flex-col p-7 transition hover:-translate-y-1">
+            <span class="text-4xl" aria-hidden="true">{p.emoji}</span>
+            <p class="mt-6 text-xs font-extrabold tracking-[.18em] text-blue uppercase">{p.categoryName}</p>
+            <h2 class="mt-3 text-2xl leading-tight group-hover:text-blue">{p.title}</h2>
+            <p class="mt-3 flex-1 text-navy/65">{p.excerpt}</p>
+            <p class="mt-6 flex justify-between text-sm font-semibold text-navy/50"><span>📅 {p.date} · {p.readTime}</span><span class="text-blue">Leer →</span></p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-deep py-24 text-center sm:py-32">
+    <div class="wrap max-w-3xl">
+      <span class="eyebrow" data-reveal>Más contenido</span>
+      <Title text="Tips de marketing digital *cada semana*" class="mt-6 text-5xl sm:text-6xl" />
+      <p class="mt-6 text-lg text-white/70" data-reveal>Publicamos ideas prácticas para pymes en Instagram. Síguenos y no te pierdas ninguna.</p>
+      <a href={contact.instagram} target="_blank" rel="noopener" class="btn btn-primary mt-10" data-reveal data-magnetic>Seguir a @jcraftdigital</a>
+    </div>
+  </section>
+</Base>

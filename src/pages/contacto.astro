@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Title from '../components/Title.astro';
+import { contact, afterContact, claims, services_options, budget_options } from '../data/site';
+import { wa } from '../lib/url';
+const channels = [
+  { href: wa('Hola! Quiero una consulta gratuita.'), icon: '💬', title: 'WhatsApp', text: 'Respuesta inmediata en horario laboral', cta: 'Chatear ahora', ext: true },
+  { href: `mailto:${contact.email}`, icon: '📧', title: 'Correo electrónico', text: contact.email, cta: 'Enviar correo' },
+  { href: contact.instagram, icon: '📸', title: 'Instagram', text: '@jcraftdigital', cta: 'Ver perfil', ext: true },
+];
+---
+<Base title="Contacto | JCraft Digital" description="Primera consulta gratuita, sin compromiso. Escríbenos por WhatsApp, correo o Instagram y te respondemos en menos de 24 horas." page="contacto.html">
+  <PageHero crumb="Contacto" title="Hablemos de *tu proyecto*" text="Primera consulta gratuita, sin compromiso. Cuéntanos qué necesitas y te respondemos en menos de 24 horas." />
+
+  <section class="bg-deep pb-16">
+    <div class="wrap grid gap-5 md:grid-cols-3" data-stagger>
+      {channels.map((c) => (
+        <a href={c.href} target={c.ext ? '_blank' : undefined} rel={c.ext ? 'noopener' : undefined} data-reveal data-tilt class="glass group block p-8 transition hover:border-cyan/60">
+          <span class="text-4xl" aria-hidden="true">{c.icon}</span><h2 class="mt-6 text-3xl">{c.title}</h2><p class="mt-2 text-white/65">{c.text}</p>
+          <span class="mt-6 inline-block font-bold text-cyan">{c.cta} →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-deep py-20 sm:py-28">
+    <div class="wrap grid gap-14 lg:grid-cols-[1fr_1.25fr]">
+      <div>
+        <span class="eyebrow" data-reveal>Información de contacto</span>
+        <Title text="Estamos aquí *para ayudarte*" class="mt-6 text-5xl sm:text-6xl" />
+        <p class="mt-6 text-lg text-white/70" data-reveal>No importa en qué etapa está tu negocio. Si quieres crecer en digital, nosotros tenemos la solución. Cuéntanos tu situación y te asesoramos sin costo.</p>
+        <dl class="mt-10 space-y-6" data-stagger>
+          <div data-reveal><dt class="text-xs font-extrabold tracking-[.2em] text-cyan uppercase">WhatsApp</dt><dd class="mt-1 text-xl font-bold"><a href={wa('Hola!')} target="_blank" rel="noopener" class="hover:text-cyan">{contact.phone}</a></dd></div>
+          <div data-reveal><dt class="text-xs font-extrabold tracking-[.2em] text-cyan uppercase">Correo electrónico</dt><dd class="mt-1 text-xl font-bold"><a href={`mailto:${contact.email}`} class="hover:text-cyan">{contact.email}</a></dd></div>
+          <div data-reveal><dt class="text-xs font-extrabold tracking-[.2em] text-cyan uppercase">Ubicación</dt><dd class="mt-1 text-lg">{contact.location}</dd></div>
+          <div data-reveal><dt class="text-xs font-extrabold tracking-[.2em] text-cyan uppercase">Horario de atención</dt>{contact.hours.map((hh) => <dd class="mt-1 text-lg">{hh}</dd>)}</div>
+        </dl>
+        {claims.show && <p class="glass mt-10 p-6 text-white/75" data-reveal><strong class="text-cyan">⚡ Respondemos rápido.</strong> {claims.responseTime}</p>}
+      </div>
+
+      <div class="relative" data-reveal>
+        <div class="glow -right-20 -top-20 h-80 w-80"></div>
+        <form id="contactForm" class="glass relative space-y-5 p-8 sm:p-10">
+          <div><h2 class="text-3xl">Cuéntanos tu proyecto</h2><p class="mt-2 text-white/65">Al enviar se abre WhatsApp con tu mensaje listo. Te contactamos en menos de 24 horas.</p></div>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="block"><span class="mb-2 block text-sm font-bold">Nombre *</span><input class="field" name="nombre" type="text" required placeholder="Tu nombre" autocomplete="name" /></label>
+            <label class="block"><span class="mb-2 block text-sm font-bold">Empresa / Negocio</span><input class="field" name="empresa" type="text" placeholder="Nombre de tu negocio" autocomplete="organization" /></label>
+            <label class="block"><span class="mb-2 block text-sm font-bold">Correo electrónico *</span><input class="field" name="correo" type="email" required placeholder="tu@correo.com" autocomplete="email" /></label>
+            <label class="block"><span class="mb-2 block text-sm font-bold">Teléfono / WhatsApp</span><input class="field" name="telefono" type="tel" placeholder="+57 300 000 0000" autocomplete="tel" /></label>
+            <label class="block"><span class="mb-2 block text-sm font-bold">¿Qué servicio te interesa? *</span>
+              <select class="field" name="servicio" required><option value="">Selecciona una opción</option>{services_options.map((o) => <option>{o}</option>)}</select></label>
+            <label class="block"><span class="mb-2 block text-sm font-bold">Presupuesto aproximado</span>
+              <select class="field" name="presupuesto"><option value="">Selecciona un rango</option>{budget_options.map((o) => <option>{o}</option>)}</select></label>
+          </div>
+          <label class="block"><span class="mb-2 block text-sm font-bold">Cuéntanos más sobre tu proyecto *</span>
+            <textarea class="field min-h-36" name="mensaje" required placeholder="¿Qué hace tu negocio? ¿Cuál es tu principal objetivo digital? ¿Tienes algún plazo específico? Mientras más nos cuentes, mejor te podremos asesorar."></textarea></label>
+          <label class="flex items-start gap-3 text-sm text-white/70"><input type="checkbox" required class="mt-1 h-4 w-4 accent-cyan" />Acepto que JCraft Digital me contacte para dar respuesta a mi consulta. Tu información es confidencial y no se comparte con terceros.</label>
+          <button type="submit" class="btn btn-primary w-full" data-magnetic>Enviar por WhatsApp</button>
+          <p data-form-ok hidden role="status" class="rounded-2xl bg-cyan/15 p-4 font-semibold text-cyan">✅ Se abrió WhatsApp con tu mensaje. Solo tienes que tocar «Enviar».</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="on-paper bg-paper py-28 text-navy sm:py-36">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>¿Por qué nosotros?</span>
+      <Title text="Lo que pasa después *de que nos escribes*" class="mt-6 max-w-4xl text-5xl sm:text-6xl" />
+      <ol class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4" data-stagger>
+        {afterContact.map((s) => (<li data-reveal class="card-paper p-8"><span class="grid h-12 w-12 place-items-center rounded-full bg-navy font-display text-lg font-black text-white">{s.n}</span><h3 class="mt-6 text-2xl">{s.title}</h3><p class="mt-3 text-navy/70">{s.text}</p></li>))}
+      </ol>
+      {claims.show && (
+        <div class="mt-16 grid gap-6 md:grid-cols-3" data-stagger>
+          {claims.contactQuotes.map((q) => (<figure data-reveal class="rounded-3xl bg-navy p-8 text-white"><div class="text-cyan">★★★★★</div><blockquote class="mt-4 text-lg">“{q.text}”</blockquote><figcaption class="mt-5 text-sm font-bold text-white/60">— {q.who}</figcaption></figure>))}
+        </div>
+      )}
+    </div>
+  </section>
+</Base>

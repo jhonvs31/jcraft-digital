@@ -4,3 +4,8 @@ assets/JCraft_Manual_de_Marca.docx
 catalina.jpg
 jhon.jpg
 *.docx
+node_modules/
+dist/
+.astro/
+.env
+.vercel/

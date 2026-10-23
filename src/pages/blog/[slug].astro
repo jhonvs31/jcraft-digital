@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import Cta from '../../components/Cta.astro';
+import posts from '../../data/posts.json';
+import { u } from '../../lib/url';
+
+export function getStaticPaths() {
+  return posts.map((p) => ({ params: { slug: p.slug }, props: { post: p } }));
+}
+const { post } = Astro.props;
+const related = posts.filter((p) => p.slug !== post.slug && p.category === post.category).concat(posts.filter((p) => p.slug !== post.slug && p.category !== post.category)).slice(0, 3);
+const ld = { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: post.title, description: post.description, datePublished: post.iso, inLanguage: 'es',
+  author: { '@type': 'Organization', name: 'JCraft Digital' }, publisher: { '@type': 'Organization', name: 'JCraft Digital' } };
+---
+<Base title={`${post.seoTitle} | JCraft Digital`} description={post.description} page={`blog/${post.slug}.html`} type="article">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <article>
+    <header class="grain relative overflow-hidden bg-deep pt-40 pb-20 sm:pt-48">
+      <div class="gridlines absolute inset-0"></div>
+      <div class="glow -top-40 right-[-10%] h-[560px] w-[560px]" data-parallax="-80"></div>
+      <div class="wrap relative max-w-4xl">
+        <nav aria-label="Ruta" class="mb-8 text-sm font-semibold text-white/55" data-reveal>
+          <a href={u('index.html')} class="hover:text-cyan">Inicio</a><span class="mx-2">/</span><a href={u('blog.html')} class="hover:text-cyan">Blog</a><span class="mx-2">/</span><span class="text-white/85">{post.categoryName}</span>
+        </nav>
+        <span class="eyebrow" data-reveal>{post.categoryName}</span>
+        <h1 class="mt-6 text-5xl sm:text-6xl lg:text-7xl" data-reveal>{post.title}</h1>
+        <p class="mt-8 flex flex-wrap gap-5 text-sm font-semibold text-white/60" data-reveal><span>📅 <time datetime={post.iso}>{post.date}</time></span><span>⏱️ {post.readTime} de lectura</span><span>Por JCraft Digital</span></p>
+      </div>
+    </header>
+    <div class="bg-paper py-16 sm:py-24">
+      <div class="prose-jc wrap max-w-3xl" set:html={post.body} />
+    </div>
+  </article>
+
+  <Cta title="¿Quieres aplicar esto *en tu negocio?*" text="Agenda una consulta gratuita y te ayudamos a ponerlo en práctica." primary="Consulta gratuita" waText={`Hola! Leí el artículo "${post.title}" y quiero asesoría.`} />
+
+  <section class="on-paper bg-paper py-24 text-navy">
+    <div class="wrap">
+      <h2 class="text-4xl sm:text-5xl">Sigue <em class="k">leyendo</em></h2>
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        {related.map((p) => (
+          <a href={u(`blog/${p.slug}.html`)} class="card-paper group block p-7 transition hover:-translate-y-1"><span class="text-4xl" aria-hidden="true">{p.emoji}</span>
+            <p class="mt-5 text-xs font-extrabold tracking-[.18em] text-blue uppercase">{p.categoryName}</p><h3 class="mt-3 text-xl leading-tight group-hover:text-blue">{p.title}</h3></a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

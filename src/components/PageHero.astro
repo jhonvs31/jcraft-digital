@@ -1,0 +1,18 @@
+---
+import { u } from '../lib/url';
+import Title from './Title.astro';
+interface Props { crumb: string; title: string; text: string }
+const { crumb, title, text } = Astro.props;
+---
+<section class="grain relative overflow-hidden bg-deep pt-40 pb-24 sm:pt-48 sm:pb-28">
+  <div class="gridlines absolute inset-0"></div>
+  <div class="glow -top-40 right-[-10%] h-[620px] w-[620px]" data-parallax="-80"></div>
+  <div class="glow bottom-[-30%] left-[-15%] h-[520px] w-[520px] opacity-50" data-parallax="60"></div>
+  <div class="wrap relative">
+    <nav aria-label="Ruta" class="mb-8 text-sm font-semibold text-white/55" data-reveal>
+      <a href={u('index.html')} class="hover:text-cyan">Inicio</a><span class="mx-2">/</span><span class="text-white/85">{crumb}</span>
+    </nav>
+    <Title as="h1" text={title} class="max-w-5xl text-5xl sm:text-7xl lg:text-8xl" />
+    <p class="mt-8 max-w-2xl text-lg text-white/70 sm:text-xl" data-reveal>{text}</p>
+  </div>
+</section>

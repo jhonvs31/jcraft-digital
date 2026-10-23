@@ -1,0 +1,18 @@
+---
+import { u, wa } from '../lib/url';
+import Title from './Title.astro';
+interface Props { eyebrow?: string; title: string; text: string; primary: string; waText: string; waLabel?: string }
+const { eyebrow, title, text, primary, waText, waLabel = 'WhatsApp' } = Astro.props;
+---
+<section class="relative overflow-hidden bg-cyan py-24 text-navy sm:py-32">
+  <div class="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-white/40 blur-3xl" data-parallax="-60"></div>
+  <div class="wrap relative">
+    {eyebrow && <span class="eyebrow !bg-navy !text-white" data-reveal>{eyebrow}</span>}
+    <Title text={title} class="on-paper mt-6 max-w-5xl text-5xl sm:text-7xl [&_em.k]:!text-white" />
+    <p class="mt-6 max-w-2xl text-lg font-semibold text-navy/80 sm:text-xl" data-reveal>{text}</p>
+    <div class="mt-10 flex flex-wrap gap-4" data-reveal>
+      <a href={u('contacto.html')} class="btn btn-navy" data-magnetic>{primary}</a>
+      <a href={wa(waText)} target="_blank" rel="noopener" class="btn border-2 border-navy text-navy hover:bg-navy hover:text-white" data-magnetic>{waLabel}</a>
+    </div>
+  </div>
+</section>
