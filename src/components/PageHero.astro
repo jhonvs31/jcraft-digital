@@ -9,10 +9,10 @@ const { crumb, title, text } = Astro.props;
   <div class="glow -top-40 right-[-10%] h-[620px] w-[620px]" data-parallax="-80"></div>
   <div class="glow bottom-[-30%] left-[-15%] h-[520px] w-[520px] opacity-50" data-parallax="60"></div>
   <div class="wrap relative">
-    <nav aria-label="Ruta" class="mb-8 text-sm font-semibold text-white/55" data-reveal>
+    <nav aria-label="Ruta" class="hero-in mb-8 text-sm font-semibold text-white/55">
       <a href={u('index.html')} class="hover:text-cyan">Inicio</a><span class="mx-2">/</span><span class="text-white/85">{crumb}</span>
     </nav>
-    <Title as="h1" text={title} class="max-w-5xl text-5xl sm:text-7xl lg:text-8xl" />
-    <p class="mt-8 max-w-2xl text-lg text-white/70 sm:text-xl" data-reveal>{text}</p>
+    <Title as="h1" instant text={title} class="max-w-5xl text-5xl sm:text-7xl lg:text-8xl" />
+    <p class="hero-in mt-8 max-w-2xl text-lg text-white/70 sm:text-xl" style="--d:300ms">{text}</p>
   </div>
 </section>

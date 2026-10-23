@@ -1,10 +1,13 @@
 ---
+import Logo from '../components/Logo.astro';
 // Página de enlaces para la bio de Instagram (tipo Linktree).
 // Cada enlace lleva UTM para medir en Google Analytics / Search Console las visitas que llegan desde Instagram.
 import Base from '../layouts/Base.astro';
 import posts from '../data/posts.json';
 import { contact } from '../data/site';
 import { u, wa } from '../lib/url';
+import { Picture } from 'astro:assets';
+import duo from '../assets/img/jhon-cata.jpg';
 
 const utm = (path: string, content: string) => `${u(path)}?utm_source=instagram&utm_medium=bio&utm_campaign=linkinbio&utm_content=${content}`;
 const latest = posts[0];
@@ -24,13 +27,13 @@ const links = [
     <div class="glow -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2"></div>
     <div class="glow bottom-[-20%] right-[-30%] h-[420px] w-[420px] opacity-50"></div>
     <div class="relative mx-auto flex max-w-md flex-col items-center text-center">
-      <div class="relative" data-reveal>
+      <div class="hero-in relative">
         <div class="absolute -inset-1.5 rounded-full bg-gradient-to-br from-cyan via-blue to-cyan opacity-90 blur-[2px]"></div>
-        <img src={u('assets/jhon-cata.jpg')} alt="Jhon y Cata, fundadores de JCraft Digital" width="120" height="120" class="relative h-28 w-28 rounded-full border-4 border-deep object-cover" />
+        <Picture src={duo} formats={['avif', 'webp']} widths={[112, 224]} sizes="112px" alt="Jhon y Cata, fundadores de JCraft Digital" class="relative h-28 w-28 rounded-full border-4 border-deep object-cover" loading="eager" />
       </div>
-      <img src={u('assets/logo-light.png')} alt="JCraft Digital" width="900" height="282" class="mt-6 h-10 w-auto" data-reveal />
-      <h1 class="mt-5 text-3xl sm:text-4xl" data-reveal>Hacemos que tu negocio <em class="k">se vea</em></h1>
-      <p class="mt-3 text-white/70" data-reveal>Diseño, marketing y tecnología para pymes · Colombia y LATAM</p>
+      <div class="mt-6 hero-in" style="--d:120ms"><Logo class="h-10 w-auto" /></div>
+      <h1 class="hero-in mt-5 text-3xl sm:text-4xl" style="--d:200ms">Hacemos que tu negocio <em class="k">se vea</em></h1>
+      <p class="hero-in mt-3 text-white/70" style="--d:280ms">Diseño, marketing y tecnología para pymes · Colombia y LATAM</p>
 
       <ul class="mt-9 w-full space-y-3.5" data-stagger>
         {links.map((l) => (

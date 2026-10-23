@@ -9,9 +9,9 @@
   --color-deep: #061D47;
   --color-ink: #0B1730;
   --color-mist: #B9C3D6;
-  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
-  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
   --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
 }
 
@@ -45,13 +45,21 @@
   .field option { color: #0B1730; }
 }
 
+/* Entrada del primer pantallazo: solo CSS, empieza con el primer pintado (no espera al JavaScript, mejora el LCP). */
+.hero-in { animation: hero-in .9s cubic-bezier(.16,1,.3,1) both; animation-delay: var(--d, 0ms); }
+@keyframes hero-in { from { opacity: .01; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+[data-instant] .w > span { display: inline-block; animation: rise 1s cubic-bezier(.16,1,.3,1) both; animation-delay: var(--d, 0ms); }
+[data-instant] .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; }
+@keyframes rise { from { transform: translateY(105%); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-in, [data-instant] .w > span { animation: none; } }
+
 /* Estado inicial de los elementos animados (solo con JS y si el usuario no pidió menos movimiento). */
 .js [data-reveal] { opacity: 0; transform: translateY(40px); }
-.js [data-split] .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; }
-.js [data-split] .w > span { display: inline-block; transform: translateY(105%); }
+.js [data-split]:not([data-instant]) .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; }
+.js [data-split]:not([data-instant]) .w > span { display: inline-block; transform: translateY(105%); }
 @media (prefers-reduced-motion: reduce) {
   .js [data-reveal] { opacity: 1; transform: none; }
-  .js [data-split] .w > span { transform: none; }
+  .js [data-split]:not([data-instant]) .w > span { transform: none; }
 }
 
 /* Marquesina de servicios */
@@ -100,3 +108,6 @@ details.faq[open] .faq-plus { transform: rotate(45deg); background: var(--color-
 .prose-jc .meta-badge, .prose-jc .platform-badge, .prose-jc .scale { @apply bg-navy/10 text-navy; }
 .prose-jc .example-bad { @apply border-red-500/20 bg-red-50; }
 .prose-jc .example-good { @apply border-cyan/30 bg-cyan/5; }
+
+/* Con el menú móvil abierto se ocultan los elementos flotantes */
+body.overflow-hidden [data-wa-float], body.overflow-hidden [data-nudge] { opacity: 0 !important; pointer-events: none; transition: opacity .2s; }

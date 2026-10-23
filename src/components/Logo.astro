@@ -1,0 +1,10 @@
+---
+// Logo claro (fondo oscuro) en WebP con respaldo PNG, en el tamaño justo para cada pantalla.
+import { u } from '../lib/url';
+interface Props { class?: string; lazy?: boolean }
+const { class: cls = 'h-10 w-auto', lazy = false } = Astro.props;
+---
+<picture>
+  <source type="image/webp" srcset={`${u('assets/logo-light-300.webp')} 300w, ${u('assets/logo-light-600.webp')} 600w`} sizes="160px" />
+  <img src={u('assets/logo-light-600.png')} alt="JCraft Digital" width="600" height="188" class={cls} loading={lazy ? 'lazy' : undefined} decoding="async" />
+</picture>

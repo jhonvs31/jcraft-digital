@@ -3,6 +3,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import './nudges';
 
 gsap.registerPlugin(ScrollTrigger);
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -17,17 +18,37 @@ const onScroll = () => {
 };
 window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-// ── Menú móvil
+// ── Menú móvil: círculo que se expande desde el botón + enlaces escalonados (y al revés al cerrar)
 const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
 const menu = document.querySelector<HTMLElement>('[data-menu]');
-toggle?.addEventListener('click', () => {
-  const open = toggle.getAttribute('aria-expanded') !== 'true';
+const menuLinks = menu ? [...menu.querySelectorAll<HTMLElement>('[data-menu-link]')] : [];
+const [barA, barB] = toggle ? [...toggle.querySelectorAll<HTMLElement>('[data-bar]')] : [];
+let menuTl: gsap.core.Timeline | null = null;
+const setMenu = (open: boolean) => {
+  if (!toggle || !menu) return;
   toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
-  if (menu) menu.hidden = !open;
   document.body.classList.toggle('overflow-hidden', open);
-  const [a, b] = toggle.querySelectorAll('[data-bar]');
-  a?.classList.toggle('rotate-45', open); b?.classList.toggle('-rotate-45', open); b?.classList.toggle('translate-y-1.5', !open);
-});
+  // Las dos barras se cruzan en una X
+  barA?.classList.toggle('-translate-y-1', !open); barA?.classList.toggle('rotate-45', open);
+  barB?.classList.toggle('translate-y-1', !open); barB?.classList.toggle('-rotate-45', open);
+  menuTl?.kill();
+  if (reduce) { menu.hidden = !open; menu.style.clipPath = open ? 'none' : ''; return; }
+  const r = toggle.getBoundingClientRect(); const at = `at ${r.left + r.width / 2}px ${r.top + r.height / 2}px`;
+  const full = `circle(${Math.hypot(window.innerWidth, window.innerHeight) * 1.1}px ${at})`; const zero = `circle(0px ${at})`;
+  if (open) {
+    menu.hidden = false;
+    menuTl = gsap.timeline()
+      .fromTo(menu, { clipPath: zero }, { clipPath: full, duration: 0.75, ease: 'expo.inOut' })
+      .fromTo(menuLinks, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'expo.out', stagger: 0.06 }, '-=0.35');
+  } else {
+    menuTl = gsap.timeline({ onComplete: () => { menu.hidden = true; } })
+      .to([...menuLinks].reverse(), { y: -40, opacity: 0, duration: 0.3, ease: 'power2.in', stagger: 0.035 })
+      .to(menu, { clipPath: zero, duration: 0.55, ease: 'expo.inOut' }, '-=0.1');
+  }
+};
+toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { setMenu(false); toggle.focus(); } });
 
 // ── Filtros (portafolio y blog)
 document.querySelectorAll<HTMLElement>('[data-filters]').forEach((group) => {

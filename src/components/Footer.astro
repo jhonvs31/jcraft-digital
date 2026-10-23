@@ -1,4 +1,5 @@
 ---
+import Logo from '../components/Logo.astro';
 import { contact, services } from '../data/site';
 import { u, wa } from '../lib/url';
 const year = new Date().getFullYear();
@@ -8,7 +9,7 @@ const year = new Date().getFullYear();
   <div class="wrap relative">
     <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
       <div>
-        <img src={u('assets/logo-light.png')} alt="JCraft Digital" width="900" height="282" class="h-11 w-auto" loading="lazy" />
+        <Logo class="h-11 w-auto" lazy />
         <p class="mt-5 max-w-xs text-white/65">Agencia de marketing digital especializada en pymes. Diseño, estrategia y tecnología para hacer crecer tu negocio en internet.</p>
         <div class="mt-6 flex gap-3">
           {[['Instagram', contact.instagram], ['Facebook', contact.facebook], ['LinkedIn', contact.linkedin], ['WhatsApp', wa('Hola!')]].map(([n, h]) => (
