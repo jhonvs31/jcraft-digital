@@ -8,7 +8,7 @@ const { eyebrow, title, text, primary, waText, waLabel = 'WhatsApp' } = Astro.pr
   <div class="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-white/40 blur-3xl" data-parallax="-60"></div>
   <div class="wrap relative">
     {eyebrow && <span class="eyebrow !bg-navy !text-white" data-reveal>{eyebrow}</span>}
-    <Title text={title} class="on-paper mt-6 max-w-5xl text-5xl sm:text-7xl [&_em.k]:!text-white" />
+    <Title text={title} class="on-paper mt-6 max-w-5xl text-5xl sm:text-7xl [&_em.k]:!text-blue" />
     <p class="mt-6 max-w-2xl text-lg font-semibold text-navy/80 sm:text-xl" data-reveal>{text}</p>
     <div class="mt-10 flex flex-wrap gap-4" data-reveal>
       <a href={u('contacto.html')} class="btn btn-navy" data-magnetic>{primary}</a>

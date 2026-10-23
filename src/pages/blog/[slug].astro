@@ -31,12 +31,12 @@ const schema: object[] = [{
       <div class="gridlines absolute inset-0"></div>
       <div class="glow -top-40 right-[-10%] h-[560px] w-[560px]" data-parallax="-80"></div>
       <div class="wrap relative max-w-4xl">
-        <nav aria-label="Ruta" class="mb-8 text-sm font-semibold text-white/55" data-reveal>
+        <nav aria-label="Ruta" class="hero-in mb-8 text-sm font-semibold text-white/55">
           <a href={u('index.html')} class="hover:text-cyan">Inicio</a><span class="mx-2">/</span><a href={u('blog.html')} class="hover:text-cyan">Blog</a><span class="mx-2">/</span><span class="text-white/85">{post.categoryName}</span>
         </nav>
-        <span class="eyebrow" data-reveal>{post.categoryName}</span>
-        <h1 class="mt-6 text-5xl sm:text-6xl lg:text-7xl" data-reveal>{post.title}</h1>
-        <p class="mt-8 flex flex-wrap gap-5 text-sm font-semibold text-white/60" data-reveal><span>📅 <time datetime={post.iso}>{post.date}</time></span><span>⏱️ {post.readTime} de lectura</span><span>Por JCraft Digital</span></p>
+        <span class="eyebrow hero-in" style="--d:80ms">{post.categoryName}</span>
+        <h1 class="hero-in mt-6 text-5xl sm:text-6xl lg:text-7xl" style="--d:160ms">{post.title}</h1>
+        <p class="hero-in mt-8 flex flex-wrap gap-5 text-sm font-semibold text-white/60" style="--d:260ms"><span>📅 <time datetime={post.iso}>{post.date}</time></span><span>⏱️ {post.readTime} de lectura</span><span>Por JCraft Digital</span></p>
       </div>
     </header>
     <div class="bg-paper py-16 sm:py-24">

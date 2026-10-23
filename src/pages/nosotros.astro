@@ -5,6 +5,11 @@ import Title from '../components/Title.astro';
 import Cta from '../components/Cta.astro';
 import { team, values, history, difference, contact } from '../data/site';
 import { u } from '../lib/url';
+import { Picture } from 'astro:assets';
+import duo from '../assets/img/jhon-cata.jpg';
+import jhon from '../assets/img/jhon.jpg';
+import cata from '../assets/img/catalina.jpg';
+const photos: Record<string, ImageMetadata> = { 'assets/jhon.jpg': jhon, 'assets/catalina.jpg': cata };
 ---
 <Base title="Nosotros | JCraft Digital" description="Jhon Vega y Catalina Escobar: diseño, tecnología y marketing en el mismo equipo para hacer crecer pymes en digital." page="nosotros.html" crumbs={[{ name: 'Nosotros', page: 'nosotros.html' }]}>
   <PageHero crumb="Nosotros" title="Sobre *JCraft Digital*" text="Dos emprendedores apasionados por el diseño y la tecnología, unidos por un propósito: hacer crecer tu negocio en digital." />
@@ -22,7 +27,7 @@ import { u } from '../lib/url';
         <div class="mt-10" data-reveal><a href={u('contacto.html')} class="btn btn-primary" data-magnetic>Trabajar con nosotros</a></div>
       </div>
       <div class="relative" data-reveal>
-        <div class="overflow-hidden rounded-[32px]" data-curtain><img src={u('assets/jhon-cata.jpg')} alt="Jhon y Catalina, fundadores de JCraft Digital" width="900" height="1100" class="h-[540px] w-full object-cover" loading="lazy" /></div>
+        <div class="overflow-hidden rounded-[32px]" data-curtain><Picture src={duo} formats={['avif', 'webp']} widths={[420, 640, 900]} sizes="(min-width: 1024px) 560px, 92vw" alt="Jhon y Catalina, fundadores de JCraft Digital" class="h-[540px] w-full object-cover" /></div>
         <div class="glass absolute -bottom-8 left-6 right-6 grid grid-cols-2 gap-3 p-6 text-sm font-semibold sm:left-auto sm:w-80">
           {['Fundada por emprendedores', 'Especializada en pymes', 'Atención personalizada', 'Resultados medibles'].map((t) => <p class="flex gap-2"><span class="text-cyan">✓</span>{t}</p>)}
           <p class="col-span-2 mt-2 border-t border-white/10 pt-3"><span class="font-display text-3xl font-black text-cyan">2024</span> <span class="text-white/60">Año de fundación</span></p>
@@ -46,7 +51,7 @@ import { u } from '../lib/url';
       <div class="mt-16 grid gap-6 md:grid-cols-2" data-stagger>
         {team.map((m) => (
           <article data-reveal data-tilt class="glass group overflow-hidden">
-            <div class="overflow-hidden"><img src={u(m.img)} alt={m.name} width="800" height="800" loading="lazy" class="aspect-[4/3] w-full object-cover object-top transition duration-700 group-hover:scale-105" /></div>
+            <div class="overflow-hidden"><Picture src={photos[m.img]} formats={['avif', 'webp']} widths={[400, 700]} sizes="(min-width: 768px) 560px, 92vw" alt={m.name} class="aspect-[4/3] w-full object-cover object-top transition duration-700 group-hover:scale-105" /></div>
             <div class="p-8"><h3 class="text-3xl">{m.name}</h3><p class="mt-2 text-sm font-extrabold tracking-wide text-cyan uppercase">{m.role}</p><p class="mt-4 text-white/70">{m.text}</p>
               <a href={contact.instagram} target="_blank" rel="noopener" class="mt-6 inline-block text-sm font-bold text-white/80 hover:text-cyan">Instagram @jcraftdigital →</a></div>
           </article>

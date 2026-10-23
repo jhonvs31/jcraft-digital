@@ -1,10 +1,13 @@
 ---
 // Titular con palabra clave en serif: el texto entre *asteriscos* va en Instrument Serif Italic.
-// Cada palabra se envuelve para la animación de entrada (data-split).
-interface Props { text: string; as?: 'h1' | 'h2' | 'h3'; class?: string }
-const { text, as: Tag = 'h2', class: cls = '' } = Astro.props;
+// Cada palabra se envuelve para la animación de entrada. Con `instant` (titulares del primer pantallazo)
+// la animación es solo CSS y empieza con el primer pintado; sin él, la hace GSAP al hacer scroll.
+interface Props { text: string; as?: 'h1' | 'h2' | 'h3'; class?: string; instant?: boolean }
+const { text, as: Tag = 'h2', class: cls = '', instant = false } = Astro.props;
+let i = 0;
 const parts = text.split(/(\*[^*]+\*)/).filter(Boolean).map((p) => ({ em: p.startsWith('*'), words: p.replace(/\*/g, '').split(/(\s+)/) }));
+const d = () => (instant ? `--d:${(i++) * 70}ms` : undefined);
 ---
-<Tag class={cls} data-split>
-  {parts.map((p) => p.words.map((w) => (/^\s+$/.test(w) ? ' ' : w && (p.em ? <span class="w"><span><em class="k">{w}</em></span></span> : <span class="w"><span>{w}</span></span>))))}
+<Tag class={cls} data-split data-instant={instant ? '' : undefined}>
+  {parts.map((p) => p.words.map((w) => (/^\s+$/.test(w) ? ' ' : w && (p.em ? <span class="w"><span style={d()}><em class="k">{w}</em></span></span> : <span class="w"><span style={d()}>{w}</span></span>))))}
 </Tag>

@@ -5,6 +5,8 @@ import Cta from '../components/Cta.astro';
 import { services, contentService, why, approach, process, portfolio, claims } from '../data/site';
 import posts from '../data/posts.json';
 import { u, wa } from '../lib/url';
+import { Picture } from 'astro:assets';
+import heroImg from '../assets/img/jhon-cata.jpg';
 const cards = [...services.slice(0, 4), contentService, services[4]];
 const featured = portfolio.filter((p) => p.home);
 const latest = posts.filter((p) => !p.featured).slice(0, 3);
@@ -17,26 +19,26 @@ const latest = posts.filter((p) => !p.featured).slice(0, 3);
     <div class="glow bottom-[-35%] left-[-20%] h-[620px] w-[620px] opacity-60" data-parallax="80"></div>
     <div class="wrap relative grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
       <div>
-        <span class="eyebrow" data-reveal>Agencia de Marketing Digital</span>
-        <Title as="h1" text="Tu negocio merece *brillar en digital*" class="mt-7 text-[clamp(3.2rem,6.2vw,6.4rem)]" />
-        <p class="mt-8 max-w-xl text-lg text-white/70 sm:text-xl" data-reveal>Ayudamos a pymes y emprendedores a construir su presencia digital de forma estratégica, creativa y efectiva. Diseño, marketing y tecnología en un solo lugar.</p>
-        <div class="mt-10 flex flex-wrap gap-4" data-reveal>
+        <span class="eyebrow hero-in">Agencia de Marketing Digital</span>
+        <Title as="h1" instant text="Tu negocio merece *brillar en digital*" class="mt-7 text-[clamp(3.2rem,6.2vw,6.4rem)]" />
+        <p class="hero-in mt-8 max-w-xl text-lg text-white/70 sm:text-xl" style="--d:350ms">Ayudamos a pymes y emprendedores a construir su presencia digital de forma estratégica, creativa y efectiva. Diseño, marketing y tecnología en un solo lugar.</p>
+        <div class="hero-in mt-10 flex flex-wrap gap-4" style="--d:480ms">
           <a href={u('contacto.html')} class="btn btn-primary" data-magnetic>Hablemos de tu proyecto <span aria-hidden="true">→</span></a>
           <a href={u('portafolio.html')} class="btn btn-ghost" data-magnetic>Ver portafolio</a>
         </div>
         {claims.show && (
-          <dl class="mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-white/10 pt-8" data-stagger>
+          <dl class="hero-in mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-white/10 pt-8" style="--d:600ms">
             {claims.stats.map((s) => (
-              <div data-reveal><dt class="sr-only">{s.label}</dt>
+              <div><dt class="sr-only">{s.label}</dt>
                 <dd class="font-display text-4xl font-black text-white sm:text-5xl"><span data-count={s.value} data-suffix={s.suffix}>{s.value}{s.suffix}</span></dd>
                 <dd class="mt-1 text-sm text-white/55">{s.label}</dd></div>
             ))}
           </dl>
         )}
       </div>
-      <div class="relative" data-reveal>
+      <div class="hero-in relative" style="--d:200ms">
         <div class="relative overflow-hidden rounded-[32px] shadow-[0_60px_120px_-40px_rgba(0,188,212,.45)]" data-curtain>
-          <img src={u('assets/jhon-cata.jpg')} alt="Jhon Vega y Catalina Escobar — Fundadores de JCraft Digital" width="900" height="1100" class="h-[560px] w-full object-cover" fetchpriority="high" />
+          <Picture src={heroImg} formats={['avif', 'webp']} widths={[420, 640, 900]} sizes="(min-width: 1024px) 560px, 92vw" alt="Jhon Vega y Catalina Escobar — Fundadores de JCraft Digital" class="h-[460px] w-full object-cover sm:h-[560px]" loading="eager" fetchpriority="high" />
           <div class="absolute inset-0 bg-gradient-to-t from-deep/70 via-transparent to-transparent"></div>
           <p class="absolute bottom-6 left-6 right-6 font-display text-2xl font-black leading-tight">Jhon y Cata<br /><em class="k text-3xl">Diseño · Marketing · Tecnología</em></p>
         </div>
