@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Title from '../components/Title.astro';
+import Cta from '../components/Cta.astro';
+import { portfolio, portfolioFilters, portfolioProcess, claims } from '../data/site';
+---
+<Base title="Portafolio | JCraft Digital" description="Proyectos reales de redes sociales, diseño web, SEO y pauta digital para marcas de Colombia, México y Estados Unidos." page="portafolio.html" crumbs={[{ name: 'Portafolio', page: 'portafolio.html' }]}>
+  <PageHero crumb="Portafolio" title="Nuestro *portafolio*" text="Proyectos reales, resultados reales. Cada caso es una historia de crecimiento junto a nuestros clientes." />
+
+  {claims.show && (
+    <section class="border-y border-white/10 bg-navy">
+      <dl class="wrap grid grid-cols-2 gap-8 py-12 lg:grid-cols-4" data-stagger>
+        {claims.portfolioStats.map((s) => (
+          <div data-reveal><dd class="font-display text-5xl font-black sm:text-6xl"><span data-count={s.value} data-suffix={s.suffix}>{s.value}{s.suffix}</span></dd><dt class="mt-2 text-white/60">{s.label}</dt></div>
+        ))}
+      </dl>
+    </section>
+  )}
+
+  <section class="on-paper bg-paper py-24 text-navy sm:py-32">
+    <div class="wrap">
+      <div class="flex flex-wrap gap-3" data-filters="#proyectos" role="group" aria-label="Filtrar proyectos" data-reveal>
+        {portfolioFilters.map((f, i) => (
+          <button type="button" data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}
+            class="rounded-full border-2 border-navy/15 px-5 py-2.5 font-bold transition hover:border-navy aria-pressed:border-navy aria-pressed:bg-navy aria-pressed:text-white">{f.label}</button>
+        ))}
+      </div>
+      <div id="proyectos" class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-stagger>
+        {portfolio.map((p) => (
+          <article data-cat={p.cat} data-reveal data-tilt class="card-paper group flex flex-col overflow-hidden">
+            <div class="relative grid h-52 place-items-center overflow-hidden bg-navy text-7xl"><div class="glow h-72 w-72 opacity-70 transition-transform duration-700 group-hover:scale-125"></div><span class="relative" aria-hidden="true">{p.emoji}</span>
+              <span class="absolute top-4 left-4 rounded-full bg-cyan px-3 py-1 text-xs font-extrabold text-navy">{p.tag}</span></div>
+            <div class="flex flex-1 flex-col p-7"><h2 class="text-2xl">{p.name}</h2><p class="mt-1 text-sm font-semibold text-navy/55">{p.place}</p>
+              <p class="mt-4 flex-1 text-navy/70">{p.text}</p><p class="mt-6 text-sm font-bold text-blue">{p.result}</p></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-deep py-28 sm:py-36">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Nuestro proceso</span>
+      <Title text="Así trabajamos *en cada proyecto*" class="mt-6 max-w-4xl text-5xl sm:text-7xl" />
+      <div class="mt-14 grid gap-6 md:grid-cols-3" data-stagger>
+        {portfolioProcess.map((p, i) => (<div data-reveal class="glass p-8"><div class="flex items-center justify-between"><span class="text-4xl">{p.icon}</span><span class="num-out text-5xl">0{i + 1}</span></div><h3 class="mt-6 text-3xl">{p.title}</h3><p class="mt-3 text-white/65">{p.text}</p></div>))}
+      </div>
+    </div>
+  </section>
+
+  <Cta title="¿Tu negocio podría ser *el próximo caso de éxito?*" text="Cuéntanos tu proyecto y diseñamos la estrategia perfecta para ti." primary="Empezar ahora" waText="Hola! Vi el portafolio y quiero saber más." />
+</Base>

@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Title from '../components/Title.astro';
+import Cta from '../components/Cta.astro';
+import { team, values, history, difference, contact } from '../data/site';
+import { u } from '../lib/url';
+---
+<Base title="Nosotros | JCraft Digital" description="Jhon Vega y Catalina Escobar: diseño, tecnología y marketing en el mismo equipo para hacer crecer pymes en digital." page="nosotros.html" crumbs={[{ name: 'Nosotros', page: 'nosotros.html' }]}>
+  <PageHero crumb="Nosotros" title="Sobre *JCraft Digital*" text="Dos emprendedores apasionados por el diseño y la tecnología, unidos por un propósito: hacer crecer tu negocio en digital." />
+
+  <section class="bg-deep pb-28 sm:pb-36">
+    <div class="wrap grid items-center gap-14 lg:grid-cols-2">
+      <div>
+        <span class="eyebrow" data-reveal>¿Quiénes somos?</span>
+        <Title text="Una mini agencia con *alma grande*" class="mt-6 text-5xl sm:text-6xl" />
+        <div class="mt-8 space-y-5 text-lg text-white/70" data-stagger>
+          <p data-reveal>JCraft Digital nació de la unión de dos esposos con habilidades complementarias y una visión compartida: que las pymes, los negocios locales y los emprendedores también pueden tener una presencia digital de nivel profesional.</p>
+          <p data-reveal>Combinamos diseño de calidad, estrategia digital y tecnología en un solo lugar, con la cercanía y atención personalizada que las grandes agencias no ofrecen. Cada cliente es único y cada proyecto es tratado con la misma dedicación y pasión.</p>
+          <p data-reveal>Creemos que el crecimiento digital debe ser accesible para todos, no solo para las grandes empresas. Por eso trabajamos con transparencia, comunicación constante y resultados medibles.</p>
+        </div>
+        <div class="mt-10" data-reveal><a href={u('contacto.html')} class="btn btn-primary" data-magnetic>Trabajar con nosotros</a></div>
+      </div>
+      <div class="relative" data-reveal>
+        <div class="overflow-hidden rounded-[32px]" data-curtain><img src={u('assets/jhon-cata.jpg')} alt="Jhon y Catalina, fundadores de JCraft Digital" width="900" height="1100" class="h-[540px] w-full object-cover" loading="lazy" /></div>
+        <div class="glass absolute -bottom-8 left-6 right-6 grid grid-cols-2 gap-3 p-6 text-sm font-semibold sm:left-auto sm:w-80">
+          {['Fundada por emprendedores', 'Especializada en pymes', 'Atención personalizada', 'Resultados medibles'].map((t) => <p class="flex gap-2"><span class="text-cyan">✓</span>{t}</p>)}
+          <p class="col-span-2 mt-2 border-t border-white/10 pt-3"><span class="font-display text-3xl font-black text-cyan">2024</span> <span class="text-white/60">Año de fundación</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="on-paper bg-paper py-28 text-navy sm:py-36">
+    <div class="wrap grid gap-6 md:grid-cols-2" data-stagger>
+      <article data-reveal class="card-paper p-10"><span class="text-4xl">🎯</span><h2 class="mt-6 text-4xl">Nuestra <em class="k">misión</em></h2><p class="mt-4 text-lg text-navy/70">Potenciar el crecimiento digital de nuestros clientes con soluciones creativas, estratégicas y accesibles, construyendo marcas que conecten con las personas.</p></article>
+      <article data-reveal class="rounded-3xl bg-navy p-10 text-white"><span class="text-4xl">🔭</span><h2 class="mt-6 text-4xl">Nuestra <em class="k">visión</em></h2><p class="mt-4 text-lg text-white/70">Ser la agencia de referencia para pymes que quieren crecer en el mundo digital, reconocida por resultados concretos y relaciones de largo plazo.</p></article>
+    </div>
+  </section>
+
+  <section class="bg-deep py-28 sm:py-36">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>El equipo</span>
+      <Title text="Las personas *detrás de JCraft*" class="mt-6 max-w-4xl text-5xl sm:text-7xl" />
+      <p class="mt-6 max-w-2xl text-lg text-white/65" data-reveal>Un equipo formado por dos esposos apasionados por el mundo digital. Juntos combinan diseño, tecnología y estrategia para impulsar tu negocio.</p>
+      <div class="mt-16 grid gap-6 md:grid-cols-2" data-stagger>
+        {team.map((m) => (
+          <article data-reveal data-tilt class="glass group overflow-hidden">
+            <div class="overflow-hidden"><img src={u(m.img)} alt={m.name} width="800" height="800" loading="lazy" class="aspect-[4/3] w-full object-cover object-top transition duration-700 group-hover:scale-105" /></div>
+            <div class="p-8"><h3 class="text-3xl">{m.name}</h3><p class="mt-2 text-sm font-extrabold tracking-wide text-cyan uppercase">{m.role}</p><p class="mt-4 text-white/70">{m.text}</p>
+              <a href={contact.instagram} target="_blank" rel="noopener" class="mt-6 inline-block text-sm font-bold text-white/80 hover:text-cyan">Instagram @jcraftdigital →</a></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="on-paper bg-paper py-28 text-navy sm:py-36">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Nuestros valores</span>
+      <Title text="Lo que *nos define*" class="mt-6 text-5xl sm:text-7xl" />
+      <p class="mt-6 max-w-xl text-lg text-navy/70" data-reveal>Más que palabras: son los principios que guían cada decisión que tomamos.</p>
+      <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5" data-stagger>
+        {values.map((v) => (<div data-reveal class="card-paper p-6"><span class="text-3xl">{v.icon}</span><h3 class="mt-4 text-2xl">{v.title}</h3><p class="mt-2 text-navy/70">{v.text}</p></div>))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-deep py-28 sm:py-36">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Nuestra historia</span>
+      <Title text="Cómo llegamos *hasta aquí*" class="mt-6 text-5xl sm:text-7xl" />
+      <ol class="mt-16 grid gap-6 lg:grid-cols-4" data-stagger>
+        {history.map((h) => (<li data-reveal class="glass p-8"><span class="num-out text-6xl">{h.year}</span><h3 class="mt-6 text-2xl">{h.title}</h3><p class="mt-3 text-white/65">{h.text}</p></li>))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="on-paper bg-paper py-28 text-navy sm:py-36">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Por qué elegirnos</span>
+      <Title text="La diferencia *JCraft*" class="mt-6 text-5xl sm:text-7xl" />
+      <div class="mt-14 grid gap-6 md:grid-cols-3" data-stagger>
+        {difference.map((d) => (<div data-reveal class="card-paper p-8"><span class="text-4xl">{d.icon}</span><h3 class="mt-5 text-2xl">{d.title}</h3><p class="mt-3 text-navy/70">{d.text}</p></div>))}
+      </div>
+    </div>
+  </section>
+
+  <Cta title="¿Te identificas con nuestra *forma de trabajar?*" text="Hablemos. Una conversación puede ser el inicio de algo grande para tu negocio." primary="Contactar al equipo" waText="Hola! Quiero conocer más sobre JCraft Digital." />
+</Base>

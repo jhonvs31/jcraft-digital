@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Title from '../components/Title.astro';
+import Cta from '../components/Cta.astro';
+import { services, faq } from '../data/site';
+import { u, wa } from '../lib/url';
+const schema = [
+  { '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  ...services.map((s) => ({ '@type': 'Service', name: s.title, description: s.text, serviceType: s.short, provider: { '@id': new URL('#org', new URL(u(''), Astro.site)).href }, areaServed: 'CO' })),
+];
+---
+<Base title="Servicios | JCraft Digital" description="Redes sociales, diseño web, pauta digital en Google y Meta, diseño gráfico y estrategia digital para pymes." page="servicios.html" crumbs={[{ name: 'Servicios', page: 'servicios.html' }]} schema={schema}>
+  <PageHero crumb="Servicios" title="Nuestros *servicios*" text="Todo lo que tu negocio necesita para crecer en el mundo digital, en un solo lugar." />
+
+  <section class="bg-deep pb-28 sm:pb-36">
+    <div class="wrap space-y-6">
+      {services.map((s, i) => (
+        <article id={`servicio-${s.n}`} data-reveal class:list={['relative grid gap-10 overflow-hidden rounded-[32px] p-8 sm:p-12 lg:grid-cols-[1fr_1.1fr]', i % 2 ? 'bg-paper text-navy on-paper' : 'glass']}>
+          <div class="glow -right-32 -top-32 h-96 w-96 opacity-50"></div>
+          <div class="relative">
+            <div class="flex items-center gap-5"><span class="num-out text-7xl sm:text-8xl">{s.n}</span><span class="text-5xl" aria-hidden="true">{s.icon}</span></div>
+            <h2 class="mt-8 text-4xl sm:text-5xl">{s.title}</h2>
+            <p class:list={['mt-5 max-w-lg text-lg', i % 2 ? 'text-navy/70' : 'text-white/70']}>{s.text}</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href={u('contacto.html')} class={i % 2 ? 'btn btn-navy' : 'btn btn-primary'} data-magnetic>Pedir información</a>
+              <a href={wa(`Hola! Quiero consultar el precio de: ${s.title}.`)} target="_blank" rel="noopener" class={i % 2 ? 'btn border-2 border-navy text-navy' : 'btn btn-ghost'}>Consultar precio</a>
+            </div>
+          </div>
+          <ul class="relative grid content-center gap-3 sm:grid-cols-2">
+            {s.items.map((it) => (
+              <li class:list={['flex items-start gap-3 rounded-2xl p-4 font-semibold', i % 2 ? 'bg-white text-navy' : 'bg-white/[.06]']}>
+                <span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-cyan text-xs font-black text-navy" aria-hidden="true">✓</span>{it}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="on-paper bg-paper py-28 text-navy sm:py-36">
+    <div class="wrap grid gap-14 lg:grid-cols-[1fr_1.4fr]">
+      <div><span class="eyebrow" data-reveal>Preguntas frecuentes</span><Title text="Todo lo que *quieres saber*" class="mt-6 text-5xl sm:text-6xl" /></div>
+      <div class="space-y-3" data-stagger>
+        {faq.map((f, i) => (
+          <details class="faq card-paper group p-6" data-reveal open={i === 0}>
+            <summary class="flex items-center justify-between gap-6 font-display text-xl font-extrabold">{f.q}
+              <span class="faq-plus grid h-10 w-10 shrink-0 place-items-center rounded-full bg-navy/5 text-2xl transition" aria-hidden="true">+</span></summary>
+            <p class="mt-4 text-lg text-navy/70">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Cta title="¿No sabes *por dónde empezar?*" text="Te ayudamos a identificar qué necesita tu negocio. Consulta gratuita, sin compromiso." primary="Agendar consulta gratuita" waText="Hola! Quiero consultar sobre sus servicios." waLabel="WhatsApp directo" />
+</Base>

@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { u, wa } from '../lib/url';
+import { contact, team } from '../data/site';
+
+interface Props {
+  title: string; description: string; page?: string; image?: string; type?: 'website' | 'article';
+  noindex?: boolean; crumbs?: { name: string; page: string }[]; schema?: object[];
+}
+const { title, description, page = 'index.html', image = 'og.jpg', type = 'website', noindex = false, crumbs = [], schema = [] } = Astro.props;
+const abs = (p: string) => new URL(u(p), Astro.site).href;
+const home = abs('');
+const canonical = page === 'index.html' ? home : abs(page);
+const ogImage = abs(image);
+const org = {
+  '@type': 'ProfessionalService', '@id': `${home}#org`, name: 'JCraft Digital', url: home, logo: abs('assets/logo-white.png'), image: abs('og.jpg'),
+  description: 'Agencia de marketing digital para pymes: redes sociales, diseño web, pauta digital en Google y Meta, diseño gráfico y estrategia digital.',
+  email: contact.email, telephone: contact.phone, priceRange: '$$', areaServed: [{ '@type': 'Country', name: 'Colombia' }, { '@type': 'Place', name: 'Latinoamérica' }],
+  address: { '@type': 'PostalAddress', addressCountry: 'CO' }, sameAs: [contact.instagram, contact.facebook, contact.linkedin],
+  founder: team.map((m) => ({ '@type': 'Person', name: m.name, jobTitle: m.role })),
+  contactPoint: { '@type': 'ContactPoint', telephone: contact.phone, contactType: 'customer service', availableLanguage: ['es'] },
+};
+const graph: object[] = [
+  org,
+  { '@type': 'WebSite', '@id': `${home}#web`, url: home, name: 'JCraft Digital', inLanguage: 'es-CO', publisher: { '@id': `${home}#org` } },
+  ...(crumbs.length ? [{ '@type': 'BreadcrumbList', itemListElement: [{ name: 'Inicio', page: 'index.html' }, ...crumbs].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.page === 'index.html' ? home : abs(c.page) })) }] : []),
+  ...schema,
+];
+const gsc = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
+---
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex, follow" /> : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />}
+    {gsc && <meta name="google-site-verification" content={gsc} />}
+    {bing && <meta name="msvalidate.01" content={bing} />}
+    <meta name="theme-color" content="#061D47" />
+    <link rel="icon" type="image/svg+xml" href={u('favicon.svg')} />
+    <link rel="icon" type="image/png" sizes="32x32" href={u('favicon-32.png')} />
+    <link rel="apple-touch-icon" href={u('apple-touch-icon.png')} />
+    <link rel="sitemap" href={u('sitemap-index.xml')} />
+    <meta property="og:site_name" content="JCraft Digital" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_CO" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@1&display=swap" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />
+    <slot name="head" />
+  </head>
+  <body class="overflow-x-hidden">
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-cyan focus:px-5 focus:py-3 focus:font-bold focus:text-navy">Saltar al contenido</a>
+    <Header current={page} />
+    <main id="contenido"><slot /></main>
+    <Footer />
+    <a href={wa('Hola! Me interesa saber más sobre sus servicios.')} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"
+      class="fixed right-5 bottom-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_16px_40px_-10px_rgba(37,211,102,.7)] transition hover:scale-110">
+      <svg viewBox="0 0 24 24" class="h-7 w-7" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4.9 2.9.8 3.4.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+    </a>
+    <script>import '../scripts/motion.ts';</script>
+  </body>
+</html>
