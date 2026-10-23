@@ -15,7 +15,7 @@ const home = abs('');
 const canonical = page === 'index.html' ? home : abs(page);
 const ogImage = abs(image);
 const org = {
-  '@type': 'ProfessionalService', '@id': `${home}#org`, name: 'JCraft Digital', url: home, logo: abs('assets/logo-white.png'), image: abs('og.jpg'),
+  '@type': 'ProfessionalService', '@id': `${home}#org`, name: 'JCraft Digital', url: home, logo: abs('assets/logo-color.png'), image: abs('og.jpg'),
   description: 'Agencia de marketing digital para pymes: redes sociales, diseño web, pauta digital en Google y Meta, diseño gráfico y estrategia digital.',
   email: contact.email, telephone: contact.phone, priceRange: '$$', areaServed: [{ '@type': 'Country', name: 'Colombia' }, { '@type': 'Place', name: 'Latinoamérica' }],
   address: { '@type': 'PostalAddress', addressCountry: 'CO' }, sameAs: [contact.instagram, contact.facebook, contact.linkedin],
@@ -63,6 +63,7 @@ const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@1&display=swap" />
+    <!-- Script permitido por su hash en la CSP de vercel.json: si cambias el texto, actualiza el hash. -->
     <script is:inline>document.documentElement.classList.add('js')</script>
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />
     <slot name="head" />
