@@ -1,6 +1,7 @@
 ---
-// Mensajes emergentes: una tarjeta pequeña en la esquina (no tapa la pantalla, Google penaliza los intersticiales en móvil).
-// Reglas: el primero a los 25 s, luego uno cada 75 s, máximo 3 por visita; si la persona cierra uno, no vuelven en esa visita.
+// Mensajes emergentes: una franja horizontal abajo a la izquierda (no tapa la pantalla, Google penaliza los intersticiales en móvil).
+// Reglas: el primero a los 25 s, luego uno cada 75 s, máximo 3 por visita; cada uno se ve 12 s (la barra marca el tiempo)
+// y se va solo. Si la persona cierra uno, no vuelven en esa visita.
 import { wa } from '../lib/url';
 const nudges = [
   { icon: '📱', q: '¿Tus redes no te están trayendo clientes?', a: 'Te ayudamos a crear contenido con estrategia para que te escriban.', cta: 'Quiero mejorar mis redes', msg: 'Hola JCraft! Quiero mejorar mis redes sociales para conseguir más clientes.' },
@@ -11,18 +12,21 @@ const nudges = [
 ].map((n) => ({ ...n, href: wa(n.msg) }));
 ---
 <aside data-nudge hidden aria-live="polite" aria-label="Mensaje de JCraft Digital"
-  class="fixed bottom-5 left-4 right-24 z-[45] max-w-sm translate-y-6 opacity-0 transition-[opacity,transform] duration-500 ease-[cubic-bezier(.16,1,.3,1)] sm:left-6 sm:right-auto sm:w-96">
-  <div class="glass relative overflow-hidden border-cyan/40 bg-deep/90 p-5 shadow-[0_30px_80px_-20px_rgba(0,0,0,.6)]">
-    <div class="glow -right-16 -top-16 h-40 w-40 opacity-70"></div>
-    <button type="button" data-nudge-close aria-label="Cerrar mensaje" class="absolute top-3 right-3 grid h-8 w-8 place-items-center rounded-full text-white/60 transition hover:bg-white/10 hover:text-white">✕</button>
-    <div class="relative flex gap-4 pr-6">
-      <span data-nudge-icon class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-cyan/15 text-2xl" aria-hidden="true"></span>
-      <div class="min-w-0">
-        <p data-nudge-q class="font-display text-lg font-extrabold leading-snug text-white"></p>
-        <p data-nudge-a class="mt-1.5 text-sm text-white/65"></p>
-        <a data-nudge-cta href="#" target="_blank" rel="noopener" class="btn btn-primary mt-4 !px-5 !py-2.5 !text-sm"></a>
+  class="fixed bottom-24 inset-x-4 z-[45] sm:bottom-5 translate-y-6 opacity-0 transition-[opacity,transform] duration-500 ease-[cubic-bezier(.16,1,.3,1)] sm:left-6 sm:right-28 lg:right-auto lg:w-[760px]">
+  <div class="glass relative overflow-hidden rounded-2xl border-cyan/40 bg-deep/90 shadow-[0_30px_80px_-20px_rgba(0,0,0,.6)]">
+    <div class="glow -left-16 -top-20 h-40 w-40 opacity-60"></div>
+    <div class="relative flex items-center gap-3 py-3 pr-3 pl-3 sm:gap-4 sm:py-3.5 sm:pl-4">
+      <span data-nudge-icon class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-cyan/15 text-xl" aria-hidden="true"></span>
+      <div class="min-w-0 flex-1">
+        <p data-nudge-q class="font-display text-sm leading-snug font-extrabold text-white sm:text-base"></p>
+        <p data-nudge-a class="mt-0.5 hidden truncate text-sm text-white/65 md:block"></p>
       </div>
+      <a data-nudge-cta href="#" target="_blank" rel="noopener" class="btn btn-primary hidden shrink-0 !px-4 !py-2.5 !text-sm whitespace-nowrap sm:inline-flex"></a>
+      <a data-nudge-cta-short href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp" class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-cyan text-lg font-black text-deep sm:hidden">→</a>
+      <button type="button" data-nudge-close aria-label="Cerrar mensaje" class="grid h-8 w-8 shrink-0 place-items-center rounded-full text-white/60 transition hover:bg-white/10 hover:text-white">✕</button>
     </div>
+    <!-- Tiempo restante: la barra se vacía y, al terminar, el mensaje se va -->
+    <span data-nudge-bar class="absolute inset-x-0 bottom-0 h-[3px] origin-left bg-cyan" aria-hidden="true"></span>
   </div>
 </aside>
 <script type="application/json" id="nudges-data" set:html={JSON.stringify(nudges)} />
