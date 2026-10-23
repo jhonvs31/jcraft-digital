@@ -65,7 +65,8 @@ if (reduce) {
   document.querySelectorAll<HTMLElement>('[data-count]').forEach(runCounter);
 } else {
   // Scroll suave sincronizado con ScrollTrigger
-  const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+  // Suavizado ligero: responde rápido a la rueda y deja el táctil nativo.
+  const lenis = new Lenis({ lerp: 0.18, wheelMultiplier: 1.15, smoothWheel: true, syncTouch: false });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {

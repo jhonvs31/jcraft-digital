@@ -7,9 +7,9 @@ import { contact } from '../data/site';
 import { u } from '../lib/url';
 const featured = posts.find((p) => p.featured)!;
 const rest = posts.filter((p) => !p.featured);
-const filters = [{ id: 'all', label: 'Todos' }, { id: 'redes', label: 'Redes Sociales' }, { id: 'web', label: 'Diseño Web' }, { id: 'pauta', label: 'Pauta Digital' }, { id: 'marca', label: 'Marca' }, { id: 'seo', label: 'SEO' }];
+const filters = [{ id: 'all', label: 'Todos' }, { id: 'redes', label: 'Redes Sociales' }, { id: 'web', label: 'Diseño Web' }, { id: 'pauta', label: 'Pauta Digital' }, { id: 'marca', label: 'Marca' }, { id: 'seo', label: 'SEO' }, { id: 'estrategia', label: 'Estrategia' }];
 ---
-<Base title="Blog | JCraft Digital" description="Tips, tendencias y estrategias de marketing digital para pymes, sin tecnicismos." page="blog.html">
+<Base title="Blog de marketing digital para pymes | JCraft Digital" description="Tips, tendencias y estrategias de marketing digital para pymes, sin tecnicismos." page="blog.html" crumbs={[{ name: 'Blog', page: 'blog.html' }]}>
   <PageHero crumb="Blog" title="Blog *JCraft Digital*" text="Compartimos lo que sabemos para que tu negocio crezca. Tips, tendencias y estrategias de marketing digital sin tecnicismos." />
 
   <section class="bg-deep pb-20">

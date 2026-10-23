@@ -3,42 +3,68 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { u, wa } from '../lib/url';
-import { contact } from '../data/site';
+import { contact, team } from '../data/site';
 
-interface Props { title: string; description: string; page?: string; image?: string; type?: 'website' | 'article' }
-const { title, description, page = 'index.html', image = 'assets/jhon-cata.jpg', type = 'website' } = Astro.props;
-const canonical = new URL(u(page === 'index.html' ? '' : page), Astro.site).href;
-const ogImage = new URL(u(image), Astro.site).href;
-const ld = {
-  '@context': 'https://schema.org', '@type': 'ProfessionalService', name: 'JCraft Digital',
-  description: 'Agencia de marketing digital para pymes: redes sociales, diseño web, pauta digital y diseño gráfico.',
-  url: new URL(u(''), Astro.site).href, image: ogImage, email: contact.email, telephone: contact.phone,
-  areaServed: ['CO', 'LATAM'], address: { '@type': 'PostalAddress', addressCountry: 'CO' },
-  sameAs: [contact.instagram, contact.facebook, contact.linkedin],
+interface Props {
+  title: string; description: string; page?: string; image?: string; type?: 'website' | 'article';
+  noindex?: boolean; crumbs?: { name: string; page: string }[]; schema?: object[];
+}
+const { title, description, page = 'index.html', image = 'og.jpg', type = 'website', noindex = false, crumbs = [], schema = [] } = Astro.props;
+const abs = (p: string) => new URL(u(p), Astro.site).href;
+const home = abs('');
+const canonical = page === 'index.html' ? home : abs(page);
+const ogImage = abs(image);
+const org = {
+  '@type': 'ProfessionalService', '@id': `${home}#org`, name: 'JCraft Digital', url: home, logo: abs('assets/logo-white.png'), image: abs('og.jpg'),
+  description: 'Agencia de marketing digital para pymes: redes sociales, diseño web, pauta digital en Google y Meta, diseño gráfico y estrategia digital.',
+  email: contact.email, telephone: contact.phone, priceRange: '$$', areaServed: [{ '@type': 'Country', name: 'Colombia' }, { '@type': 'Place', name: 'Latinoamérica' }],
+  address: { '@type': 'PostalAddress', addressCountry: 'CO' }, sameAs: [contact.instagram, contact.facebook, contact.linkedin],
+  founder: team.map((m) => ({ '@type': 'Person', name: m.name, jobTitle: m.role })),
+  contactPoint: { '@type': 'ContactPoint', telephone: contact.phone, contactType: 'customer service', availableLanguage: ['es'] },
 };
+const graph: object[] = [
+  org,
+  { '@type': 'WebSite', '@id': `${home}#web`, url: home, name: 'JCraft Digital', inLanguage: 'es-CO', publisher: { '@id': `${home}#org` } },
+  ...(crumbs.length ? [{ '@type': 'BreadcrumbList', itemListElement: [{ name: 'Inicio', page: 'index.html' }, ...crumbs].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.page === 'index.html' ? home : abs(c.page) })) }] : []),
+  ...schema,
+];
+const gsc = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
 ---
 <!doctype html>
-<html lang="es">
+<html lang="es-CO">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex, follow" /> : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />}
+    {gsc && <meta name="google-site-verification" content={gsc} />}
+    {bing && <meta name="msvalidate.01" content={bing} />}
     <meta name="theme-color" content="#061D47" />
-    <link rel="icon" type="image/svg+xml" href={u('assets/logo.svg')} />
+    <link rel="icon" type="image/svg+xml" href={u('favicon.svg')} />
+    <link rel="icon" type="image/png" sizes="32x32" href={u('favicon-32.png')} />
+    <link rel="apple-touch-icon" href={u('apple-touch-icon.png')} />
+    <link rel="sitemap" href={u('sitemap-index.xml')} />
+    <meta property="og:site_name" content="JCraft Digital" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="es_CO" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@1&display=swap" />
     <script is:inline>document.documentElement.classList.add('js')</script>
-    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />
     <slot name="head" />
   </head>
   <body class="overflow-x-hidden">

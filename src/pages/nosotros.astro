@@ -6,7 +6,7 @@ import Cta from '../components/Cta.astro';
 import { team, values, history, difference, contact } from '../data/site';
 import { u } from '../lib/url';
 ---
-<Base title="Nosotros | JCraft Digital" description="Jhon Vega y Catalina Escobar: diseño, tecnología y marketing en el mismo equipo para hacer crecer pymes en digital." page="nosotros.html">
+<Base title="Nosotros | JCraft Digital" description="Jhon Vega y Catalina Escobar: diseño, tecnología y marketing en el mismo equipo para hacer crecer pymes en digital." page="nosotros.html" crumbs={[{ name: 'Nosotros', page: 'nosotros.html' }]}>
   <PageHero crumb="Nosotros" title="Sobre *JCraft Digital*" text="Dos emprendedores apasionados por el diseño y la tecnología, unidos por un propósito: hacer crecer tu negocio en digital." />
 
   <section class="bg-deep pb-28 sm:pb-36">

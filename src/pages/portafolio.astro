@@ -5,7 +5,7 @@ import Title from '../components/Title.astro';
 import Cta from '../components/Cta.astro';
 import { portfolio, portfolioFilters, portfolioProcess, claims } from '../data/site';
 ---
-<Base title="Portafolio | JCraft Digital" description="Proyectos reales de redes sociales, diseño web, SEO y pauta digital para marcas de Colombia, México y Estados Unidos." page="portafolio.html">
+<Base title="Portafolio | JCraft Digital" description="Proyectos reales de redes sociales, diseño web, SEO y pauta digital para marcas de Colombia, México y Estados Unidos." page="portafolio.html" crumbs={[{ name: 'Portafolio', page: 'portafolio.html' }]}>
   <PageHero crumb="Portafolio" title="Nuestro *portafolio*" text="Proyectos reales, resultados reales. Cada caso es una historia de crecimiento junto a nuestros clientes." />
 
   {claims.show && (

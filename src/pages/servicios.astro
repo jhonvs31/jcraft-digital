@@ -5,8 +5,12 @@ import Title from '../components/Title.astro';
 import Cta from '../components/Cta.astro';
 import { services, faq } from '../data/site';
 import { u, wa } from '../lib/url';
+const schema = [
+  { '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  ...services.map((s) => ({ '@type': 'Service', name: s.title, description: s.text, serviceType: s.short, provider: { '@id': new URL('#org', new URL(u(''), Astro.site)).href }, areaServed: 'CO' })),
+];
 ---
-<Base title="Servicios | JCraft Digital" description="Redes sociales, diseño web, pauta digital en Google y Meta, diseño gráfico y estrategia digital para pymes." page="servicios.html">
+<Base title="Servicios | JCraft Digital" description="Redes sociales, diseño web, pauta digital en Google y Meta, diseño gráfico y estrategia digital para pymes." page="servicios.html" crumbs={[{ name: 'Servicios', page: 'servicios.html' }]} schema={schema}>
   <PageHero crumb="Servicios" title="Nuestros *servicios*" text="Todo lo que tu negocio necesita para crecer en el mundo digital, en un solo lugar." />
 
   <section class="bg-deep pb-28 sm:pb-36">

@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
+---
+<Base title="Página no encontrada | JCraft Digital" description="La página que buscas no existe o cambió de lugar. Vuelve al inicio o explora el blog de JCraft Digital." page="404.html" noindex>
+  <section class="grain relative grid min-h-[80svh] place-items-center overflow-hidden bg-deep pt-32 pb-20 text-center">
+    <div class="gridlines absolute inset-0"></div>
+    <div class="glow left-1/2 top-1/3 h-[520px] w-[520px] -translate-x-1/2"></div>
+    <div class="wrap relative">
+      <p class="num-out text-[10rem] sm:text-[14rem]">404</p>
+      <h1 class="mt-4 text-4xl sm:text-6xl">Esta página <em class="k">no existe</em></h1>
+      <p class="mx-auto mt-6 max-w-lg text-lg text-white/70">Puede que el enlace haya cambiado. Te dejamos un par de caminos.</p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href={u('index.html')} class="btn btn-primary">Ir al inicio</a>
+        <a href={u('blog.html')} class="btn btn-ghost">Ver el blog</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -71,6 +71,7 @@ details.faq[open] .faq-plus { transform: rotate(45deg); background: var(--color-
 .prose-jc h2 { @apply mt-14 mb-4 text-3xl text-navy sm:text-4xl; }
 .prose-jc h3 { @apply mt-8 mb-2 text-xl text-blue; letter-spacing: -0.02em; line-height: 1.15; }
 .prose-jc strong { @apply text-navy; }
+.prose-jc a { @apply font-semibold text-blue underline decoration-cyan decoration-2 underline-offset-4 hover:text-navy; }
 .prose-jc ul { @apply space-y-2; }
 .prose-jc ul li { @apply relative pl-7; }
 .prose-jc ul li::before { content: "→"; @apply absolute left-0 font-extrabold text-cyan; }
