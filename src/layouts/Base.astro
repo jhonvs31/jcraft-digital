@@ -33,7 +33,8 @@ const graph: object[] = [
   ...(crumbs.length ? [{ '@type': 'BreadcrumbList', itemListElement: [{ name: 'Inicio', page: 'index.html' }, ...crumbs].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.page === 'index.html' ? home : abs(c.page) })) }] : []),
   ...schema,
 ];
-const gsc = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+// Verificación de Google Search Console (código público; se puede sobrescribir con la variable de entorno).
+const gsc = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '9EY-49IRi26m9Nqeav3LX8gLc5lHKZTUgXoOL58Lo0w';
 const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
 ---
 <!doctype html>
