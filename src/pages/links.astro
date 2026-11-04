@@ -7,7 +7,8 @@ import posts from '../data/posts.json';
 import { contact } from '../data/site';
 import { u, wa } from '../lib/url';
 import { Picture } from 'astro:assets';
-import duo from '../assets/img/jhon-cata.jpg';
+import cata from '../assets/img/catalina.jpg';
+import jhon from '../assets/img/jhon.jpg';
 
 const utm = (path: string, content: string) => `${u(path)}?utm_source=instagram&utm_medium=bio&utm_campaign=linkinbio&utm_content=${content}`;
 const latest = posts[0];
@@ -27,9 +28,13 @@ const links = [
     <div class="glow -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2"></div>
     <div class="glow bottom-[-20%] right-[-30%] h-[420px] w-[420px] opacity-50"></div>
     <div class="relative mx-auto flex max-w-md flex-col items-center text-center">
-      <div class="hero-in relative">
-        <div class="absolute -inset-1.5 rounded-full bg-gradient-to-br from-cyan via-blue to-cyan opacity-90 blur-[2px]"></div>
-        <Picture src={duo} formats={['avif', 'webp']} widths={[112, 224]} sizes="112px" alt="Jhon y Cata, fundadores de JCraft Digital" class="relative h-28 w-28 rounded-full border-4 border-deep object-cover" loading="eager" />
+      <div class="hero-in flex">
+        {[{ src: cata, alt: 'Catalina Escobar' }, { src: jhon, alt: 'Jhon Vega' }].map((p, i) => (
+          <div class:list={['relative', i && '-ml-5']}>
+            <div class="absolute -inset-1.5 rounded-full bg-gradient-to-br from-cyan via-blue to-cyan opacity-90 blur-[2px]"></div>
+            <Picture src={p.src} formats={['avif', 'webp']} widths={[112, 224]} sizes="112px" alt={`${p.alt}, cofundador${i ? '' : 'a'} de JCraft Digital`} class="relative h-28 w-28 rounded-full border-4 border-deep object-cover" loading="eager" />
+          </div>
+        ))}
       </div>
       <div class="mt-6 hero-in" style="--d:120ms"><Logo class="h-10 w-auto" /></div>
       <h1 class="hero-in mt-5 text-3xl sm:text-4xl" style="--d:200ms">Hacemos que tu negocio <em class="k">se vea</em></h1>

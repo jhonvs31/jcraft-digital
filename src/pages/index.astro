@@ -6,7 +6,8 @@ import { services, contentService, why, approach, process, portfolio, claims } f
 import posts from '../data/posts.json';
 import { u, wa } from '../lib/url';
 import { Picture } from 'astro:assets';
-import heroImg from '../assets/img/jhon-cata.jpg';
+import cataImg from '../assets/img/catalina.jpg';
+import jhonImg from '../assets/img/jhon.jpg';
 const cards = [...services.slice(0, 4), contentService, services[4]];
 const featured = portfolio.filter((p) => p.home);
 const latest = posts.filter((p) => !p.featured).slice(0, 3);
@@ -38,7 +39,10 @@ const latest = posts.filter((p) => !p.featured).slice(0, 3);
       </div>
       <div class="hero-in relative" style="--d:200ms">
         <div class="relative overflow-hidden rounded-[32px] shadow-[0_60px_120px_-40px_rgba(0,188,212,.45)]" data-curtain>
-          <Picture src={heroImg} formats={['avif', 'webp']} widths={[420, 640, 900]} sizes="(min-width: 1024px) 560px, 92vw" alt="Jhon Vega y Catalina Escobar — Fundadores de JCraft Digital" class="h-[460px] w-full object-cover sm:h-[560px]" loading="eager" fetchpriority="high" />
+          <div class="grid h-[460px] grid-cols-2 gap-1 sm:h-[560px]">
+            <Picture src={cataImg} formats={['avif', 'webp']} widths={[300, 600]} sizes="(min-width: 1024px) 280px, 46vw" alt="Catalina Escobar, cofundadora de JCraft Digital" class="h-full w-full object-cover object-[60%_center]" loading="eager" fetchpriority="high" />
+            <Picture src={jhonImg} formats={['avif', 'webp']} widths={[300, 400]} sizes="(min-width: 1024px) 280px, 46vw" alt="Jhon Vega, cofundador de JCraft Digital" class="h-full w-full object-cover" loading="eager" />
+          </div>
           <div class="absolute inset-0 bg-gradient-to-t from-deep/70 via-transparent to-transparent"></div>
           <p class="absolute bottom-6 left-6 right-6 font-display text-2xl font-black leading-tight">Jhon y Cata<br /><em class="k text-3xl">Diseño · Marketing · Tecnología</em></p>
         </div>
