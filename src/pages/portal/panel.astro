@@ -49,13 +49,13 @@ const help = [
 
         <section class="pp-card min-w-0" aria-labelledby="h-pending" data-seq>
           <h2 id="h-pending" class="pp-h2">Por revisar <span id="pending-n" class="pp-count"></span></h2>
-          <p class="mt-1 text-sm text-ink/60">Desliza cada pieza: <b class="text-ink">a la izquierda para aprobarla</b> con la fecha sugerida, <b class="text-ink">a la derecha para pedir cambios</b>. Tócala para verla completa.</p>
+          <p class="mt-1 text-sm text-ink/60">Desliza cada pieza: <b class="text-ink">a la derecha para aprobarla</b> con la fecha sugerida, <b class="text-ink">a la izquierda para pedir cambios</b>. Tócala para verla completa.</p>
           <div class="mt-6 grid justify-items-center gap-5">
-            <div id="deck" class="deck" tabindex="0" aria-label="Piezas por revisar. Flecha izquierda para aprobar, flecha derecha para pedir cambios, Enter para ver la pieza."></div>
+            <div id="deck" class="deck" tabindex="0" aria-label="Piezas por revisar. Flecha derecha para aprobar, flecha izquierda para pedir cambios, Enter para ver la pieza."></div>
             <div id="deck-actions" class="flex items-center justify-center gap-3">
-              <button type="button" data-deck="aprobado" class="deck-btn deck-ok" aria-label="Aprobar"><span aria-hidden="true">✓</span></button>
-              <button type="button" data-deck="ver" class="pp-btn pp-btn-ghost !py-2.5 !text-sm">Ver completa</button>
               <button type="button" data-deck="cambios" class="deck-btn deck-edit" aria-label="Pedir cambios"><span aria-hidden="true">✎</span></button>
+              <button type="button" data-deck="ver" class="pp-btn pp-btn-ghost !py-2.5 !text-sm">Ver completa</button>
+              <button type="button" data-deck="aprobado" class="deck-btn deck-ok" aria-label="Aprobar"><span aria-hidden="true">✓</span></button>
             </div>
           </div>
         </section>
@@ -184,7 +184,7 @@ const help = [
   .pp-shot { position: relative; display: block; overflow: hidden; border-radius: .9rem; background: #e9e9ec; }
   .pp-shot img, .pp-shot video { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 
-  /* Mazo para revisar deslizando (izquierda = aprobar, derecha = pedir cambios) */
+  /* Mazo para revisar deslizando, como en Tinder (derecha = aprobar, izquierda = pedir cambios) */
   .deck { position: relative; display: grid; width: min(340px, 100%); padding-bottom: 30px; outline: none; }
   .deck:focus-visible { box-shadow: 0 0 0 3px rgba(10,47,110,.25); border-radius: 1.6rem; }
   .deck > .deck-card, .deck > .deck-empty { grid-area: 1 / 1; }
@@ -195,8 +195,8 @@ const help = [
   .deck-card[data-depth="1"] { transform: translateY(14px) scale(.95); filter: brightness(.97); }
   .deck-card[data-depth="2"] { transform: translateY(28px) scale(.9); filter: brightness(.94); }
   .stamp { position: absolute; top: 1.1rem; z-index: 2; padding: .35rem .9rem; border: 3px solid; border-radius: .7rem; font-family: var(--font-display); font-weight: 900; font-size: 1.35rem; background: rgba(255,255,255,.9); opacity: 0; pointer-events: none; }
-  .stamp-ok { right: 1rem; color: #006a7a; border-color: var(--color-cyan); transform: rotate(12deg); }
-  .stamp-edit { left: 1rem; color: #8a5200; border-color: #e8a33d; transform: rotate(-12deg); }
+  .stamp-ok { left: 1rem; color: #006a7a; border-color: var(--color-cyan); transform: rotate(-12deg); }
+  .stamp-edit { right: 1rem; color: #8a5200; border-color: #e8a33d; transform: rotate(12deg); }
   .deck-btn { display: grid; place-items: center; width: 3.6rem; height: 3.6rem; border-radius: 9999px; font-size: 1.5rem; font-weight: 900; background: #fff; border: 2px solid; box-shadow: 0 12px 24px -16px rgba(11,23,48,.5); transition: transform .15s, background-color .2s, color .2s; }
   .deck-btn:hover { transform: scale(1.06); }
   .deck-btn:active { transform: scale(.92); }
@@ -384,7 +384,7 @@ const help = [
   }
 
   // ── Mazo para revisar deslizando ──
-  // Izquierda = aprobar con la fecha sugerida; derecha = pedir cambios (abre la ficha con el campo de cambios).
+  // Como en Tinder: derecha = aprobar con la fecha sugerida; izquierda = pedir cambios (abre la ficha con el campo de cambios).
   const THRESHOLD = 110;
   let deckBusy = false;
   const pendingList = () => posts.filter((p) => p.status === 'pendiente');
@@ -424,8 +424,8 @@ const help = [
     let x0 = 0, y0 = 0, dx = 0, dy = 0, drag = false, down = false;
     const paint = () => {
       card.style.transform = `translate(${dx}px, ${dy * .15}px) rotate(${dx / 16}deg)`;
-      ok.style.opacity = String(Math.min(1, Math.max(0, -dx / THRESHOLD)));
-      edit.style.opacity = String(Math.min(1, Math.max(0, dx / THRESHOLD)));
+      ok.style.opacity = String(Math.min(1, Math.max(0, dx / THRESHOLD)));
+      edit.style.opacity = String(Math.min(1, Math.max(0, -dx / THRESHOLD)));
       if (behind) behind.style.transform = `translateY(${14 - Math.min(1, Math.abs(dx) / THRESHOLD) * 14}px) scale(${.95 + Math.min(1, Math.abs(dx) / THRESHOLD) * .05})`;
     };
     card.addEventListener('pointerdown', (e) => {
@@ -442,8 +442,8 @@ const help = [
     const release = () => {
       if (!down) return; down = false;
       if (!drag) { open(p.id); return; }
-      if (dx <= -THRESHOLD) decide(p, 'aprobado', card);
-      else if (dx >= THRESHOLD) decide(p, 'cambios', card);
+      if (dx >= THRESHOLD) decide(p, 'aprobado', card);
+      else if (dx <= -THRESHOLD) decide(p, 'cambios', card);
       else {
         // No llegó al umbral: vuelve a su sitio con un rebote.
         card.style.transition = 'transform .45s cubic-bezier(.34,1.56,.64,1)';
@@ -458,7 +458,7 @@ const help = [
   async function decide(p: Post, status: 'aprobado' | 'cambios', card?: HTMLElement) {
     if (deckBusy) return; deckBusy = true;
     card = card ?? $('deck').querySelector<HTMLElement>('[data-depth="0"]')!;
-    const dir = status === 'aprobado' ? -1 : 1;
+    const dir = status === 'aprobado' ? 1 : -1;
     card.querySelector<HTMLElement>(status === 'aprobado' ? '.stamp-ok' : '.stamp-edit')!.style.opacity = '1';
     const cur = card.style.transform || 'none';
     card.style.transition = 'none';
@@ -483,8 +483,8 @@ const help = [
   });
   $('deck').addEventListener('keydown', (e) => {
     const p = pendingList()[0]; if (!p || modal.open) return;
-    if (e.key === 'ArrowLeft') { e.preventDefault(); decide(p, 'aprobado'); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); decide(p, 'cambios'); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); decide(p, 'aprobado'); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); decide(p, 'cambios'); }
     if (e.key === 'Enter') { e.preventDefault(); open(p.id); }
   });
 
