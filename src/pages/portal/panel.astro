@@ -9,36 +9,41 @@ const help = [
 ];
 ---
 <PortalShell title="Tu contenido" page="portal/panel.html" session>
-  <div class="wrap grid grid-cols-[minmax(0,1fr)] gap-8 py-8 lg:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[220px_minmax(0,1fr)_280px]">
+  <div class="ambient" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div id="layout" data-layout="inicio" class="wrap relative grid grid-cols-[minmax(0,1fr)] gap-8 py-8 lg:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[220px_minmax(0,1fr)_280px]">
     <!-- Menú -->
     <aside class="lg:sticky lg:top-6 lg:self-start">
-      <div class="glass flex items-center gap-3 p-3">
+      <div class="glass flex items-center gap-3 p-3" data-anim style="--i:0">
         <span data-initials class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-cyan font-display text-lg font-black text-navy">·</span>
         <div class="min-w-0"><p data-client-name class="truncate font-display font-extrabold">Cargando…</p><p class="text-xs text-white/55">Plan de redes · JCraft</p></div>
       </div>
       <nav class="mt-4 flex gap-2 overflow-x-auto lg:grid lg:gap-1" aria-label="Secciones del portal">
-        <button type="button" data-view="inicio" class="nav-item">🏠 <span>Inicio</span></button>
-        <button type="button" data-view="calendario" class="nav-item">📅 <span>Calendario</span></button>
-        <button type="button" data-view="historial" class="nav-item">✅ <span>Aprobadas</span></button>
-        <a href="clave.html" class="nav-item sm:hidden">🔑 <span>Contraseña</span></a>
+        <button type="button" data-view="inicio" class="nav-item" data-anim style="--i:1">🏠 <span>Inicio</span></button>
+        <button type="button" data-view="calendario" class="nav-item" data-anim style="--i:2">📅 <span>Calendario</span></button>
+        <button type="button" data-view="historial" class="nav-item" data-anim style="--i:3">✅ <span>Aprobadas</span></button>
+        <button type="button" data-view="cuenta" class="nav-item" data-anim style="--i:4">🔑 <span>Mi contraseña</span></button>
       </nav>
       <select id="client" class="mt-4 hidden w-full rounded-full border border-white/20 bg-deep px-4 py-2 text-sm font-bold" aria-label="Cliente"></select>
     </aside>
 
     <!-- Contenido -->
-    <div class="min-w-0">
+    <div class="min-w-0" data-main>
       <p id="state" class="text-white/60">Cargando tu contenido…</p>
 
       <div data-panel="inicio" hidden class="grid grid-cols-[minmax(0,1fr)] gap-6">
-        <section class="glass min-w-0 p-5 sm:p-6" aria-labelledby="h-week">
+        <div data-anim style="--i:1">
+          <p class="text-sm font-bold uppercase tracking-[.2em] text-cyan">Hola, <span data-client-name>equipo</span> 👋</p>
+          <h1 id="greeting" class="mt-2 text-3xl sm:text-4xl">Tu contenido está <em class="k">listo para ti</em></h1>
+        </div>
+        <section class="glass min-w-0 p-5 sm:p-6" aria-labelledby="h-week" data-anim style="--i:2">
           <div class="flex items-center justify-between gap-4">
-            <h1 id="h-week" class="text-2xl">Esta semana</h1>
+            <h2 id="h-week" class="text-2xl">Esta semana</h2>
             <button type="button" data-go="calendario" class="text-sm font-bold text-cyan hover:underline">Ver calendario →</button>
           </div>
           <ol id="week" class="mt-5 grid grid-cols-7 gap-2 sm:gap-3"></ol>
         </section>
 
-        <section class="glass min-w-0 p-5 sm:p-6" aria-labelledby="h-pending">
+        <section class="glass min-w-0 p-5 sm:p-6" aria-labelledby="h-pending" data-anim style="--i:3">
           <div class="flex items-center justify-between gap-4">
             <div><h2 id="h-pending" class="text-2xl">Por revisar <span id="pending-n" class="ml-1 rounded-full bg-cyan px-2.5 py-0.5 align-middle text-sm text-navy"></span></h2>
               <p class="mt-1 text-sm text-white/60">Apruébalas con la fecha que te sugerimos o tócalas para cambiar el día, la hora o pedir ajustes.</p></div>
@@ -50,7 +55,7 @@ const help = [
           <div id="pending" class="mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3"></div>
         </section>
 
-        <section id="changes-box" hidden class="glass p-5 sm:p-6" aria-labelledby="h-changes">
+        <section id="changes-box" hidden class="glass p-5 sm:p-6" aria-labelledby="h-changes" data-anim style="--i:4">
           <h2 id="h-changes" class="text-2xl">Cambios en camino</h2>
           <p class="mt-1 text-sm text-white/60">Pediste ajustes en estas piezas. Te avisamos cuando la versión nueva esté lista.</p>
           <ul id="changes" class="mt-4 grid gap-3"></ul>
@@ -58,26 +63,50 @@ const help = [
       </div>
 
       <div data-panel="calendario" hidden>
-        <h1 class="text-3xl">Calendario</h1>
-        <p class="mt-2 text-sm text-white/60">Todas tus piezas del mes. Las horas están en <span data-tz>tu zona horaria</span>.</p>
-        <div id="weeks" class="mt-6 grid gap-8"></div>
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div><h1 class="text-3xl">Calendario</h1>
+            <p class="mt-2 text-sm text-white/60">Todas tus piezas del mes. Las horas están en <span data-tz>tu zona horaria</span>.</p></div>
+          <ul class="flex flex-wrap gap-3 text-xs font-bold text-white/70" aria-label="Estados">
+            <li class="flex items-center gap-1.5"><span class="dot st-pendiente"></span>Por revisar</li>
+            <li class="flex items-center gap-1.5"><span class="dot st-aprobado"></span>Aprobada</li>
+            <li class="flex items-center gap-1.5"><span class="dot st-cambios"></span>Con cambios</li>
+            <li class="flex items-center gap-1.5"><span class="dot st-publicado"></span>Publicada</li>
+          </ul>
+        </div>
+        <div id="weeks" class="mt-6 grid gap-6"></div>
       </div>
 
       <div data-panel="historial" hidden>
         <h1 class="text-3xl">Aprobadas y publicadas</h1>
-        <ul id="done" class="mt-6 grid gap-3"></ul>
+        <p class="mt-2 text-sm text-white/60">Lo que ya aprobaste, en el orden en que se va a publicar.</p>
+        <div id="done" class="mt-6 grid gap-8"></div>
+      </div>
+
+      <div data-panel="cuenta" hidden>
+        <h1 class="text-3xl">Mi contraseña</h1>
+        <p class="mt-2 text-sm text-white/60">Cámbiala cuando quieras. Mínimo 8 caracteres.</p>
+        <form id="pw" class="glass mt-6 grid max-w-md gap-4 p-6" novalidate>
+          <label class="grid gap-2 text-sm font-bold" for="p1">Contraseña nueva
+            <input id="p1" type="password" autocomplete="new-password" minlength="8" required class="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-base font-normal text-white outline-none focus:border-cyan" />
+          </label>
+          <label class="grid gap-2 text-sm font-bold" for="p2">Repítela
+            <input id="p2" type="password" autocomplete="new-password" minlength="8" required class="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-base font-normal text-white outline-none focus:border-cyan" />
+          </label>
+          <p id="pw-msg" role="status" aria-live="polite" class="min-h-[1.25em] text-sm text-cyan"></p>
+          <button id="pw-go" type="submit" class="btn btn-primary w-full">Guardar contraseña</button>
+        </form>
       </div>
     </div>
 
     <!-- Ayuda -->
-    <aside class="grid content-start gap-4 lg:col-start-2 xl:col-start-auto">
-      <section class="glass p-5" aria-labelledby="h-month">
+    <aside data-help class="grid content-start gap-4 lg:col-start-2 xl:col-start-auto">
+      <section class="glass p-5" aria-labelledby="h-month" data-anim style="--i:3">
         <h2 id="h-month" class="text-xl">Tu mes</h2>
         <p class="mt-3 flex items-baseline gap-2"><span id="approved-n" class="font-display text-4xl font-black text-cyan tabular-nums">0</span><span id="approved-of" class="text-white/60">de 0 aprobadas</span></p>
         <div class="mt-3 h-2 overflow-hidden rounded-full bg-white/10"><div id="bar" class="h-full rounded-full bg-cyan transition-[width] duration-500" style="width:0%"></div></div>
         <p id="next" class="mt-4 text-sm text-white/70"></p>
       </section>
-      <section class="glass p-5" aria-labelledby="h-help">
+      <section class="glass p-5" aria-labelledby="h-help" data-anim style="--i:4">
         <h2 id="h-help" class="text-xl">¿Necesitas algo?</h2>
         <p class="mt-1 text-sm text-white/60">Te respondemos por WhatsApp.</p>
         <div class="mt-4 grid grid-cols-2 gap-2">
@@ -122,6 +151,60 @@ const help = [
   .track::-webkit-scrollbar { display: none; }
   .track > * { scroll-snap-align: start; }
   .clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .dot { display: inline-block; width: .6rem; height: .6rem; border-radius: 9999px; padding: 0; }
+  .dot.st-pendiente { background: #fff; } .dot.st-aprobado { background: var(--color-cyan); } .dot.st-cambios { background: #fbbf54; } .dot.st-publicado { background: rgba(255,255,255,.35); }
+
+  /* Calendario y Aprobadas usan el ancho del panel de ayuda */
+  #layout:not([data-layout="inicio"]) [data-help] { display: none; }
+  @media (min-width: 1280px) { #layout:not([data-layout="inicio"]) > [data-main] { grid-column: span 2; } }
+
+  /* Calendario: una fila por semana, una columna por día; en móvil, agenda con solo los días con piezas */
+  .cal-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .5rem; }
+  .cal-day { min-width: 0; min-height: 9rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.025); padding: .5rem; display: grid; align-content: start; gap: .5rem; }
+  .cal-day.today { border-color: var(--color-cyan); box-shadow: inset 0 0 0 1px var(--color-cyan); }
+  .cal-day.past { opacity: .55; }
+  .cal-label { display: flex; align-items: baseline; gap: .35rem; font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .cal-label b { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: 0; color: #fff; }
+  .mini { display: grid; gap: .35rem; min-width: 0; text-align: left; border-radius: .8rem; padding: .3rem; transition: background-color .2s; }
+  .mini:hover { background: rgba(255,255,255,.06); }
+  .mini-thumb { position: relative; aspect-ratio: 1; border-radius: .6rem; overflow: hidden; background: rgba(255,255,255,.05); }
+  .mini-thumb img, .mini-thumb video { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .5s cubic-bezier(.16,1,.3,1); }
+  .mini:hover .mini-thumb img, .mini:hover .mini-thumb video { transform: scale(1.06); }
+  .mini-thumb .dot { position: absolute; left: .4rem; top: .4rem; box-shadow: 0 0 0 2px rgba(6,29,71,.9); }
+  .mini-meta { font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--color-cyan); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mini-title { font-size: .8rem; font-weight: 700; line-height: 1.2; color: #fff; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  @media (max-width: 767px) {
+    .cal-week { grid-template-columns: minmax(0, 1fr); }
+    .cal-day { min-height: 0; grid-template-columns: 3.2rem minmax(0, 1fr); align-items: start; }
+    .cal-day.empty { display: none; }
+    .cal-label { flex-direction: column; align-items: flex-start; gap: 0; }
+    .cal-day .mini { grid-template-columns: 4.5rem minmax(0, 1fr); align-items: center; gap: .75rem; grid-column: 2; }
+  }
+
+  /* Tarjetas que se elevan */
+  .lift { transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s, border-color .35s; }
+  .lift:hover { transform: translateY(-6px); box-shadow: 0 28px 60px -28px rgba(0,188,212,.55); border-color: rgba(0,188,212,.45); }
+  .lift img, .lift video { transition: transform .6s cubic-bezier(.16,1,.3,1); }
+  .lift:hover img, .lift:hover video { transform: scale(1.05); }
+
+  /* Fondo vivo: luces suaves que se mueven detrás del panel */
+  .ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .ambient span { position: absolute; width: 46vmax; height: 46vmax; border-radius: 9999px; filter: blur(80px); opacity: .22; animation: drift 22s ease-in-out infinite alternate; }
+  .ambient span:nth-child(1) { background: var(--color-cyan); left: -12vmax; top: -14vmax; }
+  .ambient span:nth-child(2) { background: var(--color-blue); right: -16vmax; top: 20vh; animation-duration: 28s; animation-delay: -8s; }
+  .ambient span:nth-child(3) { background: #7c5cff; left: 30vw; bottom: -22vmax; opacity: .12; animation-duration: 34s; animation-delay: -14s; }
+  @keyframes drift { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(6vmax, 4vmax) scale(1.12); } 100% { transform: translate(-4vmax, 8vmax) scale(.95); } }
+
+  /* Palabra clave del saludo con brillo que recorre el texto */
+  #greeting em.k { background: linear-gradient(100deg, var(--color-cyan) 0%, #b8f6ff 45%, var(--color-cyan) 60%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 5s ease-in-out infinite; }
+  @keyframes shine { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+
+  .confetti-bit { position: fixed; z-index: 300; width: 8px; height: 12px; border-radius: 2px; pointer-events: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ambient span, #greeting em.k { animation: none; }
+    .lift, .lift:hover, .lift img, .mini-thumb img { transition: none; transform: none; }
+  }
 </style>
 
 <script>
@@ -136,12 +219,53 @@ const help = [
   const short = (iso: string | null) => iso ? `${fmtDate(iso, client.timezone, { weekday: 'short', day: 'numeric', month: 'short' })} · ${fmtTime(iso, client.timezone)}` : 'Sin fecha';
   const vert = (p: Post) => p.type === 'story' || p.type === 'reel';
 
-  // ── Vistas (Inicio / Calendario / Aprobadas) ──
-  function setView(v: string) {
+  // ── Animaciones (se omiten si la persona prefiere menos movimiento) ──
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EASE = 'cubic-bezier(.16,1,.3,1)';
+  const FRAMES: Record<string, Keyframe[]> = {
+    rise: [{ opacity: 0, transform: 'translateY(22px) scale(.98)', filter: 'blur(6px)' }, { opacity: 1, transform: 'none', filter: 'blur(0)' }],
+    pop: [{ opacity: 0, transform: 'scale(.55) rotate(-4deg)' }, { opacity: 1, transform: 'none' }],
+    slide: [{ opacity: 0, transform: 'translateX(70px) rotate(3deg)' }, { opacity: 1, transform: 'none' }],
+  };
+  function enter(els: Iterable<Element>, kind: keyof typeof FRAMES = 'rise', stagger = 80, delay = 0) {
+    if (calm) return;
+    [...els].forEach((el, i) => (el as HTMLElement).animate(FRAMES[kind], { duration: kind === 'pop' ? 650 : 800, delay: delay + i * stagger, easing: kind === 'pop' ? 'cubic-bezier(.34,1.56,.64,1)' : EASE, fill: 'both' }));
+  }
+  function countUp(el: HTMLElement, to: number) {
+    if (calm) { el.textContent = String(to); return; }
+    const from = Number(el.textContent) || 0; const t0 = performance.now();
+    const step = (t: number) => { const k = Math.min(1, (t - t0) / 900); el.textContent = String(Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  function confetti(from: HTMLElement) {
+    if (calm) return;
+    const r = from.getBoundingClientRect(); const colors = ['#00BCD4', '#7fe7f3', '#ffffff', '#0D47A1', '#fbbf54'];
+    for (let i = 0; i < 28; i++) {
+      const bit = document.createElement('span'); bit.className = 'confetti-bit';
+      bit.style.background = colors[i % colors.length]; bit.style.left = `${r.left + r.width / 2}px`; bit.style.top = `${r.top + r.height / 2}px`;
+      document.body.appendChild(bit);
+      const a = Math.random() * Math.PI * 2, d = 70 + Math.random() * 120;
+      bit.animate([{ transform: 'translate(0,0) rotate(0)', opacity: 1 }, { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d - 60}px) rotate(${Math.random() * 540}deg)`, opacity: 1, offset: .7 }, { transform: `translate(${Math.cos(a) * d * 1.1}px, ${Math.sin(a) * d + 80}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }],
+        { duration: 1100 + Math.random() * 500, easing: 'cubic-bezier(.2,.7,.3,1)' }).onfinish = () => bit.remove();
+    }
+  }
+
+  // ── Vistas (Inicio / Calendario / Aprobadas / Mi contraseña) ──
+  const VIEWS = ['inicio', 'calendario', 'historial', 'cuenta'];
+  function setView(v: string, animate = true) {
+    if (!VIEWS.includes(v)) v = 'inicio';
+    $('layout').dataset.layout = v;
     document.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => el.hidden = el.dataset.panel !== v);
     document.querySelectorAll<HTMLElement>('[data-view]').forEach((b) => b.setAttribute('aria-current', b.dataset.view === v ? 'page' : 'false'));
     try { history.replaceState(null, '', '#' + v); } catch { /* sin historial */ }
+    if (!animate) return;
+    const panel = document.querySelector<HTMLElement>(`[data-panel="${v}"]`)!;
+    if (v === 'inicio') { enter(panel.querySelectorAll(':scope > *'), 'rise', 110); enter($('week').children, 'pop', 55, 250); enter($('pending').children, 'slide', 90, 380); }
+    if (v === 'calendario') { enter(panel.querySelectorAll(':scope > div:first-child'), 'rise'); enter($('weeks').querySelectorAll('.cal-day'), 'pop', 18, 120); }
+    if (v === 'historial') { enter(panel.querySelectorAll(':scope > *'), 'rise', 60); enter($('done').querySelectorAll('li'), 'rise', 60, 150); }
+    if (v === 'cuenta') enter(panel.querySelectorAll(':scope > *'), 'rise', 90);
   }
+  window.addEventListener('hashchange', () => setView(location.hash.slice(1)));
   document.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((b) => b.onclick = () => setView(b.dataset.view!));
   document.querySelectorAll<HTMLButtonElement>('[data-go]').forEach((b) => b.onclick = () => setView(b.dataset.go!));
   document.querySelectorAll<HTMLButtonElement>('[data-scroll]').forEach((b) => b.onclick = () => $('pending').scrollBy({ left: Number(b.dataset.scroll) * 300, behavior: 'smooth' }));
@@ -159,13 +283,13 @@ const help = [
       sel.onchange = () => load(clients.find((c) => c.id === sel.value)!);
     }
     await load(clients[0]);
-    const start = location.hash.slice(1);
-    setView(['inicio', 'calendario', 'historial'].includes(start) ? start : 'inicio');
+    setView(location.hash.slice(1) || 'inicio');
+    enter(document.querySelectorAll('aside:first-of-type [data-anim], [data-help] [data-anim]'), 'rise', 90);
   }
 
   async function load(c: Client) {
     client = c;
-    document.querySelector('[data-client-name]')!.textContent = c.name;
+    document.querySelectorAll('[data-client-name]').forEach((el) => el.textContent = c.name);
     document.querySelector('[data-initials]')!.textContent = c.name.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
     document.querySelectorAll('[data-tz]').forEach((el) => el.textContent = tzName(c.timezone));
     const { data, error } = await sb.from('posts').select('*').eq('client_id', c.id);
@@ -187,6 +311,8 @@ const help = [
 
   function render() {
     renderWeek(); renderPending(); renderChanges(); renderCalendar(); renderDone(); renderMonth();
+    const n = posts.filter((p) => p.status === 'pendiente').length;
+    $('greeting').innerHTML = n ? `Tienes <em class="k">${n} ${n === 1 ? 'pieza' : 'piezas'}</em> por revisar` : `Todo está <em class="k">al día</em>`;
   }
 
   function renderWeek() {
@@ -207,7 +333,7 @@ const help = [
 
   function card(p: Post) {
     const first = (p.caption || p.stickers || '').split('\n').find((l) => l.trim()) ?? '';
-    return `<article class="grid w-[min(270px,78vw)] shrink-0 snap-start content-start gap-3 rounded-3xl border border-white/10 bg-white/[.04] p-3">
+    return `<article data-card="${p.id}" class="lift grid w-[min(270px,78vw)] shrink-0 snap-start content-start gap-3 rounded-3xl border border-white/10 bg-white/[.04] p-3">
       <div class="flex flex-wrap items-center justify-between gap-2"><span class="pill-sm">${ICON[p.type]} ${TYPES[p.type]}</span><span class="pill-sm">🗓 ${short(when(p))}</span></div>
       <button type="button" data-open="${p.id}" class="media-frame relative overflow-hidden rounded-2xl text-left" aria-label="Ver ${esc(p.title)}">
         ${cover(p, `${vert(p) ? 'aspect-[9/16]' : 'aspect-[4/5]'} w-full`)}
@@ -233,7 +359,10 @@ const help = [
     $('pending').querySelectorAll<HTMLButtonElement>('[data-ask]').forEach((b) => b.onclick = () => open(b.dataset.ask!, true));
     $('pending').querySelectorAll<HTMLButtonElement>('[data-approve]').forEach((b) => b.onclick = async () => {
       const p = posts.find((x) => x.id === b.dataset.approve)!;
-      b.disabled = true; b.textContent = 'Aprobando…';
+      b.disabled = true; b.textContent = '¡Aprobada!';
+      confetti(b);
+      const cardEl = b.closest<HTMLElement>('[data-card]');
+      if (cardEl && !calm) await cardEl.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-30px) scale(.9)' }], { duration: 450, delay: 250, easing: EASE, fill: 'forwards' }).finished;
       await save(p, 'aprobado', when(p)!, '');
     });
   }
@@ -247,31 +376,47 @@ const help = [
   }
 
   function renderCalendar() {
-    const tz = client.timezone; const groups = new Map<string, Post[]>();
-    posts.forEach((p) => {
-      const w = when(p); let k = 'sin-fecha';
-      if (w) { const d = new Date(toInputs(w, tz).date + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); k = d.toISOString().slice(0, 10); }
-      groups.set(k, [...(groups.get(k) ?? []), p]);
-    });
-    $('weeks').innerHTML = [...groups].map(([k, items]) => `<section><h2 class="text-xl">${k === 'sin-fecha' ? 'Sin fecha' : 'Semana del ' + fmtDate(k + 'T12:00:00Z', 'UTC', { day: 'numeric', month: 'long' })}</h2>
-      <ul class="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">${items.map((p) => `<li><button type="button" data-open="${p.id}" class="glass media-frame grid w-full gap-2 p-3 text-left transition hover:border-cyan/60">
-        ${cover(p, 'aspect-[4/5] w-full rounded-2xl')}
-        <span class="flex items-center justify-between gap-2"><span class="text-xs font-extrabold uppercase tracking-[.14em] text-cyan">${TYPES[p.type]}</span><span class="chip-st st-${p.status}">${STATUS[p.status]}</span></span>
-        <span class="font-display font-extrabold leading-tight">${esc(p.title)}</span><span class="text-sm text-white/60">${short(when(p))}</span></button></li>`).join('')}</ul></section>`).join('');
+    const tz = client.timezone; const today = toInputs(new Date().toISOString(), tz).date;
+    const dated = posts.filter((p) => when(p));
+    if (!dated.length) { $('weeks').innerHTML = '<p class="text-white/60">Todavía no hay piezas con fecha.</p>'; return; }
+    const dayOf = (p: Post) => toInputs(when(p), tz).date;
+    const monday = (d: string) => { const x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() - ((x.getUTCDay() + 6) % 7)); return x; };
+    const first = monday(dayOf(dated[0])), last = monday(dayOf(dated[dated.length - 1]));
+    const weeks: string[] = [];
+    for (const w = new Date(first); w <= last; w.setUTCDate(w.getUTCDate() + 7)) {
+      const days = Array.from({ length: 7 }, (_, i) => { const d = new Date(w); d.setUTCDate(d.getUTCDate() + i); return d.toISOString().slice(0, 10); });
+      const cells = days.map((day) => {
+        const items = dated.filter((p) => dayOf(p) === day);
+        const lbl = fmtDate(day + 'T12:00:00Z', 'UTC', { weekday: 'short' }).replace('.', '');
+        const num = Number(day.slice(8));
+        const cls = ['cal-day', items.length ? '' : 'empty', day === today ? 'today' : '', day < today ? 'past' : ''].join(' ');
+        return `<li class="${cls}"><span class="cal-label">${lbl} <b>${num}</b></span>${items.map((p) => `<button type="button" data-open="${p.id}" class="mini media-frame" aria-label="${esc(TYPES[p.type] + ', ' + STATUS[p.status] + ': ' + p.title)}">
+          <span class="mini-thumb">${cover(p, '')}<span class="dot st-${p.status}" aria-hidden="true"></span></span>
+          <span class="grid min-w-0 gap-1"><span class="mini-meta">${ICON[p.type]} ${fmtTime(when(p), tz)}</span><span class="mini-title">${esc(p.title)}</span></span></button>`).join('')}</li>`;
+      }).join('');
+      const end = new Date(w); end.setUTCDate(end.getUTCDate() + 6);
+      const range = `${fmtDate(w.toISOString(), 'UTC', { day: 'numeric', month: 'short' })} – ${fmtDate(end.toISOString(), 'UTC', { day: 'numeric', month: 'short' })}`;
+      weeks.push(`<section aria-label="Semana ${range}"><h2 class="mb-3 flex items-baseline gap-3 text-xl">Semana <span class="font-sans text-sm font-bold text-white/50">${range}</span></h2><ol class="cal-week">${cells}</ol></section>`);
+    }
+    $('weeks').innerHTML = weeks.join('');
     bindOpen($('weeks'));
   }
 
   function renderDone() {
-    const done = posts.filter((p) => p.status === 'aprobado' || p.status === 'publicado');
-    $('done').innerHTML = done.length ? done.map((p) => `<li><button type="button" data-open="${p.id}" class="flex w-full items-center gap-4 rounded-2xl border border-white/10 bg-white/[.04] p-3 text-left hover:border-cyan/50">
-      ${cover(p, 'h-20 w-16 shrink-0 rounded-xl')}<span class="min-w-0 flex-1"><span class="block font-bold">${esc(p.title)}</span><span class="text-sm text-white/60">${TYPES[p.type]} · ${short(when(p))}</span></span>
-      <span class="chip-st st-${p.status}">${STATUS[p.status]}</span></button></li>`).join('') : '<li class="text-white/60">Todavía no has aprobado ninguna pieza.</li>';
+    const row = (p: Post) => `<li><button type="button" data-open="${p.id}" class="lift flex w-full items-center gap-4 rounded-2xl border border-white/10 bg-white/[.04] p-3 text-left">
+      <span class="block h-20 w-16 shrink-0 overflow-hidden rounded-xl">${cover(p, 'h-full w-full')}</span>
+      <span class="grid min-w-0 flex-1 gap-1"><span class="truncate font-bold">${esc(p.title)}</span><span class="text-sm text-white/60">${ICON[p.type]} ${TYPES[p.type]} · ${short(when(p))}</span></span>
+      <span class="chip-st st-${p.status} hidden shrink-0 sm:inline-flex">${STATUS[p.status]}</span></button></li>`;
+    const ok = posts.filter((p) => p.status === 'aprobado'); const pub = posts.filter((p) => p.status === 'publicado');
+    const group = (title: string, items: Post[], empty: string) => `<section><h2 class="text-xl">${title} <span class="ml-1 text-base text-white/50">${items.length}</span></h2>
+      <ul class="mt-3 grid gap-3">${items.length ? items.map(row).join('') : `<li class="text-white/60">${empty}</li>`}</ul></section>`;
+    $('done').innerHTML = group('Listas para publicar', ok, 'Todavía no has aprobado ninguna pieza.') + group('Publicadas', pub, 'Aún no se ha publicado ninguna.');
     bindOpen($('done'));
   }
 
   function renderMonth() {
     const total = posts.length; const ok = posts.filter((p) => p.status === 'aprobado' || p.status === 'publicado').length;
-    $('approved-n').textContent = String(ok); $('approved-of').textContent = `de ${total} aprobadas`;
+    countUp($('approved-n'), ok); $('approved-of').textContent = `de ${total} aprobadas`;
     $('bar').style.width = total ? `${Math.round((ok / total) * 100)}%` : '0%';
     const now = Date.now(); const next = posts.find((p) => p.status !== 'publicado' && when(p) && Date.parse(when(p)!) > now);
     $('next').innerHTML = next ? `Próxima publicación: <b class="text-white">${esc(next.title)}</b>, ${short(when(next))}.` : 'No hay publicaciones próximas.';
@@ -355,6 +500,7 @@ const help = [
     if (!date || !time) { msg.textContent = 'Elige el día y la hora de publicación.'; return; }
     if (status === 'cambios' && !feedback) { msg.textContent = 'Cuéntanos qué quieres cambiar.'; return; }
     msg.textContent = 'Guardando…';
+    if (status === 'aprobado') confetti(body.querySelector('#d-approve') as HTMLElement);
     save(p, status, fromInputs(date, time, client.timezone), feedback, msg);
   }
 
@@ -365,6 +511,18 @@ const help = [
     toast(status === 'aprobado' ? `Aprobada para el ${short(when(p))}. Le avisamos a JCraft.` : 'Cambios enviados a JCraft.');
     render(); if (modal.open) show();
   }
+
+  $('pw').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const p1 = $<HTMLInputElement>('p1'), p2 = $<HTMLInputElement>('p2'), msg = $('pw-msg'), btn = $<HTMLButtonElement>('pw-go');
+    if (p1.value.length < 8) { msg.textContent = 'La contraseña debe tener al menos 8 caracteres.'; return; }
+    if (p1.value !== p2.value) { msg.textContent = 'Las dos contraseñas no coinciden.'; return; }
+    btn.disabled = true; msg.textContent = 'Guardando…';
+    const { error } = await sb.auth.updateUser({ password: p1.value });
+    btn.disabled = false;
+    if (error) { msg.textContent = 'No pudimos guardarla. Inténtalo de nuevo en unos minutos.'; return; }
+    p1.value = p2.value = ''; msg.textContent = ''; toast('Contraseña actualizada.'); confetti(btn);
+  });
 
   $('close').onclick = () => modal.close();
   $('prev').onclick = () => { current = (current - 1 + list.length) % list.length; show(); };

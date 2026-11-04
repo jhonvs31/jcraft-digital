@@ -5,6 +5,8 @@ import Logo from './Logo.astro';
 import { u } from '../lib/url';
 interface Props { title: string; page: string; session?: boolean }
 const { title, page, session = false } = Astro.props;
+// En el panel del cliente la contraseña se cambia dentro del propio panel (sección «Mi contraseña»).
+const passwordHref = page === 'portal/panel.html' ? `${u('portal/panel.html')}#cuenta` : u('portal/clave.html');
 ---
 <Base title={`${title} | Portal JCraft`} description="Portal privado de clientes de JCraft Digital." page={page} noindex bare>
   <div class="min-h-[100svh] bg-deep">
@@ -14,7 +16,7 @@ const { title, page, session = false } = Astro.props;
         {session && (
           <div class="flex items-center gap-2 text-sm sm:gap-3">
             <span data-user class="hidden text-white/60 sm:inline"></span>
-            <a href={u("portal/clave.html")} class="hidden rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan sm:inline-flex">Cambiar contraseña</a>
+            <a href={passwordHref} class="hidden rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan sm:inline-flex">Cambiar contraseña</a>
             <button type="button" data-logout class="rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan">Cerrar sesión</button>
           </div>
         )}
