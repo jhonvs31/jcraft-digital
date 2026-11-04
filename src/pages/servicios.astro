@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Title from '../components/Title.astro';
 import Cta from '../components/Cta.astro';
-import { services, faq, socialPlans, webPlans } from '../data/site';
+import { services, faq, socialPlans, webPlans, webCare, otherPricing } from '../data/site';
 import { u, wa } from '../lib/url';
 const cop = (n: number) => n.toLocaleString('es-CO');
 const schema = [
@@ -87,7 +87,35 @@ const schema = [
           </article>
         ))}
       </div>
+      <div data-reveal class="glass mt-5 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 p-6 sm:p-8">
+        <div class="min-w-0 max-w-xl">
+          <h4 class="text-xl">{webCare.name} <span class="font-sans text-base font-normal text-white/60">· opcional</span></h4>
+          <p class="mt-2 text-white/70">{webCare.text}</p>
+        </div>
+        <p class="flex flex-wrap items-baseline gap-x-2"><span data-cur-label class="text-sm font-extrabold tracking-[.18em] text-white/60">COP</span><span data-cop={`$${cop(webCare.cop)}`} data-usd={String(webCare.price)} class="font-display text-4xl font-black tracking-tight tabular-nums">${cop(webCare.cop)}</span><span class="text-white/60">/mes</span></p>
+      </div>
       <p class="mt-6 max-w-3xl text-white/60" data-reveal>El hosting y el dominio tienen un costo aparte. El precio final depende de lo que necesite tu proyecto; te lo confirmamos antes de empezar.</p>
+
+      {otherPricing.map((g) => (
+        <>
+          <h3 class="mt-20 text-3xl sm:text-4xl" data-reveal>{g.title} <span class="text-white/50">· {g.period}</span></h3>
+          <div class="mt-8 grid gap-5 md:grid-cols-2" data-stagger>
+            {g.plans.map((p) => (
+              <article data-reveal class="glass flex flex-col p-8">
+                <h4 class="text-2xl">{p.name}</h4>
+                <p class="mt-4 flex flex-wrap items-baseline gap-x-2"><span class="text-sm font-extrabold tracking-[.18em] text-white/60">{p.from && 'DESDE '}<span data-cur-label>COP</span></span><span data-cop={`$${cop(p.cop)}`} data-usd={String(p.price)} class="font-display text-5xl font-black tracking-tight tabular-nums">${cop(p.cop)}</span>{p.unit && <span class="text-white/60">{p.unit}</span>}</p>
+                <ul class="mt-6 grid gap-2.5 border-t border-white/10 pt-6">
+                  {p.items.map((it) => (
+                    <li class="flex items-start gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-cyan text-[10px] font-black text-navy" aria-hidden="true">✓</span>{it}</li>
+                  ))}
+                </ul>
+                <a href={wa(`Hola! Me interesa: ${p.name}.`)} target="_blank" rel="noopener" class="btn btn-ghost mt-8 self-start">Lo quiero</a>
+              </article>
+            ))}
+          </div>
+          {g.note && <p class="mt-6 max-w-3xl text-white/60" data-reveal>{g.note}</p>}
+        </>
+      ))}
     </div>
   </section>
 

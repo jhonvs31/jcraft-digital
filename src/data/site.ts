@@ -63,6 +63,34 @@ export const webPlans = [
   { name: 'Sitio web', cop: 1000000, price: 320, text: 'Tu web profesional, lista para que te encuentren y te escriban.', items: ['Hasta 7 páginas', 'Diseño adaptado a tu marca', 'Se ve bien en móvil, tablet y computador', 'SEO básico desde el inicio', 'Formulario de contacto y botón de WhatsApp'] },
   { name: 'Tienda online', cop: 1500000, price: 470, text: 'Para vender tus productos por internet.', items: ['Catálogo de productos', 'Carrito de compras y pago en línea', 'Diseño adaptado a tu marca', 'Se ve bien en móvil, tablet y computador', 'SEO básico desde el inicio'] },
 ];
+export const webCare = { name: 'Mantenimiento web', cop: 80000, price: 25, text: 'Cambios de textos e imágenes, copias de seguridad y revisión de que todo funcione.' };
+// Resto de servicios. `from` muestra «desde»; `unit` va después del precio.
+export const otherPricing = [
+  {
+    title: 'Pauta digital', period: 'al mes',
+    note: 'La inversión en anuncios la pagas directamente a Meta o Google y no está incluida.',
+    plans: [
+      { name: 'Pauta Básica', cop: 150000, price: 49, unit: '/mes', items: ['Meta Ads (Instagram y Facebook)', 'Hasta 2 campañas', '4 creativos', 'Ajustes cada semana', 'Reporte mensual'] },
+      { name: 'Pauta Plus', cop: 250000, price: 79, unit: '/mes', items: ['Meta Ads y Google Ads', 'Hasta 4 campañas', '8 creativos', 'Pruebas A/B de anuncios', 'Reporte mensual'] },
+    ],
+  },
+  {
+    title: 'Diseño gráfico e identidad', period: 'pago único',
+    plans: [
+      { name: 'Logo', cop: 350000, price: 110, items: ['2 propuestas', '2 rondas de cambios', 'Archivos finales en todos los formatos'] },
+      { name: 'Identidad de marca', cop: 700000, price: 220, items: ['Logo', 'Colores y tipografías', 'Manual de marca básico', '5 plantillas para redes'] },
+      { name: 'Piezas sueltas', cop: 25000, price: 8, from: true, unit: 'por pieza', items: ['Flyer, post o banner'] },
+      { name: 'Brochure o catálogo', cop: 150000, price: 47, from: true, items: ['Hasta 6 páginas'] },
+    ],
+  },
+  {
+    title: 'Estrategia digital', period: 'pago único',
+    plans: [
+      { name: 'Diagnóstico digital', cop: 250000, price: 79, items: ['Revisión de redes, web y ficha de Google', 'Comparación con 3 competidores', 'Informe con recomendaciones', '1 reunión para explicarlo'] },
+      { name: 'Plan estratégico', cop: 500000, price: 160, items: ['Diagnóstico digital', 'Cliente ideal', 'Plan de contenidos y canales para 3 meses', 'Objetivos medibles', 'Presentación de resultados'] },
+    ],
+  },
+];
 
 // Sexta tarjeta de la portada (solo aparece en el inicio).
 export const contentService = {
