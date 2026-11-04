@@ -53,6 +53,17 @@ export const services = [
   },
 ];
 
+// Precios publicados en Servicios (USD, valores definidos por Jhon el 4-nov-2026).
+export const socialPlans = [
+  { name: 'Básico', price: 39, total: 12, featured: false, items: ['3 posts', '2 carruseles', '6 stories', '1 reel con motion graphics', 'Textos y hashtags', 'Calendario del mes', 'Publicamos por ti', '1 ronda de cambios'] },
+  { name: 'Plus', price: 59, total: 18, featured: true, items: ['4 posts', '3 carruseles', '9 stories', '2 reels con motion graphics', 'Textos y hashtags', 'Calendario del mes', 'Publicamos por ti', '1 ronda de cambios'] },
+  { name: 'Pro', price: 89, total: 26, featured: false, items: ['6 posts', '4 carruseles', '12 stories', '4 reels con motion graphics', 'Textos y hashtags', 'Calendario del mes', 'Publicamos por ti', '2 rondas de cambios'] },
+];
+export const webPlans = [
+  { name: 'Sitio web', price: 320, text: 'Tu web profesional, lista para que te encuentren y te escriban.', items: ['Hasta 7 páginas', 'Diseño adaptado a tu marca', 'Se ve bien en móvil, tablet y computador', 'SEO básico desde el inicio', 'Formulario de contacto y botón de WhatsApp'] },
+  { name: 'Tienda online', price: 470, text: 'Para vender tus productos por internet.', items: ['Catálogo de productos', 'Carrito de compras y pago en línea', 'Diseño adaptado a tu marca', 'Se ve bien en móvil, tablet y computador', 'SEO básico desde el inicio'] },
+];
+
 // Sexta tarjeta de la portada (solo aparece en el inicio).
 export const contentService = {
   icon: '✍️', short: 'Contenido Estratégico',
@@ -99,7 +110,7 @@ export const portfolioProcess = [
 ];
 
 export const faq = [
-  { q: '¿Con cuánto presupuesto puedo empezar?', a: 'Trabajamos con diferentes presupuestos y adaptamos nuestros servicios a tus posibilidades. Lo más importante es que cada peso invertido tenga un objetivo claro. Agenda una consulta gratuita y te asesoramos sin compromiso.' },
+  { q: '¿Con cuánto presupuesto puedo empezar?', a: 'Los planes de redes sociales empiezan en USD 39 al mes, los sitios web desde USD 320 y las tiendas online desde USD 470 (el hosting y el dominio se pagan aparte). Si no sabes cuál te conviene, agenda una consulta gratuita y te asesoramos sin compromiso.' },
   { q: '¿Cuánto tiempo tarda en verse resultados?', a: 'Depende del servicio y el punto de partida. En redes sociales, los primeros resultados visibles suelen verse entre 30 y 60 días. En pauta digital, los resultados son más inmediatos desde la primera semana. Lo importante es tener expectativas realistas y dar tiempo a la estrategia.' },
   { q: '¿Tienen contratos de largo plazo?', a: 'Trabajamos con planes mensuales renovables. No te amarramos a contratos anuales forzosos. Creemos que si hacemos bien nuestro trabajo, tú vas a querer seguir con nosotros por elección propia.' },
   { q: '¿Puedo contratar solo un servicio?', a: '¡Claro! Puedes contratar solo lo que necesitas en este momento. Muchos clientes empiezan con un servicio y van agregando otros a medida que crecen. También ofrecemos paquetes combinados con mejor valor.' },

@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Title from '../components/Title.astro';
 import Cta from '../components/Cta.astro';
-import { services, faq } from '../data/site';
+import { services, faq, socialPlans, webPlans } from '../data/site';
 import { u, wa } from '../lib/url';
 const schema = [
   { '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
@@ -36,6 +36,51 @@ const schema = [
           </ul>
         </article>
       ))}
+    </div>
+  </section>
+
+  <section id="precios" class="bg-deep pb-28 sm:pb-36">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Precios</span>
+      <Title text="Planes claros, *sin sorpresas*" class="mt-6 max-w-3xl text-5xl sm:text-6xl" />
+      <p class="mt-5 max-w-2xl text-lg text-white/70" data-reveal>Precios en dólares estadounidenses (USD).</p>
+
+      <h3 class="mt-16 text-3xl sm:text-4xl" data-reveal>Redes sociales <span class="text-white/50">· al mes</span></h3>
+      <div class="mt-8 grid gap-5 lg:grid-cols-3" data-stagger>
+        {socialPlans.map((p) => (
+          <article data-reveal class:list={['relative flex flex-col p-8', p.featured ? 'card-paper on-paper ring-4 ring-cyan' : 'glass']}>
+            {p.featured && <span class="absolute -top-4 left-8 rounded-full bg-cyan px-4 py-1.5 text-xs font-extrabold tracking-[.18em] text-navy uppercase">Recomendado</span>}
+            <h4 class="text-2xl">{p.name}</h4>
+            <p class="mt-4 flex items-baseline gap-2"><span class:list={['text-sm font-extrabold tracking-[.18em]', p.featured ? 'text-navy/60' : 'text-white/60']}>USD</span><span class="font-display text-6xl font-black tracking-tight tabular-nums">{p.price}</span><span class:list={[p.featured ? 'text-navy/60' : 'text-white/60']}>/mes</span></p>
+            <p class:list={['mt-2 font-bold', p.featured ? 'text-blue' : 'text-cyan']}>{p.total} contenidos al mes</p>
+            <ul class:list={['mt-6 grid gap-2.5 border-t pt-6', p.featured ? 'border-navy/10' : 'border-white/10']}>
+              {p.items.map((it) => (
+                <li class="flex items-start gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-cyan text-[10px] font-black text-navy" aria-hidden="true">✓</span>{it}</li>
+              ))}
+            </ul>
+            <a href={wa(`Hola! Me interesa el plan ${p.name} de redes sociales (USD ${p.price}/mes).`)} target="_blank" rel="noopener" class:list={['btn mt-8', p.featured ? 'btn-navy' : 'btn-primary']}>Quiero este plan</a>
+          </article>
+        ))}
+      </div>
+      <p class="mt-6 max-w-3xl text-white/60" data-reveal>No incluye el presupuesto de anuncios pagados, sesiones de fotos ni la respuesta a mensajes y comentarios.</p>
+
+      <h3 class="mt-20 text-3xl sm:text-4xl" data-reveal>Páginas web <span class="text-white/50">· pago único</span></h3>
+      <div class="mt-8 grid gap-5 md:grid-cols-2" data-stagger>
+        {webPlans.map((p) => (
+          <article data-reveal class="glass flex flex-col p-8">
+            <h4 class="text-2xl">{p.name}</h4>
+            <p class="mt-4 flex items-baseline gap-2"><span class="text-sm font-extrabold tracking-[.18em] text-white/60">DESDE USD</span><span class="font-display text-6xl font-black tracking-tight tabular-nums">{p.price}</span></p>
+            <p class="mt-3 text-white/70">{p.text}</p>
+            <ul class="mt-6 grid gap-2.5 border-t border-white/10 pt-6">
+              {p.items.map((it) => (
+                <li class="flex items-start gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-cyan text-[10px] font-black text-navy" aria-hidden="true">✓</span>{it}</li>
+              ))}
+            </ul>
+            <a href={wa(`Hola! Quiero cotizar: ${p.name} (desde USD ${p.price}).`)} target="_blank" rel="noopener" class="btn btn-primary mt-8 self-start">Cotizar mi {p.name.toLowerCase()}</a>
+          </article>
+        ))}
+      </div>
+      <p class="mt-6 max-w-3xl text-white/60" data-reveal>El hosting y el dominio tienen un costo aparte. El precio final depende de lo que necesite tu proyecto; te lo confirmamos antes de empezar.</p>
     </div>
   </section>
 
