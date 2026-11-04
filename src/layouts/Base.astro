@@ -33,8 +33,12 @@ const graph: object[] = [
   ...(crumbs.length ? [{ '@type': 'BreadcrumbList', itemListElement: [{ name: 'Inicio', page: 'index.html' }, ...crumbs].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.page === 'index.html' ? home : abs(c.page) })) }] : []),
   ...schema,
 ];
-// Verificación de Google Search Console (código público; se puede sobrescribir con la variable de entorno).
-const gsc = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '9EY-49IRi26m9Nqeav3LX8gLc5lHKZTUgXoOL58Lo0w';
+// Códigos de Google Search Console: jcraft-digital.com (dominio propio) y jcraft-digital.vercel.app (anterior).
+const gsc = [
+  'yu3BEezcw7qSNDyPzp80h6t_0FXZdXGqlGTcdHBGPVw',
+  '9EY-49IRi26m9Nqeav3LX8gLc5lHKZTUgXoOL58Lo0w',
+  import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION,
+].filter((c, i, a) => c && a.indexOf(c) === i);
 const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
 ---
 <!doctype html>
@@ -46,7 +50,7 @@ const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex ? <meta name="robots" content="noindex, follow" /> : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />}
-    {gsc && <meta name="google-site-verification" content={gsc} />}
+    {gsc.map((c) => <meta name="google-site-verification" content={c} />)}
     {bing && <meta name="msvalidate.01" content={bing} />}
     <meta name="theme-color" content="#061D47" />
     <link rel="icon" type="image/svg+xml" href={u('favicon.svg')} />
