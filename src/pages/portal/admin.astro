@@ -36,6 +36,24 @@ const field = 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-norma
     </section>
   </section>
 
+  <section class="wrap pb-16" aria-labelledby="h-cli">
+    <div class="glass p-6">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h2 id="h-cli" class="text-2xl">Cliente: brief, galería y plan</h2>
+        <div class="flex flex-wrap items-center gap-3">
+          <select id="c-client" class={field} aria-label="Cliente"></select>
+          <label class="flex items-center gap-2 text-sm font-bold" for="c-plan">Plan
+            <select id="c-plan" class={field}><option value="basico">Básico (20 archivos)</option><option value="plus">Plus (40 archivos)</option><option value="pro">Pro (60 archivos)</option></select></label>
+        </div>
+      </div>
+      <p id="c-msg" role="status" aria-live="polite" class="mt-2 min-h-[1.25em] text-sm text-cyan"></p>
+      <div class="mt-4 grid gap-8 lg:grid-cols-2">
+        <div><h3 class="text-xl">Brief de marca</h3><p id="c-brief-date" class="mt-1 text-sm text-white/55"></p><dl id="c-brief" class="mt-4 grid gap-4"></dl></div>
+        <div><h3 class="text-xl">Galería <span id="c-gal-n" class="text-base text-white/55"></span></h3><ul id="c-gal" class="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4"></ul></div>
+      </div>
+    </div>
+  </section>
+
   <dialog id="editor" data-lenis-prevent class="m-auto max-h-[calc(100dvh-24px)] w-[min(760px,calc(100vw-24px))] overflow-auto rounded-[28px] border border-white/10 bg-deep p-0 text-white backdrop:bg-black/70">
     <form id="form" class="grid gap-4 p-6 sm:p-8" novalidate>
       <div class="flex items-center justify-between gap-4">
@@ -65,7 +83,7 @@ const field = 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-norma
 </PortalShell>
 
 <script>
-  import { sb, requireSession, isAdmin, go, TYPES, STATUS, toInputs, fromInputs, fmtDate, fmtTime, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
+  import { sb, requireSession, isAdmin, go, TYPES, STATUS, GALLERY_LIMIT, PLAN_NAME, toInputs, fromInputs, fmtDate, fmtTime, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
   let clients: Client[] = []; let posts: Post[] = []; let editing: Post | null = null;
@@ -78,12 +96,16 @@ const field = 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-norma
     if (!(await isAdmin(session.user.id))) { go('panel.html'); return; }
     document.querySelector('[data-user]')!.textContent = session.user.email ?? '';
     document.querySelector('[data-logout]')!.addEventListener('click', async () => { await sb.auth.signOut(); go('acceso.html'); });
-    const { data } = await sb.from('clients').select('id, slug, name, timezone').order('name');
+    const { data } = await sb.from('clients').select('*').order('name');
     clients = (data ?? []) as Client[];
     const opts = clients.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
     $<HTMLSelectElement>('f-client').innerHTML = `<option value="">Todos los clientes</option>${opts}`;
     $<HTMLSelectElement>('e-client').innerHTML = opts;
     $<HTMLSelectElement>('f-client').onchange = renderAll;
+    $<HTMLSelectElement>('c-client').innerHTML = opts;
+    $<HTMLSelectElement>('c-client').onchange = loadClient;
+    $<HTMLSelectElement>('c-plan').onchange = savePlan;
+    if (clients.length) loadClient();
     await load();
   }
 
@@ -148,6 +170,31 @@ const field = 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-norma
     $('e-current').textContent = p ? `Archivos actuales: ${p.media.length}. Si eliges archivos nuevos, reemplazan a los actuales.` : '';
     $('e-msg').textContent = '';
     $<HTMLDialogElement>('editor').showModal();
+  }
+
+  // ── Cliente: brief, galería y plan ──
+  const LABELS: Record<string, string> = { negocio: 'Qué vende', cliente: 'Cliente ideal', diferencia: 'Qué lo hace diferente', productos: 'Lo que quiere vender más', tono: 'Cómo quiere sonar', idioma: 'Idioma', palabras: 'Palabras que lo representan', estilo: 'Colores y estilo', referencias: 'Referencias', objetivo: 'Objetivos', fechas: 'Fechas y promociones', evitar: 'Qué evitar', web: 'Sitio web', instagram: 'Instagram', otros: 'Otros enlaces' };
+  async function loadClient() {
+    const c = cById($<HTMLSelectElement>('c-client').value); if (!c) return;
+    $<HTMLSelectElement>('c-plan').value = c.plan ?? 'basico'; $('c-msg').textContent = '';
+    const { data: b, error: be } = await sb.from('briefs').select('data, updated_at').eq('client_id', c.id).maybeSingle();
+    const d = (b?.data ?? {}) as Record<string, string | string[]>;
+    $('c-brief-date').textContent = be ? 'Falta ejecutar supabase/02_brief_galeria.sql.' : b?.updated_at ? `Actualizado el ${fmtDate(b.updated_at, c.timezone, { day: 'numeric', month: 'long' })}.` : 'El cliente todavía no lo ha llenado.';
+    $('c-brief').innerHTML = Object.keys(LABELS).filter((k) => d[k]).map((k) => `<div><dt class="text-xs font-extrabold uppercase tracking-[.14em] text-cyan">${LABELS[k]}</dt><dd class="mt-1 whitespace-pre-wrap text-white/85">${esc(Array.isArray(d[k]) ? (d[k] as string[]).join(', ') : d[k] as string)}</dd></div>`).join('');
+    const { data: files } = await sb.storage.from('galeria').list(c.id, { limit: 200, sortBy: { column: 'created_at', order: 'desc' } });
+    const list = (files ?? []).filter((f) => f.id);
+    $('c-gal-n').textContent = `(${list.length} de ${GALLERY_LIMIT[c.plan ?? 'basico']})`;
+    const urls: Record<string, string> = {};
+    if (list.length) { const { data: s } = await sb.storage.from('galeria').createSignedUrls(list.map((f) => `${c.id}/${f.name}`), 3600, { download: true }); (s ?? []).forEach((x) => { if (x.signedUrl) urls[x.path as string] = x.signedUrl; }); }
+    $('c-gal').innerHTML = list.length ? list.map((f) => { const u = urls[`${c.id}/${f.name}`]; const t = (f.metadata as { mimetype?: string })?.mimetype ?? '';
+      return `<li><a href="${u ?? '#'}" class="grid aspect-square place-items-center overflow-hidden rounded-xl bg-white/10 text-2xl" title="Descargar ${esc(f.name.replace(/^\d+-/, ''))}">${t.startsWith('image') && u ? `<img src="${u}" alt="" class="h-full w-full object-cover" loading="lazy" />` : t.startsWith('video') ? '🎬' : '📄'}</a></li>`; }).join('')
+      : '<li class="col-span-full text-white/60">Sin archivos todavía.</li>';
+  }
+  async function savePlan() {
+    const c = cById($<HTMLSelectElement>('c-client').value); const plan = $<HTMLSelectElement>('c-plan').value as Client['plan'];
+    const { error } = await sb.from('clients').update({ plan }).eq('id', c.id);
+    if (error) { $('c-msg').textContent = 'No se pudo cambiar el plan: ' + error.message; return; }
+    c.plan = plan; $('c-msg').textContent = `Plan de ${c.name} cambiado a ${PLAN_NAME[plan!]}.`; loadClient();
   }
 
   $('new').onclick = () => openEditor(null);

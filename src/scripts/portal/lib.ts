@@ -18,7 +18,12 @@ export type Post = {
   caption: string | null; stickers: string | null; media: string[]; suggested_at: string | null; scheduled_at: string | null;
   status: 'pendiente' | 'aprobado' | 'cambios' | 'publicado'; feedback: string | null; decided_at: string | null;
 };
-export type Client = { id: string; slug: string; name: string; timezone: string };
+export type Client = { id: string; slug: string; name: string; timezone: string; plan?: 'basico' | 'plus' | 'pro' };
+
+// Archivos por plan en la galería (igual que public.gallery_limit en supabase/02_brief_galeria.sql).
+export const GALLERY_LIMIT = { basico: 20, plus: 40, pro: 60 } as const;
+export const PLAN_NAME = { basico: 'Básico', plus: 'Plus', pro: 'Pro' } as const;
+export const MAX_FILE_MB = 15;
 
 export const TYPES: Record<Post['type'], string> = { post: 'Post', carrusel: 'Carrusel', story: 'Storie', reel: 'Reel' };
 export const STATUS: Record<Post['status'], string> = { pendiente: 'Por revisar', aprobado: 'Aprobada', cambios: 'Con cambios', publicado: 'Publicada' };

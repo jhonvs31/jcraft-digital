@@ -24,6 +24,8 @@ const help = [
         <button type="button" data-view="inicio" class="pp-nav"><span aria-hidden="true">🏠</span>Inicio</button>
         <button type="button" data-view="calendario" class="pp-nav"><span aria-hidden="true">📅</span>Calendario</button>
         <button type="button" data-view="historial" class="pp-nav"><span aria-hidden="true">✅</span>Aprobadas</button>
+        <button type="button" data-view="brief" class="pp-nav"><span aria-hidden="true">📝</span>Brief de marca</button>
+        <button type="button" data-view="galeria" class="pp-nav"><span aria-hidden="true">🖼️</span>Galería</button>
         <button type="button" data-view="cuenta" class="pp-nav"><span aria-hidden="true">🔑</span>Mi contraseña</button>
       </nav>
       <select id="client" class="mt-4 hidden w-full rounded-full border border-white/25 bg-navy px-4 py-2 text-sm font-bold text-white" aria-label="Cliente"></select>
@@ -85,6 +87,37 @@ const help = [
         <h1 class="pp-title">Aprobadas</h1>
         <p class="mt-1 text-sm text-ink/60">Lo que ya aprobaste, en el orden en que se va a publicar.</p>
         <div id="done" class="mt-6 grid gap-8"></div>
+      </div>
+
+      <div data-panel="brief" hidden>
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div class="max-w-xl"><h1 class="pp-title">Brief de marca</h1>
+            <p class="mt-1 text-sm text-ink/60">Cuéntanos de tu negocio con tus palabras. Con esto escribimos y diseñamos tu contenido para que suene y se vea como tú. Puedes completarlo por partes y volver cuando quieras.</p></div>
+          <div class="w-full max-w-[220px]"><p class="text-sm font-bold text-ink/70"><span id="brief-done">0</span> de <span id="brief-total">0</span> respuestas</p>
+            <div class="mt-2 h-2 overflow-hidden rounded-full bg-ink/10"><div id="brief-bar" class="h-full rounded-full bg-navy transition-[width] duration-500" style="width:0%"></div></div></div>
+        </div>
+        <form id="brief" class="mt-6 grid gap-5" novalidate></form>
+        <div class="brief-save">
+          <p id="brief-msg" role="status" aria-live="polite" class="text-sm text-ink/60"></p>
+          <button type="submit" form="brief" id="brief-go" class="pp-btn pp-btn-main">Guardar brief</button>
+        </div>
+      </div>
+
+      <div data-panel="galeria" hidden>
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div class="max-w-xl"><h1 class="pp-title">Galería</h1>
+            <p class="mt-1 text-sm text-ink/60">Sube aquí fotos de tus productos, videos cortos, tu logo o documentos de tu marca. Los usamos para crear tu contenido. Las fotos se optimizan solas al subirlas.</p></div>
+          <div class="w-full max-w-[240px]"><p class="text-sm font-bold text-ink/70"><span id="gal-n">0</span> de <span id="gal-max">0</span> archivos <span class="font-normal text-ink/50">· plan <span id="gal-plan"></span></span></p>
+            <div class="mt-2 h-2 overflow-hidden rounded-full bg-ink/10"><div id="gal-bar" class="h-full rounded-full bg-navy transition-[width] duration-500" style="width:0%"></div></div></div>
+        </div>
+        <label id="drop" for="gal-file" class="drop mt-6">
+          <input id="gal-file" type="file" multiple accept="image/*,video/mp4,video/quicktime,application/pdf" class="sr-only" />
+          <span class="text-3xl" aria-hidden="true">⬆️</span>
+          <span class="font-display text-lg font-extrabold text-ink">Arrastra tus archivos aquí o toca para elegirlos</span>
+          <span class="text-sm text-ink/60">Fotos, videos MP4 o MOV y PDF. Máximo <span data-maxmb></span> MB por archivo.</span>
+        </label>
+        <p id="gal-msg" role="status" aria-live="polite" class="mt-3 min-h-[1.25em] text-sm text-navy"></p>
+        <ul id="gal" class="gal mt-2"></ul>
       </div>
 
       <div data-panel="cuenta" hidden>
@@ -206,6 +239,39 @@ const help = [
   .deck-edit:hover { background: #e8a33d; color: #fff; }
   .deck-empty { display: grid; place-items: center; gap: .5rem; min-height: 16rem; border-radius: 1.5rem; border: 2px dashed rgba(11,23,48,.12); padding: 2rem; text-align: center; color: rgba(11,23,48,.6); }
 
+  /* Brief */
+  .brief-group { display: grid; gap: 1rem; }
+  .brief-group legend { float: left; width: 100%; padding: 0; font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; color: var(--color-ink); }
+  .brief-group legend + * { clear: both; }
+  .brief-field { display: grid; gap: .45rem; font-size: .95rem; font-weight: 700; color: var(--color-ink); }
+  .brief-field .hint { font-weight: 400; font-size: .85rem; color: rgba(11,23,48,.55); }
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .chip { border-radius: 9999px; border: 1px solid rgba(11,23,48,.18); background: #fff; padding: .45rem .9rem; font-size: .9rem; font-weight: 600; color: var(--color-ink); transition: background-color .2s, color .2s, border-color .2s, transform .15s; }
+  .chip:hover { border-color: var(--color-navy); }
+  .chip[aria-pressed="true"] { background: var(--color-navy); border-color: var(--color-navy); color: #fff; }
+  .chip:active { transform: scale(.96); }
+  .brief-save { position: sticky; bottom: 1rem; z-index: 5; margin-top: 1.25rem; display: flex; align-items: center; justify-content: flex-end; gap: 1rem; flex-wrap: wrap; border-radius: 1.25rem; background: rgba(255,255,255,.94); backdrop-filter: blur(10px); padding: .6rem .6rem .6rem 1.25rem; box-shadow: 0 16px 40px -24px rgba(11,23,48,.5); }
+
+  /* Galería */
+  .drop { display: grid; justify-items: center; gap: .4rem; border-radius: 1.4rem; border: 2px dashed rgba(10,47,110,.25); background: #fff; padding: 2rem 1.25rem; text-align: center; cursor: pointer; transition: border-color .2s, background-color .2s, transform .2s; }
+  .drop:hover, .drop.over { border-color: var(--color-navy); background: #f7f9fd; }
+  .drop.over { transform: scale(1.01); }
+  .drop:focus-within { box-shadow: 0 0 0 3px rgba(10,47,110,.2); }
+  .drop.full { opacity: .55; cursor: not-allowed; }
+  .gal { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .75rem; }
+  .gal-item { position: relative; display: grid; gap: .4rem; border-radius: 1rem; background: #fff; border: 1px solid rgba(11,23,48,.07); padding: .45rem; min-width: 0; }
+  .gal-thumb { position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: .7rem; overflow: hidden; background: #eef0f4; font-size: 2rem; }
+  .gal-thumb img, .gal-thumb video { width: 100%; height: 100%; object-fit: cover; }
+  .gal-name { font-size: .8rem; font-weight: 700; color: var(--color-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gal-meta { font-size: .75rem; color: rgba(11,23,48,.55); }
+  .gal-del { position: absolute; right: .8rem; top: .8rem; border-radius: 9999px; background: rgba(255,255,255,.95); padding: .25rem .6rem; font-size: .75rem; font-weight: 700; color: #b42318; box-shadow: 0 4px 12px -6px rgba(0,0,0,.4); opacity: 0; transition: opacity .2s; }
+  .gal-item:hover .gal-del, .gal-del:focus-visible, .gal-del.confirm { opacity: 1; }
+  @media (hover: none) { .gal-del { opacity: 1; } }
+  .gal-del.confirm { background: #b42318; color: #fff; }
+  .gal-up { opacity: .65; }
+  .gal-up .gal-thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent); animation: shimmer 1.1s infinite; }
+  @keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
   /* Calendario: una fila por semana; en móvil, agenda con solo los días con piezas */
   .cal-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .5rem; }
   .cal-day { min-width: 0; min-height: 9rem; border-radius: 1rem; background: #fff; border: 1px solid rgba(11,23,48,.07); padding: .55rem; display: grid; align-content: start; gap: .5rem; }
@@ -253,7 +319,7 @@ const help = [
 </style>
 
 <script>
-  import { sb, requireSession, go, TYPES, STATUS, toInputs, fromInputs, fmtDate, fmtTime, tzName, signed, isVideo, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
+  import { sb, requireSession, go, TYPES, STATUS, GALLERY_LIMIT, PLAN_NAME, MAX_FILE_MB, toInputs, fromInputs, fmtDate, fmtTime, tzName, signed, isVideo, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
   const ICON: Record<Post['type'], string> = { post: '🖼️', carrusel: '🗂️', story: '📱', reel: '🎬' };
@@ -294,13 +360,15 @@ const help = [
   }
 
   // ── Vistas ──
-  const VIEWS = ['inicio', 'calendario', 'historial', 'cuenta'];
+  const VIEWS = ['inicio', 'calendario', 'historial', 'brief', 'galeria', 'cuenta'];
   function setView(v: string, first = false) {
     if (!VIEWS.includes(v)) v = 'inicio';
     $('layout').dataset.layout = v;
     document.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => el.hidden = el.dataset.panel !== v);
     document.querySelectorAll<HTMLElement>('[data-view]').forEach((b) => b.setAttribute('aria-current', b.dataset.view === v ? 'page' : 'false'));
     try { history.replaceState(null, '', '#' + v); } catch { /* sin historial */ }
+    if (v === 'brief') loadBrief();
+    if (v === 'galeria') loadGallery();
     if (first) return;
     // Al cambiar de sección solo hay un fundido corto; la secuencia completa es para la entrada.
     animate(document.querySelector(`[data-panel="${v}"]`)!, [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 380 });
@@ -313,7 +381,7 @@ const help = [
     const session = await requireSession();
     document.querySelector('[data-user]')!.textContent = session.user.email ?? '';
     document.querySelector('[data-logout]')!.addEventListener('click', async () => { await sb.auth.signOut(); go('acceso.html'); });
-    const { data: clients, error } = await sb.from('clients').select('id, slug, name, timezone').order('name');
+    const { data: clients, error } = await sb.from('clients').select('*').order('name');
     if (error || !clients?.length) { $('state').textContent = 'Tu usuario todavía no tiene un cliente asignado. Escríbenos por WhatsApp y lo activamos.'; return; }
     const sel = $<HTMLSelectElement>('client');
     if (clients.length > 1) {
@@ -663,6 +731,179 @@ const help = [
       toast(status === 'aprobado' ? 'Aprobada. Le avisamos a JCraft.' : 'Cambios enviados a JCraft.');
     }
   }
+
+  // ── Brief de marca ──
+  type Field = { k: string; label: string; type: 'text' | 'area' | 'chips' | 'chip1'; hint?: string; ph?: string; options?: string[] };
+  const BRIEF: { group: string; fields: Field[] }[] = [
+    { group: 'Tu negocio', fields: [
+      { k: 'negocio', label: '¿Qué vendes o qué servicio ofreces?', type: 'area', ph: 'Ej.: cajas de regalo para empresas con productos de pequeñas marcas de Orlando.' },
+      { k: 'cliente', label: '¿Quién es tu cliente ideal?', type: 'area', ph: 'Ej.: equipos de recursos humanos de empresas de 10 a 200 personas.' },
+      { k: 'diferencia', label: '¿Qué te hace diferente de la competencia?', type: 'area' },
+      { k: 'productos', label: '¿Qué productos o servicios quieres vender más?', type: 'area' },
+    ] },
+    { group: 'Tu voz', fields: [
+      { k: 'tono', label: '¿Cómo quieres sonar?', hint: 'Elige las que quieras.', type: 'chips', options: ['Cercana', 'Elegante', 'Divertida', 'Profesional', 'Inspiradora', 'Directa'] },
+      { k: 'idioma', label: 'Idioma de tus publicaciones', type: 'chip1', options: ['Español', 'Inglés', 'Los dos'] },
+      { k: 'palabras', label: 'Palabras o frases que te representan', type: 'text', ph: 'Ej.: hecho con amor, regalos con significado' },
+    ] },
+    { group: 'Lo visual', fields: [
+      { k: 'estilo', label: 'Colores, tipografías o estilo que usas', type: 'area' },
+      { k: 'referencias', label: 'Cuentas o marcas que te inspiran', hint: 'Pega los @ o los enlaces.', type: 'area' },
+    ] },
+    { group: 'Tus metas', fields: [
+      { k: 'objetivo', label: '¿Qué quieres lograr con tus redes?', hint: 'Elige las que quieras.', type: 'chips', options: ['Más ventas', 'Más mensajes', 'Más seguidores', 'Dar a conocer la marca', 'Lanzar algo nuevo'] },
+      { k: 'fechas', label: 'Fechas importantes, lanzamientos o promociones', type: 'area', ph: 'Ej.: lanzamos la caja de San Valentín el 1 de febrero.' },
+    ] },
+    { group: 'Lo que no', fields: [
+      { k: 'evitar', label: 'Temas, palabras o imágenes que debemos evitar', type: 'area' },
+    ] },
+    { group: 'Enlaces', fields: [
+      { k: 'web', label: 'Sitio web', type: 'text', ph: 'https://' },
+      { k: 'instagram', label: 'Instagram', type: 'text', ph: '@tucuenta' },
+      { k: 'otros', label: 'Otros enlaces o notas', type: 'area' },
+    ] },
+  ];
+  let briefData: Record<string, string | string[]> = {}; let briefLoaded = '';
+  const allFields = BRIEF.flatMap((g) => g.fields);
+
+  function fieldHtml(f: Field) {
+    const v = briefData[f.k]; const id = `bf-${f.k}`;
+    const head = `<span>${f.label}${f.hint ? ` <span class="hint">${f.hint}</span>` : ''}</span>`;
+    if (f.type === 'chips' || f.type === 'chip1') {
+      const sel = Array.isArray(v) ? v : v ? [v] : [];
+      return `<div class="brief-field" role="group" aria-label="${esc(f.label)}">${head}<div class="chips" data-chips="${f.k}" data-single="${f.type === 'chip1'}">${f.options!.map((o) => `<button type="button" class="chip" aria-pressed="${sel.includes(o)}">${esc(o)}</button>`).join('')}</div></div>`;
+    }
+    const val = typeof v === 'string' ? v : '';
+    return `<label class="brief-field" for="${id}">${head}${f.type === 'area'
+      ? `<textarea id="${id}" data-k="${f.k}" rows="3" class="pp-input" placeholder="${esc(f.ph ?? '')}">${esc(val)}</textarea>`
+      : `<input id="${id}" data-k="${f.k}" class="pp-input" value="${esc(val)}" placeholder="${esc(f.ph ?? '')}" />`}</label>`;
+  }
+
+  function readBrief() {
+    const form = $('brief'); const out: Record<string, string | string[]> = {};
+    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-k]').forEach((el) => { if (el.value.trim()) out[el.dataset.k!] = el.value.trim(); });
+    form.querySelectorAll<HTMLElement>('[data-chips]').forEach((g) => {
+      const sel = [...g.querySelectorAll<HTMLButtonElement>('[aria-pressed="true"]')].map((b) => b.textContent!);
+      if (sel.length) out[g.dataset.chips!] = g.dataset.single === 'true' ? sel[0] : sel;
+    });
+    return out;
+  }
+  function briefProgress() {
+    const d = readBrief(); const done = allFields.filter((f) => d[f.k] && (!Array.isArray(d[f.k]) || (d[f.k] as string[]).length)).length;
+    $('brief-done').textContent = String(done); $('brief-total').textContent = String(allFields.length);
+    $('brief-bar').style.width = `${Math.round((done / allFields.length) * 100)}%`;
+  }
+
+  async function loadBrief() {
+    if (briefLoaded === client.id) return;
+    $('brief-msg').textContent = 'Cargando…';
+    const { data, error } = await sb.from('briefs').select('data, updated_at').eq('client_id', client.id).maybeSingle();
+    if (error) { $('brief-msg').textContent = 'El brief todavía no está activado. Avísanos por WhatsApp.'; return; }
+    briefData = (data?.data ?? {}) as Record<string, string | string[]>; briefLoaded = client.id;
+    $('brief').innerHTML = BRIEF.map((g) => `<fieldset class="pp-card brief-group"><legend>${g.group}</legend>${g.fields.map(fieldHtml).join('')}</fieldset>`).join('');
+    $('brief-msg').textContent = data?.updated_at ? `Guardado el ${fmtDate(data.updated_at, client.timezone, { day: 'numeric', month: 'long' })} a las ${fmtTime(data.updated_at, client.timezone)}` : 'Aún no lo has guardado.';
+    briefProgress();
+    $('brief').querySelectorAll<HTMLElement>('[data-chips]').forEach((g) => g.querySelectorAll<HTMLButtonElement>('.chip').forEach((b) => b.onclick = () => {
+      if (g.dataset.single === 'true') g.querySelectorAll('.chip').forEach((x) => x !== b && x.setAttribute('aria-pressed', 'false'));
+      b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+      animate(b, [{ transform: 'scale(.92)' }, { transform: 'scale(1.06)' }, { transform: 'none' }], { duration: 300, fill: 'none' });
+      briefProgress();
+    }));
+    $('brief').addEventListener('input', briefProgress);
+    rise($('brief').children, 70);
+  }
+
+  $('brief').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $<HTMLButtonElement>('brief-go'); btn.disabled = true; $('brief-msg').textContent = 'Guardando…';
+    const { data, error } = await sb.from('briefs').upsert({ client_id: client.id, data: readBrief() }).select('updated_at').single();
+    btn.disabled = false;
+    if (error) { $('brief-msg').textContent = 'No pudimos guardarlo. Inténtalo de nuevo.'; return; }
+    $('brief-msg').textContent = `Guardado el ${fmtDate(data.updated_at, client.timezone, { day: 'numeric', month: 'long' })} a las ${fmtTime(data.updated_at, client.timezone)} Le avisamos a JCraft.`;
+    btn.textContent = 'Guardado ✓'; confetti(btn); setTimeout(() => { btn.textContent = 'Guardar brief'; }, 2200);
+  });
+
+  // ── Galería ──
+  type GalFile = { name: string; size: number; type: string; at: string };
+  let gal: GalFile[] = []; let galUrls: Record<string, string> = {};
+  const limit = () => GALLERY_LIMIT[client.plan ?? 'basico'];
+  const kb = (n: number) => n > 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`;
+  const icon = (t: string) => t.startsWith('video') ? '🎬' : t === 'application/pdf' ? '📄' : '🖼️';
+
+  async function loadGallery() {
+    document.querySelectorAll('[data-maxmb]').forEach((el) => el.textContent = String(MAX_FILE_MB));
+    $('gal-plan').textContent = PLAN_NAME[client.plan ?? 'basico'];
+    const { data, error } = await sb.storage.from('galeria').list(client.id, { limit: 200, sortBy: { column: 'created_at', order: 'desc' } });
+    if (error) { $('gal-msg').textContent = 'La galería todavía no está activada. Avísanos por WhatsApp.'; return; }
+    gal = (data ?? []).filter((f) => f.id).map((f) => ({ name: f.name, size: (f.metadata as { size?: number })?.size ?? 0, type: (f.metadata as { mimetype?: string })?.mimetype ?? '', at: f.created_at ?? '' }));
+    const paths = gal.filter((f) => f.type.startsWith('image') || f.type.startsWith('video') || f.type === 'application/pdf').map((f) => `${client.id}/${f.name}`);
+    galUrls = {};
+    if (paths.length) { const { data: s } = await sb.storage.from('galeria').createSignedUrls(paths, 3600); (s ?? []).forEach((x) => { if (x.signedUrl) galUrls[x.path as string] = x.signedUrl; }); }
+    renderGallery();
+  }
+
+  function renderGallery() {
+    const n = gal.length, max = limit();
+    $('gal-n').textContent = String(n); $('gal-max').textContent = String(max);
+    $('gal-bar').style.width = `${Math.min(100, Math.round((n / max) * 100))}%`;
+    $('gal-bar').style.background = n >= max ? '#e8a33d' : '';
+    $('drop').classList.toggle('full', n >= max);
+    $<HTMLInputElement>('gal-file').disabled = n >= max;
+    if (n >= max) $('gal-msg').textContent = `Llegaste al máximo de tu plan ${PLAN_NAME[client.plan ?? 'basico']} (${max} archivos). Elimina alguno para subir más.`;
+    $('gal').innerHTML = gal.length ? gal.map((f) => {
+      const path = `${client.id}/${f.name}`; const url = galUrls[path]; const shown = f.name.replace(/^\d+-/, '');
+      const thumb = url && f.type.startsWith('image') ? `<img src="${url}" alt="" loading="lazy" />` : url && f.type.startsWith('video') ? `<video src="${url}#t=0.5" muted playsinline preload="metadata"></video>` : `<span aria-hidden="true">${icon(f.type)}</span>`;
+      return `<li class="gal-item"><a class="gal-thumb" href="${url ?? '#'}" target="_blank" rel="noopener" aria-label="Abrir ${esc(shown)}">${thumb}</a>
+        <span class="gal-name" title="${esc(shown)}">${esc(shown)}</span><span class="gal-meta">${kb(f.size)}${f.at ? ` · ${fmtDate(f.at, client.timezone, { day: 'numeric', month: 'short' })}` : ''}</span>
+        <button type="button" class="gal-del" data-del="${esc(f.name)}" aria-label="Eliminar ${esc(shown)}">Eliminar</button></li>`;
+    }).join('') : '<li class="col-span-full py-6 text-center text-ink/55">Todavía no has subido archivos.</li>';
+    $('gal').querySelectorAll<HTMLButtonElement>('[data-del]').forEach((b) => b.onclick = async () => {
+      if (!b.classList.contains('confirm')) { b.classList.add('confirm'); b.textContent = '¿Eliminar?'; setTimeout(() => { if (b.isConnected) { b.classList.remove('confirm'); b.textContent = 'Eliminar'; } }, 3000); return; }
+      b.disabled = true;
+      const { error } = await sb.storage.from('galeria').remove([`${client.id}/${b.dataset.del}`]);
+      if (error) { toast('No pudimos eliminarlo.', 'error'); b.disabled = false; return; }
+      const li = b.closest('li')!; await settle(animate(li, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.85)' }], { duration: 260 }), 320);
+      gal = gal.filter((f) => f.name !== b.dataset.del); $('gal-msg').textContent = 'Archivo eliminado.'; renderGallery();
+    });
+  }
+
+  // Las fotos grandes se reducen a 2560 px y se guardan como JPEG de buena calidad antes de subir.
+  async function optimize(file: File): Promise<File> {
+    if (!/^image\/(jpeg|webp)$/.test(file.type) || file.size < 1.5 * 1048576) return file;
+    try {
+      const bmp = await createImageBitmap(file); const k = Math.min(1, 2560 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement('canvas'); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+      c.getContext('2d')!.drawImage(bmp, 0, 0, c.width, c.height);
+      const blob = await new Promise<Blob | null>((r) => c.toBlob(r, 'image/jpeg', .86));
+      return blob && blob.size < file.size ? new File([blob], file.name.replace(/\.\w+$/, '.jpg'), { type: 'image/jpeg' }) : file;
+    } catch { return file; }
+  }
+
+  async function upload(files: File[]) {
+    const room = limit() - gal.length;
+    if (room <= 0) { renderGallery(); return; }
+    const take = files.slice(0, room); const skipped = files.length - take.length;
+    const msg = $('gal-msg'); let ok = 0, bad: string[] = [];
+    $('gal').insertAdjacentHTML('afterbegin', take.map((f) => `<li class="gal-item gal-up"><span class="gal-thumb"><span aria-hidden="true">${icon(f.type)}</span></span><span class="gal-name">${esc(f.name)}</span><span class="gal-meta">Subiendo…</span></li>`).join(''));
+    for (const [i, raw] of take.entries()) {
+      msg.textContent = `Subiendo ${i + 1} de ${take.length}…`;
+      const f = await optimize(raw);
+      if (f.size > MAX_FILE_MB * 1048576) { bad.push(`${raw.name} pesa más de ${MAX_FILE_MB} MB`); continue; }
+      const safe = f.name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9.]+/g, '-');
+      const { error } = await sb.storage.from('galeria').upload(`${client.id}/${Date.now()}-${safe}`, f, { contentType: f.type });
+      if (error) bad.push(`${raw.name}: ${/mime|type/i.test(error.message) ? 'formato no permitido' : /policy|row-level/i.test(error.message) ? 'llegaste al máximo de tu plan' : 'no se pudo subir'}`);
+      else ok++;
+    }
+    await loadGallery();
+    msg.textContent = [ok ? `${ok} ${ok === 1 ? 'archivo subido' : 'archivos subidos'}.` : '', bad.length ? `No se subieron: ${bad.join('; ')}.` : '', skipped ? `${skipped} no entraron porque llegaste al máximo de tu plan.` : ''].filter(Boolean).join(' ');
+    if (ok) { confetti($('drop')); rise([...$('gal').children].slice(0, ok), 60); }
+  }
+
+  const drop = $('drop');
+  $<HTMLInputElement>('gal-file').addEventListener('change', (e) => { const t = e.target as HTMLInputElement; upload([...(t.files ?? [])]); t.value = ''; });
+  ['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', (e) => upload([...((e as DragEvent).dataTransfer?.files ?? [])]));
 
   $('pw').addEventListener('submit', async (e) => {
     e.preventDefault();
