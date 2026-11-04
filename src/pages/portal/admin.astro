@@ -1,95 +1,174 @@
 ---
 import PortalShell from '../../components/PortalShell.astro';
-const field = 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-normal text-white [color-scheme:dark]';
+import '../../styles/portal.css';
 ---
-<PortalShell title="Panel JCraft" page="portal/admin.html" session>
-  <section class="wrap py-12 sm:py-16">
-    <span class="eyebrow">Solo JCraft</span>
-    <h1 class="mt-5 text-4xl sm:text-5xl">Panel de <em class="k">aprobaciones</em></h1>
-    <p class="mt-4 max-w-2xl text-white/70">Aquí ves lo que cada cliente aprobó o pidió cambiar, marcas lo que ya publicaste y subes piezas nuevas. Las horas se muestran en la zona horaria de cada cliente.</p>
+<PortalShell title="Panel JCraft" page="portal/admin.html" session light>
+  <!-- Panel de JCraft: mismo tema claro que el del cliente. Pensado para el día a día: qué publicar, qué corregir y cada cliente. -->
+  <div id="layout" data-layout="resumen" class="wrap grid grid-cols-[minmax(0,1fr)] gap-6 pt-6 pb-32 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-8 lg:pb-8">
+    <aside class="pp-rail lg:sticky lg:top-6 lg:self-start">
+      <div class="flex items-center gap-3 px-1">
+        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-cyan font-display text-base font-black text-navy">JC</span>
+        <div class="min-w-0"><p class="truncate font-display font-extrabold text-white">Panel JCraft</p><p class="text-xs text-white/60">Aprobaciones y clientes</p></div>
+      </div>
+      <nav class="mt-5 grid gap-1" aria-label="Secciones del panel">
+        <button type="button" data-view="resumen" class="pp-nav"><span aria-hidden="true">📋</span>Resumen</button>
+        <button type="button" data-view="piezas" class="pp-nav"><span aria-hidden="true">🗂️</span>Piezas</button>
+        <button type="button" data-view="clientes" class="pp-nav"><span aria-hidden="true">👥</span>Clientes</button>
+      </nav>
+      <div class="mt-5 hidden lg:block"><button type="button" data-new class="pp-btn w-full bg-cyan text-navy hover:brightness-110">＋ Nueva pieza</button></div>
+    </aside>
 
-    <div class="mt-10 grid gap-6 lg:grid-cols-2">
-      <section class="glass p-6" aria-labelledby="h-ready">
-        <h2 id="h-ready" class="text-2xl">✅ Para publicar</h2>
-        <ul id="ready" class="mt-5 grid gap-3"></ul>
-      </section>
-      <section class="glass p-6" aria-labelledby="h-changes">
-        <h2 id="h-changes" class="text-2xl">✏️ Con cambios</h2>
-        <ul id="changes" class="mt-5 grid gap-3"></ul>
-      </section>
-    </div>
+    <div class="min-w-0" data-main>
+      <p id="state" class="text-ink/60">Cargando…</p>
 
-    <section class="mt-10 glass p-6" aria-labelledby="h-all">
-      <div class="flex flex-wrap items-center justify-between gap-4">
-        <h2 id="h-all" class="text-2xl">Todas las piezas</h2>
-        <div class="flex flex-wrap gap-3">
-          <select id="f-client" class={field} aria-label="Filtrar por cliente"></select>
-          <button type="button" id="new" class="btn btn-primary !py-3">+ Nueva pieza</button>
+      <!-- Resumen -->
+      <div data-panel="resumen" hidden class="grid grid-cols-[minmax(0,1fr)] gap-6">
+        <header>
+          <h1 id="hello" class="pp-hello">Hola.</h1>
+          <p id="hello-sub" class="mt-2 text-ink/65"></p>
+        </header>
+        <div class="grid grid-cols-3 gap-3">
+          <button type="button" data-stat="aprobado" class="stat"><span class="stat-n" id="s-ready">0</span><span class="stat-l">Para publicar</span></button>
+          <button type="button" data-stat="cambios" class="stat"><span class="stat-n" id="s-changes">0</span><span class="stat-l">Con cambios</span></button>
+          <button type="button" data-stat="pendiente" class="stat"><span class="stat-n" id="s-waiting">0</span><span class="stat-l">Esperando al cliente</span></button>
+        </div>
+        <section class="pp-card" aria-labelledby="h-ready">
+          <h2 id="h-ready" class="pp-h2">Para publicar</h2>
+          <p class="mt-1 text-sm text-ink/60">Aprobadas por el cliente, en orden de fecha. Copia el texto, descarga los archivos y márcala cuando la publiques.</p>
+          <ul id="ready" class="mt-4 grid gap-3"></ul>
+        </section>
+        <section class="pp-card" aria-labelledby="h-changes">
+          <h2 id="h-changes" class="pp-h2">Con cambios</h2>
+          <p class="mt-1 text-sm text-ink/60">Lo que el cliente pidió corregir. Al guardar la corrección, la pieza le vuelve a llegar para aprobar.</p>
+          <ul id="changes" class="mt-4 grid gap-3"></ul>
+        </section>
+      </div>
+
+      <!-- Piezas -->
+      <div data-panel="piezas" hidden>
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <h1 class="pp-title">Piezas</h1>
+          <button type="button" data-new class="pp-btn pp-btn-main">＋ Nueva pieza</button>
+        </div>
+        <div class="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_220px]">
+          <input id="q" type="search" placeholder="Buscar por título" class="pp-input" aria-label="Buscar piezas por título" />
+          <select id="f-client" class="pp-input" aria-label="Filtrar por cliente"></select>
+        </div>
+        <div id="f-status" class="mt-3 flex flex-wrap gap-2" role="group" aria-label="Filtrar por estado"></div>
+        <ul id="all" class="mt-5 grid gap-2"></ul>
+      </div>
+
+      <!-- Clientes -->
+      <div data-panel="clientes" hidden>
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <h1 class="pp-title">Clientes</h1>
+          <div class="flex flex-wrap items-center gap-3">
+            <select id="c-client" class="pp-input !py-2" aria-label="Cliente"></select>
+            <label class="flex items-center gap-2 text-sm font-bold" for="c-plan">Plan
+              <select id="c-plan" class="pp-input !py-2"><option value="basico">Básico · 20 archivos</option><option value="plus">Plus · 40 archivos</option><option value="pro">Pro · 60 archivos</option></select></label>
+          </div>
+        </div>
+        <p id="c-msg" role="status" aria-live="polite" class="mt-2 min-h-[1.25em] text-sm text-navy"></p>
+        <div class="mt-3 grid gap-6 xl:grid-cols-2">
+          <section class="pp-card" aria-labelledby="h-brief"><h2 id="h-brief" class="pp-h2">Brief de marca</h2><p id="c-brief-date" class="mt-1 text-sm text-ink/55"></p><dl id="c-brief" class="mt-4 grid gap-4"></dl></section>
+          <section class="pp-card" aria-labelledby="h-gal"><h2 id="h-gal" class="pp-h2">Galería <span id="c-gal-n" class="font-sans text-base font-normal text-ink/50"></span></h2><p class="mt-1 text-sm text-ink/55">Toca un archivo para descargarlo.</p><ul id="c-gal" class="gal mt-4"></ul></section>
         </div>
       </div>
-      <div class="mt-5 overflow-x-auto">
-        <table class="w-full min-w-[720px] text-left text-sm">
-          <thead class="text-xs uppercase tracking-[.14em] text-white/50"><tr><th class="py-2 pr-3">Fecha</th><th class="pr-3">Cliente</th><th class="pr-3">Tipo</th><th class="pr-3">Pieza</th><th class="pr-3">Estado</th><th></th></tr></thead>
-          <tbody id="all"></tbody>
-        </table>
-      </div>
-    </section>
-  </section>
-
-  <section class="wrap pb-16" aria-labelledby="h-cli">
-    <div class="glass p-6">
-      <div class="flex flex-wrap items-center justify-between gap-4">
-        <h2 id="h-cli" class="text-2xl">Cliente: brief, galería y plan</h2>
-        <div class="flex flex-wrap items-center gap-3">
-          <select id="c-client" class={field} aria-label="Cliente"></select>
-          <label class="flex items-center gap-2 text-sm font-bold" for="c-plan">Plan
-            <select id="c-plan" class={field}><option value="basico">Básico (20 archivos)</option><option value="plus">Plus (40 archivos)</option><option value="pro">Pro (60 archivos)</option></select></label>
-        </div>
-      </div>
-      <p id="c-msg" role="status" aria-live="polite" class="mt-2 min-h-[1.25em] text-sm text-cyan"></p>
-      <div class="mt-4 grid gap-8 lg:grid-cols-2">
-        <div><h3 class="text-xl">Brief de marca</h3><p id="c-brief-date" class="mt-1 text-sm text-white/55"></p><dl id="c-brief" class="mt-4 grid gap-4"></dl></div>
-        <div><h3 class="text-xl">Galería <span id="c-gal-n" class="text-base text-white/55"></span></h3><ul id="c-gal" class="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4"></ul></div>
-      </div>
     </div>
-  </section>
+  </div>
 
-  <dialog id="editor" data-lenis-prevent class="m-auto max-h-[calc(100dvh-24px)] w-[min(760px,calc(100vw-24px))] overflow-auto rounded-[28px] border border-white/10 bg-deep p-0 text-white backdrop:bg-black/70">
+  <!-- Menú inferior en móvil -->
+  <nav class="pp-tabbar" aria-label="Secciones del panel">
+    <button type="button" data-view="resumen" class="pp-tab"><span class="ic" aria-hidden="true">📋</span>Resumen</button>
+    <button type="button" data-view="piezas" class="pp-tab"><span class="ic" aria-hidden="true">🗂️</span>Piezas</button>
+    <button type="button" data-new class="pp-tab"><span class="ic grid h-9 w-9 place-items-center rounded-full bg-navy text-base text-white" aria-hidden="true">＋</span>Nueva</button>
+    <button type="button" data-view="clientes" class="pp-tab"><span class="ic" aria-hidden="true">👥</span>Clientes</button>
+    <a href="clave.html" class="pp-tab"><span class="ic" aria-hidden="true">🔑</span>Contraseña</a>
+  </nav>
+
+  <dialog id="editor" data-lenis-prevent class="pp-modal !w-[min(760px,calc(100vw-24px))]">
     <form id="form" class="grid gap-4 p-6 sm:p-8" novalidate>
       <div class="flex items-center justify-between gap-4">
-        <h2 id="e-title" class="text-3xl">Nueva pieza</h2>
-        <button type="button" id="e-close" class="rounded-full border border-white/20 px-4 py-2 text-sm font-bold hover:border-cyan">Cerrar ✕</button>
+        <h2 id="e-title" class="pp-title">Nueva pieza</h2>
+        <button type="button" id="e-close" class="pp-btn pp-btn-ghost !py-2">Cerrar</button>
       </div>
+      <p id="e-feedback" hidden class="rounded-2xl bg-[#fdefd6] p-4 text-sm text-[#8a5200]"></p>
       <div class="grid gap-4 sm:grid-cols-2">
-        <label class="grid gap-1 text-sm font-bold" for="e-client">Cliente<select id="e-client" class={field} required></select></label>
-        <label class="grid gap-1 text-sm font-bold" for="e-type">Tipo<select id="e-type" class={field}><option value="post">Post</option><option value="carrusel">Carrusel</option><option value="story">Storie</option><option value="reel">Reel</option></select></label>
+        <label class="grid gap-1 text-sm font-bold" for="e-client">Cliente<select id="e-client" class="pp-input" required></select></label>
+        <label class="grid gap-1 text-sm font-bold" for="e-type">Tipo<select id="e-type" class="pp-input"><option value="post">Post</option><option value="carrusel">Carrusel</option><option value="story">Storie</option><option value="reel">Reel</option></select></label>
       </div>
-      <label class="grid gap-1 text-sm font-bold" for="e-name">Título<input id="e-name" class={field} required /></label>
-      <label class="grid gap-1 text-sm font-bold" for="e-goal">Para qué sirve (lo ve el cliente)<textarea id="e-goal" rows="2" class={field}></textarea></label>
-      <label class="grid gap-1 text-sm font-bold" for="e-caption">Texto de la publicación<textarea id="e-caption" rows="6" class={field}></textarea></label>
-      <label class="grid gap-1 text-sm font-bold" for="e-stickers">Stickers (solo stories)<input id="e-stickers" class={field} /></label>
+      <label class="grid gap-1 text-sm font-bold" for="e-name">Título<input id="e-name" class="pp-input" required /></label>
+      <label class="grid gap-1 text-sm font-bold" for="e-goal">Para qué sirve <span class="font-normal text-ink/55">Lo lee el cliente.</span><textarea id="e-goal" rows="2" class="pp-input"></textarea></label>
+      <label class="grid gap-1 text-sm font-bold" for="e-caption">Texto de la publicación<textarea id="e-caption" rows="6" class="pp-input"></textarea></label>
+      <label class="grid gap-1 text-sm font-bold" for="e-stickers">Stickers <span class="font-normal text-ink/55">Solo para stories.</span><input id="e-stickers" class="pp-input" /></label>
       <div class="grid gap-4 sm:grid-cols-2">
-        <label class="grid gap-1 text-sm font-bold" for="e-date">Día sugerido<input id="e-date" type="date" class={field} required /></label>
-        <label class="grid gap-1 text-sm font-bold" for="e-time">Hora sugerida (zona del cliente)<input id="e-time" type="time" step="900" class={field} required /></label>
+        <label class="grid gap-1 text-sm font-bold" for="e-date">Día sugerido<input id="e-date" type="date" class="pp-input" required /></label>
+        <label class="grid gap-1 text-sm font-bold" for="e-time">Hora sugerida<input id="e-time" type="time" step="900" class="pp-input" required /></label>
+        <p class="-mt-2 text-xs text-ink/55 sm:col-span-2">En la hora del cliente: <span id="e-tz"></span>.</p>
       </div>
-      <label class="grid gap-1 text-sm font-bold" for="e-files">Archivos (en orden; carrusel = varias imágenes)<input id="e-files" type="file" multiple accept="image/*,video/mp4" class="text-sm font-normal" /></label>
-      <p id="e-current" class="text-sm text-white/60"></p>
-      <p id="e-msg" role="status" aria-live="polite" class="min-h-[1.25em] text-sm text-cyan"></p>
-      <div class="flex flex-wrap gap-3">
-        <button type="submit" id="e-save" class="btn btn-primary">Guardar y enviar al cliente</button>
+      <div class="grid gap-2">
+        <span class="text-sm font-bold">Archivos <span class="font-normal text-ink/55">En el orden del carrusel. Si eliges nuevos, reemplazan a los actuales.</span></span>
+        <label for="e-files" class="drop !py-6"><input id="e-files" type="file" multiple accept="image/*,video/mp4" class="sr-only" /><span class="font-display font-extrabold text-ink">Elegir archivos</span><span class="text-sm text-ink/60">Imágenes o video MP4</span></label>
+        <ul id="e-preview" class="flex flex-wrap gap-2"></ul>
+      </div>
+      <p id="e-msg" role="status" aria-live="polite" class="min-h-[1.25em] text-sm text-navy"></p>
+      <div class="flex flex-wrap justify-end gap-3">
+        <button type="submit" id="e-save" class="pp-btn pp-btn-main">Guardar y enviar al cliente</button>
       </div>
     </form>
   </dialog>
 </PortalShell>
 
+<style is:global>
+  .stat { display: grid; justify-items: start; gap: .2rem; border-radius: 1.25rem; background: #fff; border: 1px solid rgba(11,23,48,.07); padding: 1rem; text-align: left; box-shadow: 0 18px 40px -32px rgba(11,23,48,.35); transition: border-color .2s, transform .2s; }
+  .stat:hover { border-color: var(--color-navy); transform: translateY(-2px); }
+  .stat-n { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; line-height: 1; color: var(--color-ink); font-variant-numeric: tabular-nums; }
+  .stat-l { font-size: .85rem; font-weight: 700; color: rgba(11,23,48,.6); }
+  .stat[data-stat="aprobado"] .stat-n { color: #006a7a; }
+  .stat[data-stat="cambios"] .stat-n { color: #8a5200; }
+  .row { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: .9rem; align-items: center; border-radius: 1.1rem; border: 1px solid rgba(11,23,48,.07); background: #fff; padding: .6rem; }
+  @media (min-width: 640px) { .row { grid-template-columns: 4.5rem minmax(0, 1fr) auto; } }
+  .row-thumb { width: 100%; aspect-ratio: 4 / 5; border-radius: .7rem; overflow: hidden; background: #eef0f4; }
+  .row-thumb img, .row-thumb video { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .row-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .5rem; }
+  @media (min-width: 640px) { .row-actions { grid-column: auto; justify-content: flex-end; } }
+  .mini-btn { display: inline-flex; align-items: center; gap: .35rem; border-radius: 9999px; border: 1px solid rgba(11,23,48,.15); background: #fff; padding: .45rem .85rem; font-size: .85rem; font-weight: 700; color: var(--color-ink); transition: border-color .2s, background-color .2s, color .2s; }
+  .mini-btn:hover { border-color: var(--color-navy); color: var(--color-navy); }
+  .mini-btn.main { background: var(--color-navy); border-color: var(--color-navy); color: #fff; }
+  .mini-btn.main:hover { background: var(--color-blue); color: #fff; }
+  .filter { border-radius: 9999px; border: 1px solid rgba(11,23,48,.15); background: #fff; padding: .4rem .85rem; font-size: .85rem; font-weight: 700; color: var(--color-ink); }
+  .filter[aria-pressed="true"] { background: var(--color-navy); border-color: var(--color-navy); color: #fff; }
+</style>
+
 <script>
-  import { sb, requireSession, isAdmin, go, TYPES, STATUS, GALLERY_LIMIT, PLAN_NAME, toInputs, fromInputs, fmtDate, fmtTime, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
+  import { sb, requireSession, isAdmin, go, TYPES, STATUS, GALLERY_LIMIT, PLAN_NAME, toInputs, fromInputs, fmtDate, fmtTime, tzName, signed, isVideo, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
-  let clients: Client[] = []; let posts: Post[] = []; let editing: Post | null = null;
+  const ICON: Record<Post['type'], string> = { post: '🖼️', carrusel: '🗂️', story: '📱', reel: '🎬' };
+  let clients: Client[] = []; let posts: Post[] = []; let urls: Record<string, string> = {}; let editing: Post | null = null;
+  let filter: Post['status'] | 'todas' = 'todas';
   const cById = (id: string) => clients.find((c) => c.id === id)!;
   const when = (p: Post) => p.scheduled_at || p.suggested_at;
-  const fmt = (p: Post) => { const w = when(p); const tz = cById(p.client_id).timezone; return w ? `${fmtDate(w, tz, { weekday: 'short', day: 'numeric', month: 'short' })} · ${fmtTime(w, tz)}` : 'Sin fecha'; };
+  const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+  const fmt = (p: Post) => { const w = when(p); const tz = cById(p.client_id)?.timezone ?? 'America/New_York'; return w ? `${cap(fmtDate(w, tz, { weekday: 'short', day: 'numeric', month: 'short' }))}, ${fmtTime(w, tz)}` : 'Sin fecha'; };
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rise = (els: Iterable<Element>, stagger = 60) => { if (calm) return; [...els].forEach((el, i) => (el as HTMLElement).animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 500, delay: i * stagger, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'both' })); };
+
+  // ── Vistas ──
+  const VIEWS = ['resumen', 'piezas', 'clientes'];
+  function setView(v: string) {
+    if (!VIEWS.includes(v)) v = 'resumen';
+    $('layout').dataset.layout = v;
+    document.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => el.hidden = el.dataset.panel !== v);
+    document.querySelectorAll<HTMLElement>('[data-view]').forEach((b) => b.setAttribute('aria-current', b.dataset.view === v ? 'page' : 'false'));
+    try { history.replaceState(null, '', '#' + v); } catch { /* sin historial */ }
+    window.scrollTo({ top: 0 });
+    if (v === 'clientes') loadClient();
+    rise(document.querySelector(`[data-panel="${v}"]`)!.children, 70);
+  }
+  document.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((b) => b.onclick = () => setView(b.dataset.view!));
+  document.querySelectorAll<HTMLButtonElement>('[data-new]').forEach((b) => b.onclick = () => openEditor(null));
+  document.querySelectorAll<HTMLButtonElement>('[data-stat]').forEach((b) => b.onclick = () => { filter = b.dataset.stat as Post['status']; renderAll(); setView('piezas'); });
 
   async function init() {
     const session = await requireSession();
@@ -101,103 +180,121 @@ const field = 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-norma
     const opts = clients.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
     $<HTMLSelectElement>('f-client').innerHTML = `<option value="">Todos los clientes</option>${opts}`;
     $<HTMLSelectElement>('e-client').innerHTML = opts;
-    $<HTMLSelectElement>('f-client').onchange = renderAll;
     $<HTMLSelectElement>('c-client').innerHTML = opts;
+    $<HTMLSelectElement>('f-client').onchange = renderAll;
+    $<HTMLInputElement>('q').oninput = renderAll;
     $<HTMLSelectElement>('c-client').onchange = loadClient;
     $<HTMLSelectElement>('c-plan').onchange = savePlan;
-    if (clients.length) loadClient();
+    $<HTMLSelectElement>('e-client').onchange = () => { $('e-tz').textContent = tzName(cById($<HTMLSelectElement>('e-client').value).timezone); };
     await load();
+    $('state').hidden = true;
+    setView(location.hash.slice(1) || 'resumen');
   }
 
   async function load() {
-    const { data, error } = await sb.from('posts').select('*').order('suggested_at', { ascending: true });
+    const { data, error } = await sb.from('posts').select('*');
     if (error) { toast('No pudimos cargar las piezas.', 'error'); return; }
-    posts = (data ?? []) as Post[];
-    posts.sort((a, b) => (when(a) ?? '').localeCompare(when(b) ?? ''));
-    renderLists(); renderAll();
+    posts = ((data ?? []) as Post[]).sort((a, b) => (when(a) ?? '').localeCompare(when(b) ?? ''));
+    try { urls = await signed([...new Set(posts.map((p) => p.media.find((m) => !isVideo(m)) ?? p.media[0]).filter(Boolean))]); } catch { urls = {}; }
+    renderSummary(); renderAll();
   }
 
-  function renderLists() {
-    const ready = posts.filter((p) => p.status === 'aprobado');
-    const changes = posts.filter((p) => p.status === 'cambios');
-    $('ready').innerHTML = ready.length ? ready.map((p) => `<li class="rounded-2xl bg-white/5 p-4">
-        <div class="flex flex-wrap items-center justify-between gap-2"><b>${esc(cById(p.client_id).name)}</b><span class="text-sm text-cyan">${fmt(p)}</span></div>
-        <p class="mt-1">${TYPES[p.type]} · ${esc(p.title)}</p>
-        <button type="button" data-published="${p.id}" class="mt-3 rounded-full border border-white/20 px-4 py-2 text-sm font-bold hover:border-cyan">Marcar como publicada</button></li>`).join('')
-      : '<li class="text-white/60">No hay piezas aprobadas pendientes de publicar.</li>';
-    $('changes').innerHTML = changes.length ? changes.map((p) => `<li class="rounded-2xl bg-white/5 p-4">
-        <div class="flex flex-wrap items-center justify-between gap-2"><b>${esc(cById(p.client_id).name)}</b><span class="text-sm text-white/60">${fmt(p)}</span></div>
-        <p class="mt-1">${TYPES[p.type]} · ${esc(p.title)}</p>
-        <p class="mt-2 rounded-xl bg-amber-300/10 p-3 text-sm text-amber-100">«${esc(p.feedback)}»</p>
-        <button type="button" data-edit="${p.id}" class="mt-3 rounded-full border border-white/20 px-4 py-2 text-sm font-bold hover:border-cyan">Editar y reenviar</button></li>`).join('')
-      : '<li class="text-white/60">No hay pedidos de cambios.</li>';
+  const thumb = (p: Post) => {
+    const m = p.media.find((x) => !isVideo(x)) ?? p.media[0]; const u = m && urls[m];
+    return `<span class="row-thumb">${u ? (isVideo(m) ? `<video src="${u}#t=0.5" muted preload="metadata"></video>` : `<img src="${u}" alt="" loading="lazy" />`) : ''}</span>`;
+  };
+
+  function renderSummary() {
+    const ready = posts.filter((p) => p.status === 'aprobado'), changes = posts.filter((p) => p.status === 'cambios'), waiting = posts.filter((p) => p.status === 'pendiente');
+    $('s-ready').textContent = String(ready.length); $('s-changes').textContent = String(changes.length); $('s-waiting').textContent = String(waiting.length);
+    const h = new Date().getHours();
+    $('hello').textContent = `${h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches'}.`;
+    const today = ready.filter((p) => when(p) && new Date(when(p)!).toDateString() === new Date().toDateString()).length;
+    $('hello-sub').textContent = ready.length || changes.length
+      ? `Tienes ${ready.length} ${ready.length === 1 ? 'pieza aprobada' : 'piezas aprobadas'} para publicar${today ? ` (${today} hoy)` : ''} y ${changes.length} con cambios por hacer.`
+      : 'Todo al día: no hay nada por publicar ni por corregir.';
+    $('ready').innerHTML = ready.length ? ready.map((p) => `<li class="row">${thumb(p)}
+        <span class="grid min-w-0 gap-0.5"><span class="truncate font-bold">${esc(p.title)}</span><span class="text-sm text-ink/60">${esc(cById(p.client_id).name)} · ${ICON[p.type]} ${TYPES[p.type]}</span><span class="text-sm font-bold text-[#006a7a]">Publicar: ${fmt(p)}</span></span>
+        <span class="row-actions">${p.caption ? `<button type="button" class="mini-btn" data-copy="${p.id}">Copiar texto</button>` : ''}<button type="button" class="mini-btn" data-dl="${p.id}">Descargar</button><button type="button" class="mini-btn main" data-published="${p.id}">Publicada ✓</button></span></li>`).join('')
+      : '<li class="text-ink/60">No hay piezas aprobadas pendientes de publicar.</li>';
+    $('changes').innerHTML = changes.length ? changes.map((p) => `<li class="row">${thumb(p)}
+        <span class="grid min-w-0 gap-1"><span class="truncate font-bold">${esc(p.title)}</span><span class="text-sm text-ink/60">${esc(cById(p.client_id).name)} · ${fmt(p)}</span><span class="rounded-xl bg-[#fdefd6] px-3 py-2 text-sm text-[#8a5200]">«${esc(p.feedback)}»</span></span>
+        <span class="row-actions"><button type="button" class="mini-btn main" data-edit="${p.id}">Corregir</button></span></li>`).join('')
+      : '<li class="text-ink/60">No hay pedidos de cambios.</li>';
     bind();
   }
 
   function renderAll() {
-    const cid = $<HTMLSelectElement>('f-client').value;
-    const list = posts.filter((p) => !cid || p.client_id === cid);
-    $('all').innerHTML = list.map((p) => `<tr class="border-t border-white/10">
-      <td class="py-3 pr-3 tabular-nums whitespace-nowrap">${fmt(p)}</td><td class="pr-3">${esc(cById(p.client_id).name)}</td>
-      <td class="pr-3">${TYPES[p.type]}</td><td class="pr-3">${esc(p.title)}</td><td class="pr-3">${STATUS[p.status]}</td>
-      <td class="text-right"><button type="button" data-edit="${p.id}" class="font-bold text-cyan hover:underline">Editar</button></td></tr>`).join('')
-      || '<tr><td colspan="6" class="py-4 text-white/60">Todavía no hay piezas.</td></tr>';
+    const counts = posts.reduce<Record<string, number>>((a, p) => ((a[p.status] = (a[p.status] ?? 0) + 1), a), {});
+    const opts: [typeof filter, string][] = [['todas', `Todas (${posts.length})`], ...(Object.keys(STATUS) as Post['status'][]).map((s) => [s, `${STATUS[s]} (${counts[s] ?? 0})`] as [typeof filter, string])];
+    $('f-status').innerHTML = opts.map(([k, l]) => `<button type="button" class="filter" data-filter="${k}" aria-pressed="${filter === k}">${l}</button>`).join('');
+    $('f-status').querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((b) => b.onclick = () => { filter = b.dataset.filter as typeof filter; renderAll(); });
+    const cid = $<HTMLSelectElement>('f-client').value; const q = $<HTMLInputElement>('q').value.trim().toLowerCase();
+    const list = posts.filter((p) => (!cid || p.client_id === cid) && (filter === 'todas' || p.status === filter) && (!q || p.title.toLowerCase().includes(q)));
+    $('all').innerHTML = list.length ? list.map((p) => `<li class="row">${thumb(p)}
+        <span class="grid min-w-0 gap-0.5"><span class="truncate font-bold">${esc(p.title)}</span><span class="text-sm text-ink/60">${esc(cById(p.client_id).name)} · ${ICON[p.type]} ${TYPES[p.type]} · ${fmt(p)}</span></span>
+        <span class="row-actions"><span class="pp-state st-${p.status}">${STATUS[p.status]}</span><button type="button" class="mini-btn" data-edit="${p.id}">Editar</button></span></li>`).join('')
+      : '<li class="py-6 text-center text-ink/60">No hay piezas con estos filtros.</li>';
     bind();
   }
 
   function bind() {
     document.querySelectorAll<HTMLButtonElement>('[data-edit]').forEach((b) => b.onclick = () => openEditor(posts.find((p) => p.id === b.dataset.edit) ?? null));
     document.querySelectorAll<HTMLButtonElement>('[data-published]').forEach((b) => b.onclick = async () => {
+      b.disabled = true;
       const { error } = await sb.from('posts').update({ status: 'publicado' }).eq('id', b.dataset.published!);
-      if (error) { toast(error.message, 'error'); return; }
+      if (error) { toast(error.message, 'error'); b.disabled = false; return; }
       toast('Marcada como publicada.'); load();
+    });
+    document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => b.onclick = async () => {
+      const p = posts.find((x) => x.id === b.dataset.copy)!;
+      try { await navigator.clipboard.writeText(p.caption ?? ''); b.textContent = 'Copiado ✓'; setTimeout(() => { b.textContent = 'Copiar texto'; }, 1800); } catch { toast('No se pudo copiar.', 'error'); }
+    });
+    document.querySelectorAll<HTMLButtonElement>('[data-dl]').forEach((b) => b.onclick = async () => {
+      const p = posts.find((x) => x.id === b.dataset.dl)!;
+      const { data, error } = await sb.storage.from('piezas').createSignedUrls(p.media, 600, { download: true });
+      if (error || !data) { toast('No se pudieron preparar las descargas.', 'error'); return; }
+      // Un enlace por archivo (los navegadores bloquean varias descargas seguidas desde un solo clic).
+      const box = document.createElement('span'); box.className = 'row-actions';
+      box.innerHTML = data.map((d, i) => `<a class="mini-btn" href="${d.signedUrl}" download>Archivo ${i + 1}</a>`).join('');
+      b.replaceWith(box);
+      if (data.length === 1) (box.querySelector('a') as HTMLAnchorElement).click();
     });
   }
 
+  // ── Editor de piezas ──
   function openEditor(p: Post | null) {
     editing = p;
     $('e-title').textContent = p ? 'Editar pieza' : 'Nueva pieza';
-    $<HTMLSelectElement>('e-client').value = p?.client_id ?? ($<HTMLSelectElement>('f-client').value || clients[0]?.id || '');
+    const cid = p?.client_id ?? ($<HTMLSelectElement>('f-client').value || clients[0]?.id || '');
+    $<HTMLSelectElement>('e-client').value = cid;
     $<HTMLSelectElement>('e-type').value = p?.type ?? 'post';
     $<HTMLInputElement>('e-name').value = p?.title ?? '';
     $<HTMLTextAreaElement>('e-goal').value = p?.goal ?? '';
     $<HTMLTextAreaElement>('e-caption').value = p?.caption ?? '';
     $<HTMLInputElement>('e-stickers').value = p?.stickers ?? '';
-    const tz = cById($<HTMLSelectElement>('e-client').value)?.timezone ?? 'America/New_York';
+    const tz = cById(cid)?.timezone ?? 'America/New_York';
+    $('e-tz').textContent = tzName(tz);
     const v = toInputs(p?.suggested_at ?? null, tz);
     $<HTMLInputElement>('e-date').value = v.date; $<HTMLInputElement>('e-time').value = v.time;
     $<HTMLInputElement>('e-files').value = '';
-    $('e-current').textContent = p ? `Archivos actuales: ${p.media.length}. Si eliges archivos nuevos, reemplazan a los actuales.` : '';
+    $('e-feedback').hidden = !(p?.status === 'cambios' && p.feedback);
+    $('e-feedback').textContent = p?.feedback ? `El cliente pidió: «${p.feedback}»` : '';
+    previewCurrent(p);
     $('e-msg').textContent = '';
-    $<HTMLDialogElement>('editor').showModal();
+    const d = $<HTMLDialogElement>('editor'); d.showModal();
+    if (!calm) d.animate([{ opacity: 0, transform: 'translateY(24px) scale(.97)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
   }
-
-  // ── Cliente: brief, galería y plan ──
-  const LABELS: Record<string, string> = { negocio: 'Qué vende', cliente: 'Cliente ideal', diferencia: 'Qué lo hace diferente', productos: 'Lo que quiere vender más', tono: 'Cómo quiere sonar', idioma: 'Idioma', palabras: 'Palabras que lo representan', estilo: 'Colores y estilo', referencias: 'Referencias', objetivo: 'Objetivos', fechas: 'Fechas y promociones', evitar: 'Qué evitar', web: 'Sitio web', instagram: 'Instagram', otros: 'Otros enlaces' };
-  async function loadClient() {
-    const c = cById($<HTMLSelectElement>('c-client').value); if (!c) return;
-    $<HTMLSelectElement>('c-plan').value = c.plan ?? 'basico'; $('c-msg').textContent = '';
-    const { data: b, error: be } = await sb.from('briefs').select('data, updated_at').eq('client_id', c.id).maybeSingle();
-    const d = (b?.data ?? {}) as Record<string, string | string[]>;
-    $('c-brief-date').textContent = be ? 'Falta ejecutar supabase/02_brief_galeria.sql.' : b?.updated_at ? `Actualizado el ${fmtDate(b.updated_at, c.timezone, { day: 'numeric', month: 'long' })}.` : 'El cliente todavía no lo ha llenado.';
-    $('c-brief').innerHTML = Object.keys(LABELS).filter((k) => d[k]).map((k) => `<div><dt class="text-xs font-extrabold uppercase tracking-[.14em] text-cyan">${LABELS[k]}</dt><dd class="mt-1 whitespace-pre-wrap text-white/85">${esc(Array.isArray(d[k]) ? (d[k] as string[]).join(', ') : d[k] as string)}</dd></div>`).join('');
-    const { data: files } = await sb.storage.from('galeria').list(c.id, { limit: 200, sortBy: { column: 'created_at', order: 'desc' } });
-    const list = (files ?? []).filter((f) => f.id);
-    $('c-gal-n').textContent = `(${list.length} de ${GALLERY_LIMIT[c.plan ?? 'basico']})`;
-    const urls: Record<string, string> = {};
-    if (list.length) { const { data: s } = await sb.storage.from('galeria').createSignedUrls(list.map((f) => `${c.id}/${f.name}`), 3600, { download: true }); (s ?? []).forEach((x) => { if (x.signedUrl) urls[x.path as string] = x.signedUrl; }); }
-    $('c-gal').innerHTML = list.length ? list.map((f) => { const u = urls[`${c.id}/${f.name}`]; const t = (f.metadata as { mimetype?: string })?.mimetype ?? '';
-      return `<li><a href="${u ?? '#'}" class="grid aspect-square place-items-center overflow-hidden rounded-xl bg-white/10 text-2xl" title="Descargar ${esc(f.name.replace(/^\d+-/, ''))}">${t.startsWith('image') && u ? `<img src="${u}" alt="" class="h-full w-full object-cover" loading="lazy" />` : t.startsWith('video') ? '🎬' : '📄'}</a></li>`; }).join('')
-      : '<li class="col-span-full text-white/60">Sin archivos todavía.</li>';
+  async function previewCurrent(p: Post | null) {
+    $('e-preview').innerHTML = '';
+    if (!p?.media.length) return;
+    const { data } = await sb.storage.from('piezas').createSignedUrls(p.media, 600);
+    $('e-preview').innerHTML = (data ?? []).map((d) => `<li class="h-20 w-16 overflow-hidden rounded-lg bg-[#eef0f4]">${isVideo(d.path ?? '') ? '<span class="grid h-full place-items-center">🎬</span>' : `<img src="${d.signedUrl}" alt="" class="h-full w-full object-cover" />`}</li>`).join('');
   }
-  async function savePlan() {
-    const c = cById($<HTMLSelectElement>('c-client').value); const plan = $<HTMLSelectElement>('c-plan').value as Client['plan'];
-    const { error } = await sb.from('clients').update({ plan }).eq('id', c.id);
-    if (error) { $('c-msg').textContent = 'No se pudo cambiar el plan: ' + error.message; return; }
-    c.plan = plan; $('c-msg').textContent = `Plan de ${c.name} cambiado a ${PLAN_NAME[plan!]}.`; loadClient();
-  }
-
-  $('new').onclick = () => openEditor(null);
+  $<HTMLInputElement>('e-files').addEventListener('change', () => {
+    const files = [...($<HTMLInputElement>('e-files').files ?? [])];
+    $('e-preview').innerHTML = files.map((f) => `<li class="h-20 w-16 overflow-hidden rounded-lg bg-[#eef0f4]">${f.type.startsWith('image') ? `<img src="${URL.createObjectURL(f)}" alt="" class="h-full w-full object-cover" />` : '<span class="grid h-full place-items-center">🎬</span>'}</li>`).join('');
+  });
   $('e-close').onclick = () => $<HTMLDialogElement>('editor').close();
 
   $('form').addEventListener('submit', async (e) => {
@@ -209,26 +306,25 @@ const field = 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-norma
     const files = [...($<HTMLInputElement>('e-files').files ?? [])];
     if (!clientId || !title || !date || !time) { msg.textContent = 'Completa cliente, título, día y hora.'; return; }
     if (!editing && !files.length) { msg.textContent = 'Sube al menos un archivo.'; return; }
-    $<HTMLButtonElement>('e-save').disabled = true; msg.textContent = 'Subiendo archivos…';
+    $<HTMLButtonElement>('e-save').disabled = true; msg.textContent = files.length ? 'Subiendo archivos…' : 'Guardando…';
     try {
       let media = editing?.media ?? [];
       if (files.length) {
         media = [];
         for (const [i, f] of files.entries()) {
-          const safe = f.name.toLowerCase().replace(/[^a-z0-9.]+/g, '-');
+          const safe = f.name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9.]+/g, '-');
           const path = `${clientId}/${Date.now()}-${i + 1}-${safe}`;
           const { error } = await sb.storage.from('piezas').upload(path, f, { contentType: f.type, upsert: false });
           if (error) throw error;
           media.push(path);
         }
       }
-      const tz = cById(clientId).timezone;
       const row = {
         client_id: clientId, type: $<HTMLSelectElement>('e-type').value, title,
         goal: $<HTMLTextAreaElement>('e-goal').value.trim() || null,
         caption: $<HTMLTextAreaElement>('e-caption').value.trim() || null,
         stickers: $<HTMLInputElement>('e-stickers').value.trim() || null,
-        media, suggested_at: fromInputs(date, time, tz),
+        media, suggested_at: fromInputs(date, time, cById(clientId).timezone),
         // Cada vez que JCraft guarda, la pieza vuelve a «Por revisar» para que el cliente la apruebe de nuevo.
         status: 'pendiente', scheduled_at: null, feedback: null, decided_at: null,
       };
@@ -244,6 +340,31 @@ const field = 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-norma
       $<HTMLButtonElement>('e-save').disabled = false;
     }
   });
+
+  // ── Clientes: brief, galería y plan ──
+  const LABELS: Record<string, string> = { negocio: 'Qué vende', cliente: 'Cliente ideal', diferencia: 'Qué lo hace diferente', productos: 'Lo que quiere vender más', tono: 'Cómo quiere sonar', idioma: 'Idioma', palabras: 'Palabras que lo representan', estilo: 'Colores y estilo', referencias: 'Referencias', objetivo: 'Objetivos', fechas: 'Fechas y promociones', evitar: 'Qué evitar', web: 'Sitio web', instagram: 'Instagram', otros: 'Otros enlaces' };
+  async function loadClient() {
+    const c = cById($<HTMLSelectElement>('c-client').value); if (!c) return;
+    $<HTMLSelectElement>('c-plan').value = c.plan ?? 'basico'; $('c-msg').textContent = '';
+    const { data: b, error: be } = await sb.from('briefs').select('data, updated_at').eq('client_id', c.id).maybeSingle();
+    const d = (b?.data ?? {}) as Record<string, string | string[]>;
+    $('c-brief-date').textContent = be ? 'Falta ejecutar supabase/02_brief_galeria.sql.' : b?.updated_at ? `Actualizado el ${fmtDate(b.updated_at, c.timezone, { day: 'numeric', month: 'long' })}.` : 'El cliente todavía no lo ha llenado.';
+    $('c-brief').innerHTML = Object.keys(LABELS).filter((k) => d[k]).map((k) => `<div><dt class="text-sm font-bold text-ink/55">${LABELS[k]}</dt><dd class="mt-1 whitespace-pre-wrap text-ink">${esc(Array.isArray(d[k]) ? (d[k] as string[]).join(', ') : d[k] as string)}</dd></div>`).join('');
+    const { data: files } = await sb.storage.from('galeria').list(c.id, { limit: 200, sortBy: { column: 'created_at', order: 'desc' } });
+    const list = (files ?? []).filter((f) => f.id);
+    $('c-gal-n').textContent = `(${list.length} de ${GALLERY_LIMIT[c.plan ?? 'basico']})`;
+    const u: Record<string, string> = {};
+    if (list.length) { const { data: s } = await sb.storage.from('galeria').createSignedUrls(list.map((f) => `${c.id}/${f.name}`), 3600, { download: true }); (s ?? []).forEach((x) => { if (x.signedUrl) u[x.path as string] = x.signedUrl; }); }
+    $('c-gal').innerHTML = list.length ? list.map((f) => { const url = u[`${c.id}/${f.name}`]; const t = (f.metadata as { mimetype?: string })?.mimetype ?? ''; const name = f.name.replace(/^\d+-/, '');
+      return `<li class="gal-item"><a class="gal-thumb" href="${url ?? '#'}" title="Descargar ${esc(name)}">${t.startsWith('image') && url ? `<img src="${url}" alt="" loading="lazy" />` : t.startsWith('video') ? '🎬' : '📄'}</a><span class="gal-name">${esc(name)}</span></li>`; }).join('')
+      : '<li class="col-span-full text-ink/60">Sin archivos todavía.</li>';
+  }
+  async function savePlan() {
+    const c = cById($<HTMLSelectElement>('c-client').value); const plan = $<HTMLSelectElement>('c-plan').value as Client['plan'];
+    const { error } = await sb.from('clients').update({ plan }).eq('id', c.id);
+    if (error) { $('c-msg').textContent = 'No se pudo cambiar el plan: ' + error.message; return; }
+    c.plan = plan; $('c-msg').textContent = `Plan de ${c.name} cambiado a ${PLAN_NAME[plan!]}.`; loadClient();
+  }
 
   init();
 </script>
