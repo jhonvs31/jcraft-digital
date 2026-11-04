@@ -1,23 +1,29 @@
 ---
 // Marco de las páginas del portal de clientes: sin menú del sitio, sin indexar, con el logo y la sesión.
+// `light`: tema claro (papel) para el panel del cliente; el resto del portal usa el marino del sitio.
 import Base from '../layouts/Base.astro';
 import Logo from './Logo.astro';
 import { u } from '../lib/url';
-interface Props { title: string; page: string; session?: boolean }
-const { title, page, session = false } = Astro.props;
+interface Props { title: string; page: string; session?: boolean; light?: boolean }
+const { title, page, session = false, light = false } = Astro.props;
 // En el panel del cliente la contraseña se cambia dentro del propio panel (sección «Mi contraseña»).
 const passwordHref = page === 'portal/panel.html' ? `${u('portal/panel.html')}#cuenta` : u('portal/clave.html');
+const btn = light
+  ? 'rounded-full border border-ink/15 px-4 py-2 font-bold text-ink/80 hover:border-navy hover:text-navy'
+  : 'rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan';
 ---
 <Base title={`${title} | Portal JCraft`} description="Portal privado de clientes de JCraft Digital." page={page} noindex bare>
-  <div class="min-h-[100svh] bg-deep">
-    <header class="border-b border-white/10">
+  <div class:list={['min-h-[100svh]', light ? 'bg-paper text-ink' : 'bg-deep']}>
+    <header class:list={['border-b', light ? 'border-ink/10 bg-paper' : 'border-white/10']}>
       <div class="wrap flex items-center justify-between gap-4 py-4">
-        <a href={u('')} aria-label="Ir a la web de JCraft"><Logo class="h-9 w-auto" /></a>
+        <a href={u('')} aria-label="Ir a la web de JCraft">
+          {light ? <img src={u('assets/logo-color.png')} alt="JCraft Digital" width="900" height="282" class="h-9 w-auto" /> : <Logo class="h-9 w-auto" />}
+        </a>
         {session && (
           <div class="flex items-center gap-2 text-sm sm:gap-3">
-            <span data-user class="hidden text-white/60 sm:inline"></span>
-            <a href={passwordHref} class="hidden rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan sm:inline-flex">Cambiar contraseña</a>
-            <button type="button" data-logout class="rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan">Cerrar sesión</button>
+            <span data-user class:list={['hidden sm:inline', light ? 'text-ink/55' : 'text-white/60']}></span>
+            <a href={passwordHref} class:list={['hidden sm:inline-flex', btn]}>Cambiar contraseña</a>
+            <button type="button" data-logout class={btn}>Cerrar sesión</button>
           </div>
         )}
       </div>
