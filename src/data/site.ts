@@ -23,9 +23,9 @@ export const nav = [
 export const services = [
   {
     n: '01', icon: '📱', short: 'Redes Sociales', title: 'Gestión de Redes Sociales',
-    teaser: 'Gestión completa de Instagram, Facebook y más. Estrategia, contenido y community management para hacer crecer tu comunidad.',
+    teaser: 'Gestión completa de Instagram, Facebook y más. Estrategia, contenido, publicación y reporte de métricas para hacer crecer tu comunidad.',
     text: 'Tu marca siempre activa, siempre relevante. Nos encargamos de todo para que tú te enfoques en tu negocio.',
-    items: ['Estrategia de contenido personalizada', 'Diseño de posts y stories profesionales', 'Gestión de comentarios y mensajes', 'Calendario editorial mensual', 'Reporte de métricas y crecimiento', 'Instagram, Facebook, LinkedIn, TikTok'],
+    items: ['Estrategia de contenido personalizada', 'Diseño de posts y stories profesionales', 'Publicación y programación de contenidos', 'Calendario editorial mensual', 'Reporte de métricas y crecimiento', 'Instagram, Facebook, LinkedIn, TikTok'],
   },
   {
     n: '02', icon: '🌐', short: 'Diseño Web', title: 'Creación de Sitios Web',
@@ -55,9 +55,9 @@ export const services = [
 
 // Precios publicados en Servicios (COP primero y USD redondeado; definidos por Jhon el 4-nov-2026).
 export const socialPlans = [
-  { name: 'Básico', cop: 120000, price: 39, total: 12, featured: false, items: ['3 posts', '2 carruseles', '6 stories', '1 reel con motion graphics', 'Textos y hashtags', 'Calendario del mes', 'Publicamos por ti', '1 ronda de cambios'] },
-  { name: 'Plus', cop: 190000, price: 59, total: 18, featured: true, items: ['4 posts', '3 carruseles', '9 stories', '2 reels con motion graphics', 'Textos y hashtags', 'Calendario del mes', 'Publicamos por ti', '1 ronda de cambios'] },
-  { name: 'Pro', cop: 280000, price: 89, total: 26, featured: false, items: ['6 posts', '4 carruseles', '12 stories', '4 reels con motion graphics', 'Textos y hashtags', 'Calendario del mes', 'Publicamos por ti', '2 rondas de cambios'] },
+  { name: 'Básico', cop: 120000, price: 39, total: 12, featured: false, items: ['3 posts', '2 carruseles', '6 stories', '1 reel con motion graphics', 'Textos y hashtags', 'Calendario del mes', 'Publicamos por ti', 'Reporte mensual de métricas', '1 ronda de cambios'] },
+  { name: 'Plus', cop: 200000, price: 59, total: 18, featured: true, items: ['4 posts', '3 carruseles', '9 stories', '2 reels con motion graphics', 'Textos y hashtags', 'Calendario del mes', 'Publicamos por ti', 'Reporte mensual de métricas', '1 ronda de cambios'] },
+  { name: 'Pro', cop: 300000, price: 89, total: 26, featured: false, items: ['6 posts', '4 carruseles', '12 stories', '4 reels con motion graphics', 'Textos y hashtags', 'Calendario del mes', 'Publicamos por ti', 'Reporte mensual de métricas', '2 rondas de cambios'] },
 ];
 export const webPlans = [
   { name: 'Sitio web', cop: 1000000, price: 320, text: 'Tu web profesional, lista para que te encuentren y te escriban.', items: ['Hasta 7 páginas', 'Diseño adaptado a tu marca', 'Se ve bien en móvil, tablet y computador', 'SEO básico desde el inicio', 'Formulario de contacto y botón de WhatsApp'] },
