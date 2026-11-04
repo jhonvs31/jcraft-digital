@@ -12,9 +12,9 @@ const { title, page, session = false } = Astro.props;
       <div class="wrap flex items-center justify-between gap-4 py-4">
         <a href={u('')} aria-label="Ir a la web de JCraft"><Logo class="h-9 w-auto" /></a>
         {session && (
-          <div class="flex items-center gap-3 text-sm">
+          <div class="flex items-center gap-2 text-sm sm:gap-3">
             <span data-user class="hidden text-white/60 sm:inline"></span>
-            <a href={u('portal/clave.html')} class="rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan">Cambiar contraseña</a>
+            <a href={u("portal/clave.html")} class="hidden rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan sm:inline-flex">Cambiar contraseña</a>
             <button type="button" data-logout class="rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan">Cerrar sesión</button>
           </div>
         )}

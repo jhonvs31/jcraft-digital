@@ -1,30 +1,102 @@
 ---
 import PortalShell from '../../components/PortalShell.astro';
 import { wa } from '../../lib/url';
+const help = [
+  { icon: '✍️', label: 'Pedir una publicación extra', text: 'Hola JCraft! Quiero pedir una publicación extra para este mes.' },
+  { icon: '💡', label: 'Tengo una idea', text: 'Hola JCraft! Tengo una idea para una publicación:' },
+  { icon: '📸', label: 'Enviar fotos nuevas', text: 'Hola JCraft! Les envío fotos nuevas de mis productos.' },
+  { icon: '💬', label: 'Hablar con JCraft', text: 'Hola JCraft! Tengo una pregunta sobre mi contenido.' },
+];
 ---
 <PortalShell title="Tu contenido" page="portal/panel.html" session>
-  <section class="wrap py-12 sm:py-16">
-    <div class="flex flex-wrap items-end justify-between gap-6">
-      <div>
-        <span class="eyebrow" data-client-name>Portal de clientes</span>
-        <h1 class="mt-5 text-4xl sm:text-5xl">Tu contenido <em class="k">del mes</em></h1>
-        <p class="mt-4 max-w-2xl text-white/70">Toca cada pieza para verla como se verá en Instagram. Apruébala o cuéntanos qué cambiar, y confirma el día y la hora de publicación. Las horas están en <span data-tz>tu zona horaria</span>.</p>
+  <div class="wrap grid grid-cols-[minmax(0,1fr)] gap-8 py-8 lg:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[220px_minmax(0,1fr)_280px]">
+    <!-- Menú -->
+    <aside class="lg:sticky lg:top-6 lg:self-start">
+      <div class="glass flex items-center gap-3 p-3">
+        <span data-initials class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-cyan font-display text-lg font-black text-navy">·</span>
+        <div class="min-w-0"><p data-client-name class="truncate font-display font-extrabold">Cargando…</p><p class="text-xs text-white/55">Plan de redes · JCraft</p></div>
       </div>
-      <select id="client" class="hidden rounded-full border border-white/20 bg-deep px-4 py-2 text-sm font-bold" aria-label="Cliente"></select>
+      <nav class="mt-4 flex gap-2 overflow-x-auto lg:grid lg:gap-1" aria-label="Secciones del portal">
+        <button type="button" data-view="inicio" class="nav-item">🏠 <span>Inicio</span></button>
+        <button type="button" data-view="calendario" class="nav-item">📅 <span>Calendario</span></button>
+        <button type="button" data-view="historial" class="nav-item">✅ <span>Aprobadas</span></button>
+        <a href="clave.html" class="nav-item sm:hidden">🔑 <span>Contraseña</span></a>
+      </nav>
+      <select id="client" class="mt-4 hidden w-full rounded-full border border-white/20 bg-deep px-4 py-2 text-sm font-bold" aria-label="Cliente"></select>
+    </aside>
+
+    <!-- Contenido -->
+    <div class="min-w-0">
+      <p id="state" class="text-white/60">Cargando tu contenido…</p>
+
+      <div data-panel="inicio" hidden class="grid grid-cols-[minmax(0,1fr)] gap-6">
+        <section class="glass min-w-0 p-5 sm:p-6" aria-labelledby="h-week">
+          <div class="flex items-center justify-between gap-4">
+            <h1 id="h-week" class="text-2xl">Esta semana</h1>
+            <button type="button" data-go="calendario" class="text-sm font-bold text-cyan hover:underline">Ver calendario →</button>
+          </div>
+          <ol id="week" class="mt-5 grid grid-cols-7 gap-2 sm:gap-3"></ol>
+        </section>
+
+        <section class="glass min-w-0 p-5 sm:p-6" aria-labelledby="h-pending">
+          <div class="flex items-center justify-between gap-4">
+            <div><h2 id="h-pending" class="text-2xl">Por revisar <span id="pending-n" class="ml-1 rounded-full bg-cyan px-2.5 py-0.5 align-middle text-sm text-navy"></span></h2>
+              <p class="mt-1 text-sm text-white/60">Apruébalas con la fecha que te sugerimos o tócalas para cambiar el día, la hora o pedir ajustes.</p></div>
+            <div class="hidden gap-2 sm:flex">
+              <button type="button" data-scroll="-1" class="round-btn" aria-label="Ver anteriores">‹</button>
+              <button type="button" data-scroll="1" class="round-btn" aria-label="Ver siguientes">›</button>
+            </div>
+          </div>
+          <div id="pending" class="mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3"></div>
+        </section>
+
+        <section id="changes-box" hidden class="glass p-5 sm:p-6" aria-labelledby="h-changes">
+          <h2 id="h-changes" class="text-2xl">Cambios en camino</h2>
+          <p class="mt-1 text-sm text-white/60">Pediste ajustes en estas piezas. Te avisamos cuando la versión nueva esté lista.</p>
+          <ul id="changes" class="mt-4 grid gap-3"></ul>
+        </section>
+      </div>
+
+      <div data-panel="calendario" hidden>
+        <h1 class="text-3xl">Calendario</h1>
+        <p class="mt-2 text-sm text-white/60">Todas tus piezas del mes. Las horas están en <span data-tz>tu zona horaria</span>.</p>
+        <div id="weeks" class="mt-6 grid gap-8"></div>
+      </div>
+
+      <div data-panel="historial" hidden>
+        <h1 class="text-3xl">Aprobadas y publicadas</h1>
+        <ul id="done" class="mt-6 grid gap-3"></ul>
+      </div>
     </div>
 
-    <div id="summary" class="mt-8 flex flex-wrap gap-2" role="group" aria-label="Filtrar por estado"></div>
-    <p id="state" class="mt-10 text-white/60">Cargando tu contenido…</p>
-    <div id="weeks" class="mt-8 grid gap-10"></div>
-
-    <p class="mt-14 border-t border-white/10 pt-6 text-sm text-white/60">Las piezas llevan marca de agua hasta que se publican. ¿Dudas? <a href={wa('Hola! Tengo una duda sobre el portal de clientes.')} target="_blank" rel="noopener" class="font-bold text-cyan hover:underline">Escríbenos por WhatsApp</a></p>
-  </section>
+    <!-- Ayuda -->
+    <aside class="grid content-start gap-4 lg:col-start-2 xl:col-start-auto">
+      <section class="glass p-5" aria-labelledby="h-month">
+        <h2 id="h-month" class="text-xl">Tu mes</h2>
+        <p class="mt-3 flex items-baseline gap-2"><span id="approved-n" class="font-display text-4xl font-black text-cyan tabular-nums">0</span><span id="approved-of" class="text-white/60">de 0 aprobadas</span></p>
+        <div class="mt-3 h-2 overflow-hidden rounded-full bg-white/10"><div id="bar" class="h-full rounded-full bg-cyan transition-[width] duration-500" style="width:0%"></div></div>
+        <p id="next" class="mt-4 text-sm text-white/70"></p>
+      </section>
+      <section class="glass p-5" aria-labelledby="h-help">
+        <h2 id="h-help" class="text-xl">¿Necesitas algo?</h2>
+        <p class="mt-1 text-sm text-white/60">Te respondemos por WhatsApp.</p>
+        <div class="mt-4 grid grid-cols-2 gap-2">
+          {help.map((h) => (
+            <a href={wa(h.text)} target="_blank" rel="noopener" class="grid gap-2 rounded-2xl border border-white/10 bg-white/[.04] p-3 text-sm font-bold transition hover:border-cyan/60">
+              <span class="text-xl" aria-hidden="true">{h.icon}</span>{h.label}
+            </a>
+          ))}
+        </div>
+      </section>
+      <p class="px-1 text-xs text-white/45">Las piezas llevan marca de agua de JCraft hasta que se publican.</p>
+    </aside>
+  </div>
 
   <dialog id="modal" data-lenis-prevent class="m-auto max-h-[calc(100dvh-24px)] w-[min(1000px,calc(100vw-24px))] overflow-auto rounded-[28px] border border-white/10 bg-deep p-0 text-white backdrop:bg-black/70">
     <div class="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-white/10 bg-deep px-4 py-3">
       <div class="flex gap-2">
-        <button type="button" id="prev" class="rounded-full border border-white/20 px-4 py-2 text-sm font-bold hover:border-cyan" aria-label="Pieza anterior">‹</button>
-        <button type="button" id="next" class="rounded-full border border-white/20 px-4 py-2 text-sm font-bold hover:border-cyan" aria-label="Pieza siguiente">›</button>
+        <button type="button" id="prev" class="round-btn" aria-label="Pieza anterior">‹</button>
+        <button type="button" id="next-p" class="round-btn" aria-label="Pieza siguiente">›</button>
       </div>
       <span id="pos" class="text-sm text-white/60 tabular-nums"></span>
       <button type="button" id="close" class="rounded-full border border-white/20 px-4 py-2 text-sm font-bold hover:border-cyan">Cerrar ✕</button>
@@ -34,148 +106,216 @@ import { wa } from '../../lib/url';
 </PortalShell>
 
 <style is:global>
+  .nav-item { display: flex; align-items: center; gap: .6rem; white-space: nowrap; border-radius: 9999px; padding: .65rem 1rem; font-weight: 700; color: rgba(255,255,255,.75); transition: background-color .2s, color .2s; }
+  .nav-item:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .nav-item[aria-current="page"] { background: var(--color-cyan); color: var(--color-navy); }
+  .round-btn { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,.2); font-size: 1.25rem; font-weight: 700; }
+  .round-btn:hover { border-color: var(--color-cyan); }
   .chip-st { display: inline-flex; align-items: center; gap: .45rem; border-radius: 9999px; padding: .3rem .8rem; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
   .st-pendiente { background: rgba(255,255,255,.08); color: #fff; }
   .st-aprobado { background: rgba(0,188,212,.18); color: #7fe7f3; }
   .st-cambios { background: rgba(250,180,70,.18); color: #ffd28a; }
   .st-publicado { background: rgba(255,255,255,.12); color: rgba(255,255,255,.6); }
+  .pill-sm { display: inline-flex; align-items: center; gap: .35rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,.14); padding: .3rem .7rem; font-size: .78rem; font-weight: 700; white-space: nowrap; }
   .media-frame { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
   .track { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .track::-webkit-scrollbar { display: none; }
   .track > * { scroll-snap-align: start; }
+  .clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 </style>
 
 <script>
   import { sb, requireSession, go, TYPES, STATUS, toInputs, fromInputs, fmtDate, fmtTime, tzName, signed, isVideo, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
-  const weeksEl = $('weeks'), stateEl = $('state'), summaryEl = $('summary'), modal = $<HTMLDialogElement>('modal'), body = $('body');
-  let client: Client; let posts: Post[] = []; let urls: Record<string, string> = {}; let filter: Post['status'] | 'todas' = 'todas'; let current = -1;
+  const ICON: Record<Post['type'], string> = { post: '🖼️', carrusel: '🗂️', story: '📱', reel: '🎬' };
+  const modal = $<HTMLDialogElement>('modal'), body = $('body');
+  let client: Client; let posts: Post[] = []; let urls: Record<string, string> = {}; let list: Post[] = []; let current = -1;
 
   const when = (p: Post) => p.scheduled_at || p.suggested_at;
-  const visible = () => posts.filter((p) => filter === 'todas' || p.status === filter);
+  const short = (iso: string | null) => iso ? `${fmtDate(iso, client.timezone, { weekday: 'short', day: 'numeric', month: 'short' })} · ${fmtTime(iso, client.timezone)}` : 'Sin fecha';
+  const vert = (p: Post) => p.type === 'story' || p.type === 'reel';
+
+  // ── Vistas (Inicio / Calendario / Aprobadas) ──
+  function setView(v: string) {
+    document.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => el.hidden = el.dataset.panel !== v);
+    document.querySelectorAll<HTMLElement>('[data-view]').forEach((b) => b.setAttribute('aria-current', b.dataset.view === v ? 'page' : 'false'));
+    try { history.replaceState(null, '', '#' + v); } catch { /* sin historial */ }
+  }
+  document.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((b) => b.onclick = () => setView(b.dataset.view!));
+  document.querySelectorAll<HTMLButtonElement>('[data-go]').forEach((b) => b.onclick = () => setView(b.dataset.go!));
+  document.querySelectorAll<HTMLButtonElement>('[data-scroll]').forEach((b) => b.onclick = () => $('pending').scrollBy({ left: Number(b.dataset.scroll) * 300, behavior: 'smooth' }));
 
   async function init() {
     const session = await requireSession();
     document.querySelector('[data-user]')!.textContent = session.user.email ?? '';
     document.querySelector('[data-logout]')!.addEventListener('click', async () => { await sb.auth.signOut(); go('acceso.html'); });
-
     const { data: clients, error } = await sb.from('clients').select('id, slug, name, timezone').order('name');
-    if (error || !clients?.length) { stateEl.textContent = 'Tu usuario todavía no tiene un cliente asignado. Escríbenos por WhatsApp y lo activamos.'; return; }
+    if (error || !clients?.length) { $('state').textContent = 'Tu usuario todavía no tiene un cliente asignado. Escríbenos por WhatsApp y lo activamos.'; return; }
     const sel = $<HTMLSelectElement>('client');
     if (clients.length > 1) {
       sel.classList.remove('hidden');
       sel.innerHTML = clients.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
-      sel.addEventListener('change', () => load(clients.find((c) => c.id === sel.value)!));
+      sel.onchange = () => load(clients.find((c) => c.id === sel.value)!);
     }
-    load(clients[0]);
+    await load(clients[0]);
+    const start = location.hash.slice(1);
+    setView(['inicio', 'calendario', 'historial'].includes(start) ? start : 'inicio');
   }
 
   async function load(c: Client) {
     client = c;
     document.querySelector('[data-client-name]')!.textContent = c.name;
-    document.querySelector('[data-tz]')!.textContent = tzName(c.timezone);
-    stateEl.textContent = 'Cargando tu contenido…'; stateEl.hidden = false; weeksEl.innerHTML = '';
-    const { data, error } = await sb.from('posts').select('*').eq('client_id', c.id).order('suggested_at', { ascending: true });
-    if (error) { stateEl.textContent = 'No pudimos cargar tu contenido. Recarga la página.'; return; }
-    posts = (data ?? []) as Post[];
-    posts.sort((a, b) => (when(a) ?? '').localeCompare(when(b) ?? ''));
+    document.querySelector('[data-initials]')!.textContent = c.name.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+    document.querySelectorAll('[data-tz]').forEach((el) => el.textContent = tzName(c.timezone));
+    const { data, error } = await sb.from('posts').select('*').eq('client_id', c.id);
+    if (error) { $('state').textContent = 'No pudimos cargar tu contenido. Recarga la página.'; return; }
+    posts = ((data ?? []) as Post[]).sort((a, b) => (when(a) ?? '').localeCompare(when(b) ?? ''));
     try { urls = await signed([...new Set(posts.flatMap((p) => p.media))]); } catch { urls = {}; }
+    $('state').hidden = true;
     render();
   }
 
-  function renderSummary() {
-    const counts = posts.reduce<Record<string, number>>((acc, p) => ((acc[p.status] = (acc[p.status] ?? 0) + 1), acc), {});
-    const opts: [typeof filter, string, number][] = [['todas', 'Todas', posts.length], ...(Object.keys(STATUS) as Post['status'][]).map((s) => [s, STATUS[s], counts[s] ?? 0] as [typeof filter, string, number])];
-    summaryEl.innerHTML = opts.map(([k, label, n]) =>
-      `<button type="button" data-filter="${k}" aria-pressed="${filter === k}" class="rounded-full border px-4 py-2 text-sm font-bold transition ${filter === k ? 'border-cyan bg-cyan text-navy' : 'border-white/15 text-white/75 hover:border-white/40'}">${label} <span class="tabular-nums opacity-70">${n}</span></button>`).join('');
-    summaryEl.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((b) => b.onclick = () => { filter = b.dataset.filter as typeof filter; render(); });
-  }
-
-  function mondayKey(iso: string) {
-    const { date } = toInputs(iso, client.timezone);
-    const d = new Date(date + 'T12:00:00Z');
-    d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
-    return d.toISOString().slice(0, 10);
+  // ── Piezas visuales ──
+  function cover(p: Post, cls: string) {
+    const first = p.media.find((m) => !isVideo(m)) ?? p.media[0];
+    const src = first && urls[first];
+    if (!src) return `<div class="${cls} grid place-items-center bg-white/5 text-sm text-white/50">${TYPES[p.type]}</div>`;
+    return isVideo(first) ? `<video src="${src}#t=0.5" muted playsinline preload="metadata" class="${cls} object-cover"></video>`
+      : `<img src="${src}" alt="" draggable="false" loading="lazy" class="${cls} object-cover object-top" />`;
   }
 
   function render() {
-    renderSummary();
-    const list = visible();
-    if (!posts.length) { stateEl.textContent = 'Todavía no hay piezas para revisar. Te avisaremos cuando estén listas.'; weeksEl.innerHTML = ''; return; }
-    if (!list.length) { stateEl.textContent = 'No hay piezas con este estado.'; stateEl.hidden = false; weeksEl.innerHTML = ''; return; }
-    stateEl.hidden = true;
-    const groups = new Map<string, Post[]>();
-    list.forEach((p) => { const k = when(p) ? mondayKey(when(p)!) : 'sin-fecha'; groups.set(k, [...(groups.get(k) ?? []), p]); });
-    weeksEl.innerHTML = [...groups].map(([k, items]) => {
-      const label = k === 'sin-fecha' ? 'Sin fecha' : `Semana del ${fmtDate(k + 'T12:00:00Z', 'UTC', { day: 'numeric', month: 'long' })}`;
-      return `<section aria-label="${label}"><h2 class="text-2xl">${label}</h2>
-        <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">${items.map((p) => card(p)).join('')}</ul></section>`;
-    }).join('');
-    weeksEl.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((b) => b.onclick = () => open(b.dataset.open!));
+    renderWeek(); renderPending(); renderChanges(); renderCalendar(); renderDone(); renderMonth();
   }
 
-  function thumb(p: Post) {
-    const first = p.media.find((m) => !isVideo(m)) ?? p.media[0];
-    const src = first && urls[first];
-    if (!src) return `<div class="grid aspect-[4/5] place-items-center rounded-2xl bg-white/5 text-sm text-white/50">${TYPES[p.type]}</div>`;
-    if (isVideo(first)) return `<video src="${src}" muted playsinline preload="metadata" class="aspect-[4/5] w-full rounded-2xl object-cover"></video>`;
-    return `<img src="${src}" alt="" draggable="false" loading="lazy" class="aspect-[4/5] w-full rounded-2xl object-cover object-top" />`;
+  function renderWeek() {
+    const tz = client.timezone; const today = toInputs(new Date().toISOString(), tz).date;
+    const days = Array.from({ length: 7 }, (_, i) => { const d = new Date(today + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + i); return d.toISOString().slice(0, 10); });
+    $('week').innerHTML = days.map((day, i) => {
+      const items = posts.filter((p) => when(p) && toInputs(when(p), tz).date === day);
+      const label = fmtDate(day + 'T12:00:00Z', 'UTC', { weekday: 'short', day: 'numeric' });
+      const head = `<span class="block text-center text-xs font-extrabold uppercase tracking-[.08em] ${i === 0 ? 'mx-auto w-fit rounded-full bg-cyan px-2 py-1 text-navy' : 'py-1 text-white/60'}">${label}</span>`;
+      if (!items.length) return `<li class="grid gap-2">${head}<div class="aspect-square rounded-2xl border border-dashed border-white/15"></div></li>`;
+      const p = items[0];
+      return `<li class="grid gap-2">${head}<button type="button" data-open="${p.id}" class="media-frame relative aspect-square overflow-hidden rounded-2xl ring-1 ring-white/10 transition hover:ring-cyan" aria-label="${esc(TYPES[p.type] + ': ' + p.title)}">
+        ${cover(p, 'h-full w-full')}${items.length > 1 ? `<span class="absolute right-1.5 top-1.5 rounded-full bg-black/70 px-2 text-xs font-bold">+${items.length - 1}</span>` : ''}
+        <span class="absolute bottom-1.5 left-1.5 h-2.5 w-2.5 rounded-full ${p.status === 'aprobado' ? 'bg-cyan' : p.status === 'cambios' ? 'bg-amber-300' : 'bg-white/70'}" aria-hidden="true"></span></button></li>`;
+    }).join('');
+    bindOpen($('week'));
   }
 
   function card(p: Post) {
-    const w = when(p);
-    return `<li><button type="button" data-open="${p.id}" id="b-${p.id}" class="glass group grid w-full gap-3 p-3 text-left transition hover:border-cyan/60 media-frame">
-      ${thumb(p)}
-      <span class="flex items-center justify-between gap-2"><span class="text-xs font-extrabold uppercase tracking-[.16em] text-cyan">${TYPES[p.type]}${p.media.length > 1 ? ` · ${p.media.length} slides` : ''}</span><span class="chip-st st-${p.status}">${STATUS[p.status]}</span></span>
-      <span class="font-display text-lg font-extrabold leading-tight">${esc(p.title)}</span>
-      <span class="text-sm text-white/60">${w ? `${fmtDate(w, client.timezone)} · ${fmtTime(w, client.timezone)}` : 'Sin fecha'}</span>
-    </button></li>`;
+    const first = (p.caption || p.stickers || '').split('\n').find((l) => l.trim()) ?? '';
+    return `<article class="grid w-[min(270px,78vw)] shrink-0 snap-start content-start gap-3 rounded-3xl border border-white/10 bg-white/[.04] p-3">
+      <div class="flex flex-wrap items-center justify-between gap-2"><span class="pill-sm">${ICON[p.type]} ${TYPES[p.type]}</span><span class="pill-sm">🗓 ${short(when(p))}</span></div>
+      <button type="button" data-open="${p.id}" class="media-frame relative overflow-hidden rounded-2xl text-left" aria-label="Ver ${esc(p.title)}">
+        ${cover(p, `${vert(p) ? 'aspect-[9/16]' : 'aspect-[4/5]'} w-full`)}
+        ${p.media.length > 1 ? `<span class="absolute right-2 top-2 rounded-full bg-black/60 px-2.5 py-1 text-xs font-bold">1/${p.media.length}</span>` : ''}
+        <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-3 pt-10">
+          <span class="block font-display text-sm font-extrabold">${esc(p.title)}</span>
+          ${first ? `<span class="clamp-2 mt-1 text-xs text-white/80">${esc(first)}</span>` : ''}
+        </span>
+      </button>
+      <div class="grid grid-cols-2 gap-2">
+        <button type="button" data-ask="${p.id}" class="rounded-full border border-white/25 py-2.5 text-sm font-bold hover:border-cyan">Pedir cambios</button>
+        <button type="button" data-approve="${p.id}" class="rounded-full bg-cyan py-2.5 text-sm font-extrabold text-navy hover:brightness-110">Aprobar</button>
+      </div>
+    </article>`;
   }
 
+  function renderPending() {
+    const pend = posts.filter((p) => p.status === 'pendiente');
+    $('pending-n').textContent = String(pend.length);
+    $('pending').innerHTML = pend.length ? pend.map(card).join('')
+      : '<p class="py-6 text-white/60">¡Todo revisado! No tienes piezas pendientes. 🎉</p>';
+    bindOpen($('pending'));
+    $('pending').querySelectorAll<HTMLButtonElement>('[data-ask]').forEach((b) => b.onclick = () => open(b.dataset.ask!, true));
+    $('pending').querySelectorAll<HTMLButtonElement>('[data-approve]').forEach((b) => b.onclick = async () => {
+      const p = posts.find((x) => x.id === b.dataset.approve)!;
+      b.disabled = true; b.textContent = 'Aprobando…';
+      await save(p, 'aprobado', when(p)!, '');
+    });
+  }
+
+  function renderChanges() {
+    const ch = posts.filter((p) => p.status === 'cambios');
+    $('changes-box').hidden = !ch.length;
+    $('changes').innerHTML = ch.map((p) => `<li><button type="button" data-open="${p.id}" class="flex w-full items-center gap-4 rounded-2xl bg-white/[.04] p-3 text-left hover:bg-white/[.07]">
+      ${cover(p, 'h-16 w-16 shrink-0 rounded-xl')}<span class="min-w-0"><span class="block font-bold">${esc(p.title)}</span><span class="clamp-2 text-sm text-amber-100/80">«${esc(p.feedback)}»</span></span></button></li>`).join('');
+    bindOpen($('changes'));
+  }
+
+  function renderCalendar() {
+    const tz = client.timezone; const groups = new Map<string, Post[]>();
+    posts.forEach((p) => {
+      const w = when(p); let k = 'sin-fecha';
+      if (w) { const d = new Date(toInputs(w, tz).date + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); k = d.toISOString().slice(0, 10); }
+      groups.set(k, [...(groups.get(k) ?? []), p]);
+    });
+    $('weeks').innerHTML = [...groups].map(([k, items]) => `<section><h2 class="text-xl">${k === 'sin-fecha' ? 'Sin fecha' : 'Semana del ' + fmtDate(k + 'T12:00:00Z', 'UTC', { day: 'numeric', month: 'long' })}</h2>
+      <ul class="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">${items.map((p) => `<li><button type="button" data-open="${p.id}" class="glass media-frame grid w-full gap-2 p-3 text-left transition hover:border-cyan/60">
+        ${cover(p, 'aspect-[4/5] w-full rounded-2xl')}
+        <span class="flex items-center justify-between gap-2"><span class="text-xs font-extrabold uppercase tracking-[.14em] text-cyan">${TYPES[p.type]}</span><span class="chip-st st-${p.status}">${STATUS[p.status]}</span></span>
+        <span class="font-display font-extrabold leading-tight">${esc(p.title)}</span><span class="text-sm text-white/60">${short(when(p))}</span></button></li>`).join('')}</ul></section>`).join('');
+    bindOpen($('weeks'));
+  }
+
+  function renderDone() {
+    const done = posts.filter((p) => p.status === 'aprobado' || p.status === 'publicado');
+    $('done').innerHTML = done.length ? done.map((p) => `<li><button type="button" data-open="${p.id}" class="flex w-full items-center gap-4 rounded-2xl border border-white/10 bg-white/[.04] p-3 text-left hover:border-cyan/50">
+      ${cover(p, 'h-20 w-16 shrink-0 rounded-xl')}<span class="min-w-0 flex-1"><span class="block font-bold">${esc(p.title)}</span><span class="text-sm text-white/60">${TYPES[p.type]} · ${short(when(p))}</span></span>
+      <span class="chip-st st-${p.status}">${STATUS[p.status]}</span></button></li>`).join('') : '<li class="text-white/60">Todavía no has aprobado ninguna pieza.</li>';
+    bindOpen($('done'));
+  }
+
+  function renderMonth() {
+    const total = posts.length; const ok = posts.filter((p) => p.status === 'aprobado' || p.status === 'publicado').length;
+    $('approved-n').textContent = String(ok); $('approved-of').textContent = `de ${total} aprobadas`;
+    $('bar').style.width = total ? `${Math.round((ok / total) * 100)}%` : '0%';
+    const now = Date.now(); const next = posts.find((p) => p.status !== 'publicado' && when(p) && Date.parse(when(p)!) > now);
+    $('next').innerHTML = next ? `Próxima publicación: <b class="text-white">${esc(next.title)}</b>, ${short(when(next))}.` : 'No hay publicaciones próximas.';
+  }
+
+  function bindOpen(root: HTMLElement) { root.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((b) => b.onclick = () => open(b.dataset.open!)); }
+
+  // ── Detalle de una pieza ──
   function media(p: Post) {
-    const vert = p.type === 'story' || p.type === 'reel';
-    const frame = vert ? 'mx-auto w-full max-w-[300px] rounded-[30px] bg-white/10 p-2' : 'mx-auto w-full max-w-[440px]';
-    const ratio = vert ? 'aspect-[9/16] rounded-[22px]' : 'aspect-[4/5] rounded-2xl';
+    const frame = vert(p) ? 'mx-auto w-full max-w-[300px] rounded-[30px] bg-white/10 p-2' : 'mx-auto w-full max-w-[440px]';
+    const ratio = vert(p) ? 'aspect-[9/16] rounded-[22px]' : 'aspect-[4/5] rounded-2xl';
     const item = (m: string) => {
       const src = urls[m]; if (!src) return `<div class="${ratio} grid place-items-center bg-white/5 text-white/50">Archivo no disponible</div>`;
       return isVideo(m) ? `<video src="${src}" controls playsinline loop controlslist="nodownload" disablepictureinpicture class="${ratio} w-full bg-black object-cover"></video>`
         : `<img src="${src}" alt="" draggable="false" class="${ratio} w-full object-cover" />`;
     };
-    if (p.media.length > 1) {
-      return `<div class="media-frame relative ${frame}"><div class="track" data-track>${p.media.map(item).join('')}</div>
-        <button type="button" data-car="-1" class="absolute left-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-2xl text-navy shadow" aria-label="Slide anterior">‹</button>
-        <button type="button" data-car="1" class="absolute right-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-2xl text-navy shadow" aria-label="Slide siguiente">›</button>
-        <span data-count class="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-xs tabular-nums">1 / ${p.media.length}</span></div>`;
-    }
+    if (p.media.length > 1) return `<div class="media-frame relative ${frame}"><div class="track" data-track>${p.media.map(item).join('')}</div>
+      <button type="button" data-car="-1" class="absolute left-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-2xl text-navy shadow" aria-label="Slide anterior">‹</button>
+      <button type="button" data-car="1" class="absolute right-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-2xl text-navy shadow" aria-label="Slide siguiente">›</button>
+      <span data-count class="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-xs tabular-nums">1 / ${p.media.length}</span></div>`;
     return `<div class="media-frame ${frame}">${p.media.length ? item(p.media[0]) : `<div class="${ratio} grid place-items-center bg-white/5 text-white/50">Sin archivo</div>`}</div>`;
   }
 
   function details(p: Post) {
-    const tz = client.timezone;
-    const sug = p.suggested_at;
-    const val = toInputs(when(p), tz);
-    const locked = p.status === 'publicado';
-    const decision = p.status === 'aprobado' ? `<p class="rounded-2xl bg-cyan/10 p-4 text-sm text-cyan">✓ Aprobaste esta pieza${p.decided_at ? ` el ${fmtDate(p.decided_at, tz, { day: 'numeric', month: 'long' })}` : ''}. Puedes cambiar la fecha o pedir cambios mientras no esté publicada.</p>`
+    const tz = client.timezone; const sug = p.suggested_at; const val = toInputs(when(p), tz); const locked = p.status === 'publicado';
+    const decision = p.status === 'aprobado' ? `<p class="rounded-2xl bg-cyan/10 p-4 text-sm text-cyan">✓ Aprobaste esta pieza. Puedes cambiar la fecha o pedir cambios mientras no esté publicada.</p>`
       : p.status === 'cambios' ? `<p class="rounded-2xl bg-amber-300/10 p-4 text-sm text-amber-200">✏️ Pediste cambios: «${esc(p.feedback)}». Te avisaremos cuando la versión nueva esté lista.</p>`
       : p.status === 'publicado' ? `<p class="rounded-2xl bg-white/10 p-4 text-sm text-white/70">Esta pieza ya se publicó.</p>` : '';
     const text = p.caption ? `<div class="grid gap-2 rounded-2xl bg-white/5 p-4"><span class="text-xs font-extrabold uppercase tracking-[.16em] text-white/50">Texto de la publicación</span><pre class="max-h-64 overflow-auto whitespace-pre-wrap font-sans text-sm leading-relaxed text-white/85">${esc(p.caption)}</pre></div>`
       : p.stickers ? `<div class="grid gap-2 rounded-2xl bg-white/5 p-4"><span class="text-xs font-extrabold uppercase tracking-[.16em] text-white/50">Stickers</span><p class="text-sm text-white/85">${esc(p.stickers)}</p></div>` : '';
-    return `<div class="grid content-start gap-5 min-w-0">
-      <div class="flex flex-wrap items-center gap-3"><span class="text-xs font-extrabold uppercase tracking-[.16em] text-cyan">${TYPES[p.type]}</span><span class="chip-st st-${p.status}">${STATUS[p.status]}</span></div>
+    return `<div class="grid min-w-0 content-start gap-5">
+      <div class="flex flex-wrap items-center gap-3"><span class="pill-sm">${ICON[p.type]} ${TYPES[p.type]}</span><span class="chip-st st-${p.status}">${STATUS[p.status]}</span></div>
       <h2 id="m-title" class="text-3xl">${esc(p.title)}</h2>
-      ${p.goal ? `<p class="text-white/70">${esc(p.goal)}</p>` : ''}
-      ${decision}${text}
+      ${p.goal ? `<p class="text-white/70">${esc(p.goal)}</p>` : ''}${decision}${text}
       <fieldset class="grid gap-3 rounded-2xl border border-white/10 p-4" ${locked ? 'disabled' : ''}>
         <legend class="px-2 text-xs font-extrabold uppercase tracking-[.16em] text-white/50">¿Cuándo la publicamos?</legend>
-        ${sug ? `<p class="text-sm text-white/60">Te sugerimos el <b class="text-white">${fmtDate(sug, tz)} a las ${fmtTime(sug, tz)}</b>.</p>` : ''}
+        ${sug ? `<p class="text-sm text-white/60">Te sugerimos el <b class="text-white">${fmtDate(sug, tz)} a las ${fmtTime(sug, tz)}</b> (${tzName(tz)}).</p>` : ''}
         <div class="grid grid-cols-2 gap-3">
           <label class="grid gap-1 text-sm font-bold" for="d-date">Día<input id="d-date" type="date" value="${val.date}" class="rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-normal text-white [color-scheme:dark]" /></label>
           <label class="grid gap-1 text-sm font-bold" for="d-time">Hora<input id="d-time" type="time" value="${val.time}" step="900" class="rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-normal text-white [color-scheme:dark]" /></label>
         </div>
       </fieldset>
-      ${locked ? '' : `<div id="changes" hidden class="grid gap-2"><label for="d-feedback" class="text-sm font-bold">¿Qué quieres cambiar?</label>
-        <textarea id="d-feedback" rows="4" class="rounded-2xl border border-white/15 bg-white/5 p-3 text-white" placeholder="Por ejemplo: cambiar la foto por la caja de té, o ajustar el texto.">${esc(p.status === 'cambios' ? p.feedback : '')}</textarea></div>
+      ${locked ? '' : `<div id="changes-f" hidden class="grid gap-2"><label for="d-feedback" class="text-sm font-bold">¿Qué quieres cambiar?</label>
+        <textarea id="d-feedback" rows="4" class="rounded-2xl border border-white/15 bg-white/5 p-3 text-white" placeholder="Por ejemplo: usar la foto de la caja de té o ajustar el texto.">${esc(p.status === 'cambios' ? p.feedback : '')}</textarea></div>
       <p id="d-msg" role="status" aria-live="polite" class="min-h-[1.25em] text-sm text-cyan"></p>
       <div class="flex flex-wrap gap-3">
         <button type="button" id="d-approve" class="btn btn-primary">${p.status === 'aprobado' ? 'Guardar fecha' : 'Aprobar'}</button>
@@ -184,15 +324,13 @@ import { wa } from '../../lib/url';
     </div>`;
   }
 
-  function open(id: string) {
-    const list = visible();
-    current = list.findIndex((p) => p.id === id);
-    show();
+  function open(id: string, asking = false) {
+    list = posts; current = list.findIndex((p) => p.id === id); show(asking);
     if (!modal.open) modal.showModal();
   }
 
-  function show() {
-    const list = visible(); const p = list[current]; if (!p) return;
+  function show(asking = false) {
+    const p = list[current]; if (!p) return;
     modal.querySelectorAll('video').forEach((v) => v.pause());
     body.innerHTML = media(p) + details(p);
     $('pos').textContent = `${current + 1} de ${list.length}`;
@@ -203,38 +341,36 @@ import { wa } from '../../lib/url';
       body.querySelectorAll<HTMLButtonElement>('[data-car]').forEach((b) => b.onclick = () => track.scrollBy({ left: Number(b.dataset.car) * track.clientWidth, behavior: 'smooth' }));
       track.addEventListener('scroll', () => { count.textContent = `${Math.round(track.scrollLeft / track.clientWidth) + 1} / ${n}`; }, { passive: true });
     }
-    const approve = body.querySelector<HTMLButtonElement>('#d-approve');
-    const change = body.querySelector<HTMLButtonElement>('#d-change');
-    const changes = body.querySelector<HTMLElement>('#changes');
-    if (p.status === 'cambios' && changes) changes.hidden = false;
-    approve?.addEventListener('click', () => save(p, 'aprobado'));
-    change?.addEventListener('click', () => {
-      if (changes!.hidden) { changes!.hidden = false; (body.querySelector('#d-feedback') as HTMLTextAreaElement).focus(); change.textContent = 'Enviar cambios'; return; }
-      save(p, 'cambios');
-    });
+    const changes = body.querySelector<HTMLElement>('#changes-f'); const change = body.querySelector<HTMLButtonElement>('#d-change');
+    const openChanges = () => { changes!.hidden = false; change!.textContent = 'Enviar cambios'; (body.querySelector('#d-feedback') as HTMLTextAreaElement).focus(); };
+    if (changes && (p.status === 'cambios' || asking)) openChanges();
+    body.querySelector<HTMLButtonElement>('#d-approve')?.addEventListener('click', () => fromForm(p, 'aprobado'));
+    change?.addEventListener('click', () => changes!.hidden ? openChanges() : fromForm(p, 'cambios'));
   }
 
-  async function save(p: Post, status: 'aprobado' | 'cambios') {
+  function fromForm(p: Post, status: 'aprobado' | 'cambios') {
     const msg = body.querySelector('#d-msg') as HTMLElement;
-    const date = (body.querySelector('#d-date') as HTMLInputElement).value;
-    const time = (body.querySelector('#d-time') as HTMLInputElement).value;
+    const date = (body.querySelector('#d-date') as HTMLInputElement).value, time = (body.querySelector('#d-time') as HTMLInputElement).value;
     const feedback = (body.querySelector('#d-feedback') as HTMLTextAreaElement | null)?.value.trim() ?? '';
     if (!date || !time) { msg.textContent = 'Elige el día y la hora de publicación.'; return; }
     if (status === 'cambios' && !feedback) { msg.textContent = 'Cuéntanos qué quieres cambiar.'; return; }
     msg.textContent = 'Guardando…';
-    const patch = { status, scheduled_at: fromInputs(date, time, client.timezone), feedback: status === 'cambios' ? feedback : null };
-    const { data, error } = await sb.from('posts').update(patch).eq('id', p.id).select().single();
-    if (error) { msg.textContent = error.message || 'No pudimos guardar. Inténtalo de nuevo.'; return; }
+    save(p, status, fromInputs(date, time, client.timezone), feedback, msg);
+  }
+
+  async function save(p: Post, status: 'aprobado' | 'cambios', scheduled: string, feedback: string, msg?: HTMLElement) {
+    const { data, error } = await sb.from('posts').update({ status, scheduled_at: scheduled, feedback: status === 'cambios' ? feedback : null }).eq('id', p.id).select().single();
+    if (error) { if (msg) msg.textContent = error.message; else toast(error.message || 'No pudimos guardar.', 'error'); render(); return; }
     Object.assign(p, data);
-    toast(status === 'aprobado' ? 'Pieza aprobada. Le avisamos a JCraft.' : 'Cambios enviados a JCraft.');
-    render(); show();
+    toast(status === 'aprobado' ? `Aprobada para el ${short(when(p))}. Le avisamos a JCraft.` : 'Cambios enviados a JCraft.');
+    render(); if (modal.open) show();
   }
 
   $('close').onclick = () => modal.close();
-  $('prev').onclick = () => { current = (current - 1 + visible().length) % visible().length; show(); };
-  $('next').onclick = () => { current = (current + 1) % visible().length; show(); };
+  $('prev').onclick = () => { current = (current - 1 + list.length) % list.length; show(); };
+  $('next-p').onclick = () => { current = (current + 1) % list.length; show(); };
   modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
-  modal.addEventListener('close', () => { modal.querySelectorAll('video').forEach((v) => v.pause()); document.getElementById('b-' + visible()[current]?.id)?.focus(); });
+  modal.addEventListener('close', () => modal.querySelectorAll('video').forEach((v) => v.pause()));
   document.addEventListener('contextmenu', (e) => { if ((e.target as HTMLElement).closest('.media-frame')) e.preventDefault(); });
   document.addEventListener('dragstart', (e) => { if ((e.target as HTMLElement).closest('.media-frame')) e.preventDefault(); });
 
