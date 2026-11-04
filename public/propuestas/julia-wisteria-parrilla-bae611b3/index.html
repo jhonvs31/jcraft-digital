@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Parrilla de noviembre · Julia Wisteria</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@300;500&display=swap">
+<style>
+  :root{--bg:#FBF6F1;--ink:#4E3D39;--muted:#857471;--rose:#A7787A;--line:rgba(78,61,57,.18)}
+  @media (prefers-color-scheme:dark){:root{--bg:#231B19;--ink:#F1E6DC;--muted:#B5A39E;--rose:#D9AEAF;--line:rgba(241,230,220,.2)}}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font-family:'Jost',system-ui,sans-serif;font-weight:300;padding:24px 16px}
+  main{width:100%;max-width:420px;display:grid;gap:22px}
+  .eyebrow{font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;color:var(--rose)}
+  h1{font-family:'Cormorant Garamond','Times New Roman',serif;font-weight:300;font-size:44px;line-height:1.05;margin:0}
+  h1 i{color:var(--rose)}
+  p{margin:0;color:var(--muted);line-height:1.6}
+  form{display:grid;gap:12px;margin-top:6px}
+  label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--muted)}
+  input{font:inherit;font-size:17px;padding:14px 16px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:2px}
+  input:focus{outline:2px solid var(--rose);outline-offset:2px}
+  button{font:500 13px/1 'Jost',sans-serif;letter-spacing:.2em;text-transform:uppercase;padding:16px;border:0;background:var(--ink);color:var(--bg);cursor:pointer}
+  button:disabled{opacity:.6;cursor:wait}
+  #msg{min-height:1.6em;font-size:14px;color:var(--rose)}
+  small{font-size:12px;color:var(--muted);letter-spacing:.08em}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Parrilla privada · JCraft</div>
+  <h1>Julia Wisteria,<br><i>parrilla de noviembre</i></h1>
+  <p>Esta página es solo para ti. Escribe la contraseña que te enviamos para ver el contenido del mes.</p>
+  <form id="gate">
+    <label for="pass">Contraseña</label>
+    <input id="pass" type="password" autocomplete="current-password" required autofocus>
+    <button id="go" type="submit">Ver la parrilla</button>
+    <div id="msg" role="status" aria-live="polite"></div>
+  </form>
+  <small>© JCraft Digital · Contenido de muestra, no autorizado para publicarse.</small>
+</main>
+<script src="gate.js"></script>
+</body>
+</html>
