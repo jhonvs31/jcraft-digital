@@ -2,8 +2,8 @@
 import { createClient, type Session } from '@supabase/supabase-js';
 
 // La URL y la clave «anon» de Supabase son públicas por diseño: lo que protege los datos son las reglas RLS de supabase/schema.sql.
-const SUPABASE_URL = '';
-const SUPABASE_ANON_KEY = '';
+const SUPABASE_URL = 'https://jjgepsfiajhommbruzbn.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_TTEHzWVoZVFcodh2fflprQ_XAHpDpic';
 const URL_ = (import.meta.env.PUBLIC_SUPABASE_URL as string | undefined) || SUPABASE_URL;
 const KEY = (import.meta.env.PUBLIC_SUPABASE_ANON_KEY as string | undefined) || SUPABASE_ANON_KEY;
 export const configured = Boolean(URL_ && KEY);
