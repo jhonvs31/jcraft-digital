@@ -1,0 +1,63 @@
+---
+import PortalShell from '../../components/PortalShell.astro';
+import { wa } from '../../lib/url';
+---
+<PortalShell title="Acceso de clientes" page="portal/acceso.html">
+  <section class="wrap grid place-items-center py-20">
+    <div class="glass w-full max-w-md p-8 sm:p-10">
+      <span class="eyebrow">Portal de clientes</span>
+      <h1 class="mt-6 text-4xl">Revisa y aprueba <em class="k">tu contenido</em></h1>
+      <p class="mt-4 text-white/70">Entra con el correo y la contraseña que creaste cuando te invitamos.</p>
+
+      <form id="login" class="mt-8 grid gap-4" novalidate>
+        <label class="grid gap-2 text-sm font-bold" for="email">Correo
+          <input id="email" name="email" type="email" autocomplete="email" required class="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-base font-normal text-white outline-none focus:border-cyan" />
+        </label>
+        <label class="grid gap-2 text-sm font-bold" for="password">Contraseña
+          <input id="password" name="password" type="password" autocomplete="current-password" required class="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-base font-normal text-white outline-none focus:border-cyan" />
+        </label>
+        <p id="msg" role="status" aria-live="polite" class="min-h-[1.5em] text-sm text-cyan"></p>
+        <button id="go" type="submit" class="btn btn-primary w-full">Entrar</button>
+      </form>
+
+      <button type="button" id="forgot" class="mt-6 text-sm font-bold text-white/70 underline-offset-4 hover:text-cyan hover:underline">¿Olvidaste tu contraseña?</button>
+      <p class="mt-8 border-t border-white/10 pt-6 text-sm text-white/60">¿Problemas para entrar? <a href={wa('Hola! No puedo entrar al portal de clientes.')} target="_blank" rel="noopener" class="font-bold text-cyan hover:underline">Escríbenos por WhatsApp</a></p>
+    </div>
+  </section>
+</PortalShell>
+
+<script>
+  import { sb, go, configured, portalUrl } from '../../scripts/portal/lib';
+
+  const form = document.getElementById('login') as HTMLFormElement;
+  const email = document.getElementById('email') as HTMLInputElement;
+  const pass = document.getElementById('password') as HTMLInputElement;
+  const msg = document.getElementById('msg') as HTMLElement;
+  const btn = document.getElementById('go') as HTMLButtonElement;
+
+  if (!configured) msg.textContent = 'El portal todavía no está conectado. Escríbenos por WhatsApp.';
+
+  const route = async () => {
+    const { data } = await sb.auth.getSession();
+    if (!data.session) return;
+    const { data: admin } = await sb.from('admins').select('user_id').eq('user_id', data.session.user.id).maybeSingle();
+    go(admin ? 'admin.html' : 'panel.html');
+  };
+  route();
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!email.value || !pass.value) { msg.textContent = 'Escribe tu correo y tu contraseña.'; return; }
+    btn.disabled = true; msg.textContent = 'Entrando…';
+    const { error } = await sb.auth.signInWithPassword({ email: email.value.trim(), password: pass.value });
+    btn.disabled = false;
+    if (error) { msg.textContent = 'El correo o la contraseña no coinciden. Revísalos e inténtalo de nuevo.'; return; }
+    route();
+  });
+
+  document.getElementById('forgot')!.addEventListener('click', async () => {
+    if (!email.value) { msg.textContent = 'Escribe tu correo arriba y vuelve a tocar «¿Olvidaste tu contraseña?».'; email.focus(); return; }
+    const { error } = await sb.auth.resetPasswordForEmail(email.value.trim(), { redirectTo: new URL(portalUrl('clave.html'), location.origin).href });
+    msg.textContent = error ? 'No pudimos enviar el correo. Inténtalo en unos minutos.' : 'Te enviamos un correo con un enlace para crear una contraseña nueva.';
+  });
+</script>

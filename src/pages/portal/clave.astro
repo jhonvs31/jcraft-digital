@@ -1,0 +1,50 @@
+---
+import PortalShell from '../../components/PortalShell.astro';
+---
+<PortalShell title="Crea tu contraseña" page="portal/clave.html">
+  <section class="wrap grid place-items-center py-20">
+    <div class="glass w-full max-w-md p-8 sm:p-10">
+      <span class="eyebrow">Portal de clientes</span>
+      <h1 class="mt-6 text-4xl">Crea tu <em class="k">contraseña</em></h1>
+      <p class="mt-4 text-white/70">La usarás junto con tu correo para entrar al portal. Mínimo 8 caracteres.</p>
+
+      <form id="pw" class="mt-8 grid gap-4" novalidate>
+        <label class="grid gap-2 text-sm font-bold" for="p1">Contraseña nueva
+          <input id="p1" type="password" autocomplete="new-password" minlength="8" required class="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-base font-normal text-white outline-none focus:border-cyan" />
+        </label>
+        <label class="grid gap-2 text-sm font-bold" for="p2">Repítela
+          <input id="p2" type="password" autocomplete="new-password" minlength="8" required class="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-base font-normal text-white outline-none focus:border-cyan" />
+        </label>
+        <p id="msg" role="status" aria-live="polite" class="min-h-[1.5em] text-sm text-cyan"></p>
+        <button id="go" type="submit" class="btn btn-primary w-full">Guardar y entrar</button>
+      </form>
+    </div>
+  </section>
+</PortalShell>
+
+<script>
+  import { sb, go } from '../../scripts/portal/lib';
+
+  const msg = document.getElementById('msg') as HTMLElement;
+  const p1 = document.getElementById('p1') as HTMLInputElement;
+  const p2 = document.getElementById('p2') as HTMLInputElement;
+  const btn = document.getElementById('go') as HTMLButtonElement;
+
+  // El enlace del correo (invitación o recuperación) abre la sesión automáticamente.
+  setTimeout(async () => {
+    const { data } = await sb.auth.getSession();
+    if (!data.session) msg.textContent = 'El enlace no es válido o ya venció. Pide uno nuevo desde «¿Olvidaste tu contraseña?».';
+  }, 1200);
+
+  document.getElementById('pw')!.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (p1.value.length < 8) { msg.textContent = 'La contraseña debe tener al menos 8 caracteres.'; return; }
+    if (p1.value !== p2.value) { msg.textContent = 'Las dos contraseñas no coinciden.'; return; }
+    btn.disabled = true; msg.textContent = 'Guardando…';
+    const { error } = await sb.auth.updateUser({ password: p1.value });
+    btn.disabled = false;
+    if (error) { msg.textContent = 'No pudimos guardarla. Pide un enlace nuevo desde «¿Olvidaste tu contraseña?».'; return; }
+    msg.textContent = 'Listo. Entrando al portal…';
+    go('panel.html');
+  });
+</script>

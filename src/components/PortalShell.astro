@@ -1,0 +1,24 @@
+---
+// Marco de las páginas del portal de clientes: sin menú del sitio, sin indexar, con el logo y la sesión.
+import Base from '../layouts/Base.astro';
+import Logo from './Logo.astro';
+import { u } from '../lib/url';
+interface Props { title: string; page: string; session?: boolean }
+const { title, page, session = false } = Astro.props;
+---
+<Base title={`${title} | Portal JCraft`} description="Portal privado de clientes de JCraft Digital." page={page} noindex bare>
+  <div class="min-h-[100svh] bg-deep">
+    <header class="border-b border-white/10">
+      <div class="wrap flex items-center justify-between gap-4 py-4">
+        <a href={u('')} aria-label="Ir a la web de JCraft"><Logo class="h-9 w-auto" /></a>
+        {session && (
+          <div class="flex items-center gap-3 text-sm">
+            <span data-user class="hidden text-white/60 sm:inline"></span>
+            <button type="button" data-logout class="rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 hover:border-cyan hover:text-cyan">Cerrar sesión</button>
+          </div>
+        )}
+      </div>
+    </header>
+    <slot />
+  </div>
+</Base>

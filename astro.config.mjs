@@ -19,7 +19,7 @@ export default defineConfig({
   build: { format: 'file' },
   trailingSlash: 'ignore',
   integrations: [sitemap({
-    filter: (page) => !/\/(404|links)(\.html)?$/.test(page),
+    filter: (page) => !/\/(404|links)(\.html)?$/.test(page) && !/\/portal\//.test(page),
     serialize(item) {
       // El sitemap genera las URLs sin «.html», pero con format 'file' las páginas viven en «.html» (sin él darían 404).
       const url = new URL(item.url);

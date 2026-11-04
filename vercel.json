@@ -3,7 +3,7 @@
   "framework": "astro",
   "headers": [
     {
-      "source": "/((?!propuestas/).*)",
+      "source": "/((?!propuestas/|portal/).*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
@@ -32,6 +32,47 @@
         {
           "key": "Permissions-Policy",
           "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+        }
+      ]
+    },
+    {
+      "source": "/portal/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://*.supabase.co; media-src 'self' blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
         }
       ]
     },
@@ -105,6 +146,16 @@
       "source": "/index",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/portal",
+      "destination": "/portal/acceso.html",
+      "permanent": false
+    },
+    {
+      "source": "/portal/",
+      "destination": "/portal/acceso.html",
+      "permanent": false
     }
   ]
 }

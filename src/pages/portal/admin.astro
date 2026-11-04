@@ -1,0 +1,202 @@
+---
+import PortalShell from '../../components/PortalShell.astro';
+const field = 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 font-normal text-white [color-scheme:dark]';
+---
+<PortalShell title="Panel JCraft" page="portal/admin.html" session>
+  <section class="wrap py-12 sm:py-16">
+    <span class="eyebrow">Solo JCraft</span>
+    <h1 class="mt-5 text-4xl sm:text-5xl">Panel de <em class="k">aprobaciones</em></h1>
+    <p class="mt-4 max-w-2xl text-white/70">Aquí ves lo que cada cliente aprobó o pidió cambiar, marcas lo que ya publicaste y subes piezas nuevas. Las horas se muestran en la zona horaria de cada cliente.</p>
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-2">
+      <section class="glass p-6" aria-labelledby="h-ready">
+        <h2 id="h-ready" class="text-2xl">✅ Para publicar</h2>
+        <ul id="ready" class="mt-5 grid gap-3"></ul>
+      </section>
+      <section class="glass p-6" aria-labelledby="h-changes">
+        <h2 id="h-changes" class="text-2xl">✏️ Con cambios</h2>
+        <ul id="changes" class="mt-5 grid gap-3"></ul>
+      </section>
+    </div>
+
+    <section class="mt-10 glass p-6" aria-labelledby="h-all">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h2 id="h-all" class="text-2xl">Todas las piezas</h2>
+        <div class="flex flex-wrap gap-3">
+          <select id="f-client" class={field} aria-label="Filtrar por cliente"></select>
+          <button type="button" id="new" class="btn btn-primary !py-3">+ Nueva pieza</button>
+        </div>
+      </div>
+      <div class="mt-5 overflow-x-auto">
+        <table class="w-full min-w-[720px] text-left text-sm">
+          <thead class="text-xs uppercase tracking-[.14em] text-white/50"><tr><th class="py-2 pr-3">Fecha</th><th class="pr-3">Cliente</th><th class="pr-3">Tipo</th><th class="pr-3">Pieza</th><th class="pr-3">Estado</th><th></th></tr></thead>
+          <tbody id="all"></tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <dialog id="editor" data-lenis-prevent class="m-auto max-h-[calc(100dvh-24px)] w-[min(760px,calc(100vw-24px))] overflow-auto rounded-[28px] border border-white/10 bg-deep p-0 text-white backdrop:bg-black/70">
+    <form id="form" class="grid gap-4 p-6 sm:p-8" novalidate>
+      <div class="flex items-center justify-between gap-4">
+        <h2 id="e-title" class="text-3xl">Nueva pieza</h2>
+        <button type="button" id="e-close" class="rounded-full border border-white/20 px-4 py-2 text-sm font-bold hover:border-cyan">Cerrar ✕</button>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="grid gap-1 text-sm font-bold" for="e-client">Cliente<select id="e-client" class={field} required></select></label>
+        <label class="grid gap-1 text-sm font-bold" for="e-type">Tipo<select id="e-type" class={field}><option value="post">Post</option><option value="carrusel">Carrusel</option><option value="story">Storie</option><option value="reel">Reel</option></select></label>
+      </div>
+      <label class="grid gap-1 text-sm font-bold" for="e-name">Título<input id="e-name" class={field} required /></label>
+      <label class="grid gap-1 text-sm font-bold" for="e-goal">Para qué sirve (lo ve el cliente)<textarea id="e-goal" rows="2" class={field}></textarea></label>
+      <label class="grid gap-1 text-sm font-bold" for="e-caption">Texto de la publicación<textarea id="e-caption" rows="6" class={field}></textarea></label>
+      <label class="grid gap-1 text-sm font-bold" for="e-stickers">Stickers (solo stories)<input id="e-stickers" class={field} /></label>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="grid gap-1 text-sm font-bold" for="e-date">Día sugerido<input id="e-date" type="date" class={field} required /></label>
+        <label class="grid gap-1 text-sm font-bold" for="e-time">Hora sugerida (zona del cliente)<input id="e-time" type="time" step="900" class={field} required /></label>
+      </div>
+      <label class="grid gap-1 text-sm font-bold" for="e-files">Archivos (en orden; carrusel = varias imágenes)<input id="e-files" type="file" multiple accept="image/*,video/mp4" class="text-sm font-normal" /></label>
+      <p id="e-current" class="text-sm text-white/60"></p>
+      <p id="e-msg" role="status" aria-live="polite" class="min-h-[1.25em] text-sm text-cyan"></p>
+      <div class="flex flex-wrap gap-3">
+        <button type="submit" id="e-save" class="btn btn-primary">Guardar y enviar al cliente</button>
+      </div>
+    </form>
+  </dialog>
+</PortalShell>
+
+<script>
+  import { sb, requireSession, isAdmin, go, TYPES, STATUS, toInputs, fromInputs, fmtDate, fmtTime, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  let clients: Client[] = []; let posts: Post[] = []; let editing: Post | null = null;
+  const cById = (id: string) => clients.find((c) => c.id === id)!;
+  const when = (p: Post) => p.scheduled_at || p.suggested_at;
+  const fmt = (p: Post) => { const w = when(p); const tz = cById(p.client_id).timezone; return w ? `${fmtDate(w, tz, { weekday: 'short', day: 'numeric', month: 'short' })} · ${fmtTime(w, tz)}` : 'Sin fecha'; };
+
+  async function init() {
+    const session = await requireSession();
+    if (!(await isAdmin(session.user.id))) { go('panel.html'); return; }
+    document.querySelector('[data-user]')!.textContent = session.user.email ?? '';
+    document.querySelector('[data-logout]')!.addEventListener('click', async () => { await sb.auth.signOut(); go('acceso.html'); });
+    const { data } = await sb.from('clients').select('id, slug, name, timezone').order('name');
+    clients = (data ?? []) as Client[];
+    const opts = clients.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+    $<HTMLSelectElement>('f-client').innerHTML = `<option value="">Todos los clientes</option>${opts}`;
+    $<HTMLSelectElement>('e-client').innerHTML = opts;
+    $<HTMLSelectElement>('f-client').onchange = renderAll;
+    await load();
+  }
+
+  async function load() {
+    const { data, error } = await sb.from('posts').select('*').order('suggested_at', { ascending: true });
+    if (error) { toast('No pudimos cargar las piezas.', 'error'); return; }
+    posts = (data ?? []) as Post[];
+    posts.sort((a, b) => (when(a) ?? '').localeCompare(when(b) ?? ''));
+    renderLists(); renderAll();
+  }
+
+  function renderLists() {
+    const ready = posts.filter((p) => p.status === 'aprobado');
+    const changes = posts.filter((p) => p.status === 'cambios');
+    $('ready').innerHTML = ready.length ? ready.map((p) => `<li class="rounded-2xl bg-white/5 p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2"><b>${esc(cById(p.client_id).name)}</b><span class="text-sm text-cyan">${fmt(p)}</span></div>
+        <p class="mt-1">${TYPES[p.type]} · ${esc(p.title)}</p>
+        <button type="button" data-published="${p.id}" class="mt-3 rounded-full border border-white/20 px-4 py-2 text-sm font-bold hover:border-cyan">Marcar como publicada</button></li>`).join('')
+      : '<li class="text-white/60">No hay piezas aprobadas pendientes de publicar.</li>';
+    $('changes').innerHTML = changes.length ? changes.map((p) => `<li class="rounded-2xl bg-white/5 p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2"><b>${esc(cById(p.client_id).name)}</b><span class="text-sm text-white/60">${fmt(p)}</span></div>
+        <p class="mt-1">${TYPES[p.type]} · ${esc(p.title)}</p>
+        <p class="mt-2 rounded-xl bg-amber-300/10 p-3 text-sm text-amber-100">«${esc(p.feedback)}»</p>
+        <button type="button" data-edit="${p.id}" class="mt-3 rounded-full border border-white/20 px-4 py-2 text-sm font-bold hover:border-cyan">Editar y reenviar</button></li>`).join('')
+      : '<li class="text-white/60">No hay pedidos de cambios.</li>';
+    bind();
+  }
+
+  function renderAll() {
+    const cid = $<HTMLSelectElement>('f-client').value;
+    const list = posts.filter((p) => !cid || p.client_id === cid);
+    $('all').innerHTML = list.map((p) => `<tr class="border-t border-white/10">
+      <td class="py-3 pr-3 tabular-nums whitespace-nowrap">${fmt(p)}</td><td class="pr-3">${esc(cById(p.client_id).name)}</td>
+      <td class="pr-3">${TYPES[p.type]}</td><td class="pr-3">${esc(p.title)}</td><td class="pr-3">${STATUS[p.status]}</td>
+      <td class="text-right"><button type="button" data-edit="${p.id}" class="font-bold text-cyan hover:underline">Editar</button></td></tr>`).join('')
+      || '<tr><td colspan="6" class="py-4 text-white/60">Todavía no hay piezas.</td></tr>';
+    bind();
+  }
+
+  function bind() {
+    document.querySelectorAll<HTMLButtonElement>('[data-edit]').forEach((b) => b.onclick = () => openEditor(posts.find((p) => p.id === b.dataset.edit) ?? null));
+    document.querySelectorAll<HTMLButtonElement>('[data-published]').forEach((b) => b.onclick = async () => {
+      const { error } = await sb.from('posts').update({ status: 'publicado' }).eq('id', b.dataset.published!);
+      if (error) { toast(error.message, 'error'); return; }
+      toast('Marcada como publicada.'); load();
+    });
+  }
+
+  function openEditor(p: Post | null) {
+    editing = p;
+    $('e-title').textContent = p ? 'Editar pieza' : 'Nueva pieza';
+    $<HTMLSelectElement>('e-client').value = p?.client_id ?? ($<HTMLSelectElement>('f-client').value || clients[0]?.id || '');
+    $<HTMLSelectElement>('e-type').value = p?.type ?? 'post';
+    $<HTMLInputElement>('e-name').value = p?.title ?? '';
+    $<HTMLTextAreaElement>('e-goal').value = p?.goal ?? '';
+    $<HTMLTextAreaElement>('e-caption').value = p?.caption ?? '';
+    $<HTMLInputElement>('e-stickers').value = p?.stickers ?? '';
+    const tz = cById($<HTMLSelectElement>('e-client').value)?.timezone ?? 'America/New_York';
+    const v = toInputs(p?.suggested_at ?? null, tz);
+    $<HTMLInputElement>('e-date').value = v.date; $<HTMLInputElement>('e-time').value = v.time;
+    $<HTMLInputElement>('e-files').value = '';
+    $('e-current').textContent = p ? `Archivos actuales: ${p.media.length}. Si eliges archivos nuevos, reemplazan a los actuales.` : '';
+    $('e-msg').textContent = '';
+    $<HTMLDialogElement>('editor').showModal();
+  }
+
+  $('new').onclick = () => openEditor(null);
+  $('e-close').onclick = () => $<HTMLDialogElement>('editor').close();
+
+  $('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('e-msg');
+    const clientId = $<HTMLSelectElement>('e-client').value;
+    const title = $<HTMLInputElement>('e-name').value.trim();
+    const date = $<HTMLInputElement>('e-date').value, time = $<HTMLInputElement>('e-time').value;
+    const files = [...($<HTMLInputElement>('e-files').files ?? [])];
+    if (!clientId || !title || !date || !time) { msg.textContent = 'Completa cliente, título, día y hora.'; return; }
+    if (!editing && !files.length) { msg.textContent = 'Sube al menos un archivo.'; return; }
+    $<HTMLButtonElement>('e-save').disabled = true; msg.textContent = 'Subiendo archivos…';
+    try {
+      let media = editing?.media ?? [];
+      if (files.length) {
+        media = [];
+        for (const [i, f] of files.entries()) {
+          const safe = f.name.toLowerCase().replace(/[^a-z0-9.]+/g, '-');
+          const path = `${clientId}/${Date.now()}-${i + 1}-${safe}`;
+          const { error } = await sb.storage.from('piezas').upload(path, f, { contentType: f.type, upsert: false });
+          if (error) throw error;
+          media.push(path);
+        }
+      }
+      const tz = cById(clientId).timezone;
+      const row = {
+        client_id: clientId, type: $<HTMLSelectElement>('e-type').value, title,
+        goal: $<HTMLTextAreaElement>('e-goal').value.trim() || null,
+        caption: $<HTMLTextAreaElement>('e-caption').value.trim() || null,
+        stickers: $<HTMLInputElement>('e-stickers').value.trim() || null,
+        media, suggested_at: fromInputs(date, time, tz),
+        // Cada vez que JCraft guarda, la pieza vuelve a «Por revisar» para que el cliente la apruebe de nuevo.
+        status: 'pendiente', scheduled_at: null, feedback: null, decided_at: null,
+      };
+      msg.textContent = 'Guardando…';
+      const { error } = editing ? await sb.from('posts').update(row).eq('id', editing.id) : await sb.from('posts').insert(row);
+      if (error) throw error;
+      $<HTMLDialogElement>('editor').close();
+      toast(editing ? 'Pieza actualizada y enviada al cliente.' : 'Pieza creada y enviada al cliente.');
+      load();
+    } catch (err) {
+      msg.textContent = (err as Error).message || 'No pudimos guardar la pieza.';
+    } finally {
+      $<HTMLButtonElement>('e-save').disabled = false;
+    }
+  });
+
+  init();
+</script>
