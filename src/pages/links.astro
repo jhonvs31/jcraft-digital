@@ -32,7 +32,7 @@ const links = [
         {[{ src: cata, alt: 'Catalina Escobar' }, { src: jhon, alt: 'Jhon Vega' }].map((p, i) => (
           <div class:list={['relative', i && '-ml-5']}>
             <div class="absolute -inset-1.5 rounded-full bg-gradient-to-br from-cyan via-blue to-cyan opacity-90 blur-[2px]"></div>
-            <Picture src={p.src} formats={['avif', 'webp']} widths={[112, 224]} sizes="112px" alt={`${p.alt}, cofundador${i ? '' : 'a'} de JCraft Digital`} class="relative h-28 w-28 rounded-full border-4 border-deep object-cover" loading="eager" />
+            <Picture src={p.src} formats={['avif', 'webp']} widths={[112, 224, 336]} sizes="112px" quality={90} alt={`${p.alt}, cofundador${i ? '' : 'a'} de JCraft Digital`} class="relative h-28 w-28 rounded-full border-4 border-deep object-cover" loading="eager" />
           </div>
         ))}
       </div>
