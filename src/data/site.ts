@@ -72,6 +72,7 @@ export const otherPricing = [
     plans: [
       { name: 'Pauta Básica', cop: 150000, price: 49, unit: '/mes', items: ['Meta Ads (Instagram y Facebook)', 'Hasta 2 campañas', '4 creativos', 'Ajustes cada semana', 'Reporte mensual'] },
       { name: 'Pauta Plus', cop: 250000, price: 79, unit: '/mes', items: ['Meta Ads y Google Ads', 'Hasta 4 campañas', '8 creativos', 'Pruebas A/B de anuncios', 'Reporte mensual'] },
+      { name: 'Pack Redes + Pauta', cop: 240000, price: 75, unit: '/mes', items: ['Plan de redes Básico (12 contenidos)', 'Pauta Básica en Meta Ads', 'Reporte mensual de redes y pauta', 'Más barato que contratarlos por separado'] },
     ],
   },
   {

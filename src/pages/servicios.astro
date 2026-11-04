@@ -58,7 +58,7 @@ const schema = [
           <article data-reveal class:list={['relative flex flex-col p-8', p.featured ? 'card-paper on-paper ring-4 ring-cyan' : 'glass']}>
             {p.featured && <span class="absolute -top-4 left-8 rounded-full bg-cyan px-4 py-1.5 text-xs font-extrabold tracking-[.18em] text-navy uppercase">Recomendado</span>}
             <h4 class="text-2xl">{p.name}</h4>
-            <p class="mt-4 flex flex-wrap items-baseline gap-x-2"><span data-cur-label class:list={['text-sm font-extrabold tracking-[.18em]', p.featured ? 'text-navy/60' : 'text-white/60']}>COP</span><span data-cop={`$${cop(p.cop)}`} data-usd={String(p.price)} class="font-display text-5xl font-black tracking-tight tabular-nums sm:text-6xl">${cop(p.cop)}</span><span class:list={[p.featured ? 'text-navy/60' : 'text-white/60']}>/mes</span></p>
+            <p class="mt-4 flex flex-wrap items-baseline gap-x-2"><span data-cur-label class:list={['text-sm font-extrabold tracking-[.18em]', p.featured ? 'text-navy/60' : 'text-white/60']}>COP</span><span data-cop={`$${cop(p.cop)}`} data-usd={String(p.price)} class="font-display text-5xl font-black tracking-tight tabular-nums sm:text-6xl lg:text-5xl xl:text-6xl">${cop(p.cop)}</span><span class:list={[p.featured ? 'text-navy/60' : 'text-white/60']}>/mes</span></p>
             <p class:list={['mt-2 font-bold', p.featured ? 'text-blue' : 'text-cyan']}>{p.total} contenidos al mes</p>
             <ul class:list={['mt-6 grid gap-2.5 border-t pt-6', p.featured ? 'border-navy/10' : 'border-white/10']}>
               {p.items.map((it) => (
@@ -99,11 +99,11 @@ const schema = [
       {otherPricing.map((g) => (
         <>
           <h3 class="mt-20 text-3xl sm:text-4xl" data-reveal>{g.title} <span class="text-white/50">· {g.period}</span></h3>
-          <div class="mt-8 grid gap-5 md:grid-cols-2" data-stagger>
+          <div class:list={["mt-8 grid gap-5 md:grid-cols-2", g.plans.length === 3 && "lg:grid-cols-3"]} data-stagger>
             {g.plans.map((p) => (
               <article data-reveal class="glass flex flex-col p-8">
                 <h4 class="text-2xl">{p.name}</h4>
-                <p class="mt-4 flex flex-wrap items-baseline gap-x-2"><span class="text-sm font-extrabold tracking-[.18em] text-white/60">{p.from && 'DESDE '}<span data-cur-label>COP</span></span><span data-cop={`$${cop(p.cop)}`} data-usd={String(p.price)} class="font-display text-5xl font-black tracking-tight tabular-nums">${cop(p.cop)}</span>{p.unit && <span class="text-white/60">{p.unit}</span>}</p>
+                <p class="mt-4 flex flex-wrap items-baseline gap-x-2"><span class="text-sm font-extrabold tracking-[.18em] text-white/60">{p.from && 'DESDE '}<span data-cur-label>COP</span></span><span data-cop={`$${cop(p.cop)}`} data-usd={String(p.price)} class:list={["font-display text-5xl font-black tracking-tight tabular-nums", g.plans.length === 3 && "lg:text-4xl xl:text-5xl"]}>${cop(p.cop)}</span>{p.unit && <span class="text-white/60">{p.unit}</span>}</p>
                 <ul class="mt-6 grid gap-2.5 border-t border-white/10 pt-6">
                   {p.items.map((it) => (
                     <li class="flex items-start gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-cyan text-[10px] font-black text-navy" aria-hidden="true">✓</span>{it}</li>
