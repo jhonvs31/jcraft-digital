@@ -61,26 +61,41 @@ import '../../styles/portal.css';
       <!-- Clientes -->
       <div data-panel="clientes" hidden>
         <div class="flex flex-wrap items-end justify-between gap-4">
-          <h1 class="pp-title">Clientes</h1>
-          <div class="flex flex-wrap items-center gap-3">
-            <select id="c-client" class="pp-input !py-2" aria-label="Cliente"></select>
-            <label class="flex items-center gap-2 text-sm font-bold" for="c-plan">Plan
-              <select id="c-plan" class="pp-input !py-2"><option value="basico">Básico · 20 archivos</option><option value="plus">Plus · 40 archivos</option><option value="pro">Pro · 60 archivos</option></select></label>
-            <button type="button" id="c-new" class="pp-btn pp-btn-main !py-2">＋ Nuevo cliente</button>
-          </div>
+          <div><h1 class="pp-title">Clientes</h1><p id="c-count" class="mt-1 text-sm text-ink/60"></p></div>
+          <button type="button" id="c-new" class="pp-btn pp-btn-main !py-2">＋ Nuevo cliente</button>
         </div>
-        <section class="pp-card mt-5" aria-labelledby="h-svc">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <h2 id="h-svc" class="pp-h2">Servicios contratados</h2>
-            <button type="button" id="c-edit" class="mini-btn">Editar cliente</button>
+        <select id="c-client" class="sr-only" aria-hidden="true" tabindex="-1"></select>
+        <div class="mt-5 grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
+          <!-- Lista de clientes -->
+          <aside class="grid content-start gap-3 xl:sticky xl:top-6 xl:self-start">
+            <input id="c-q" type="search" placeholder="Buscar cliente o servicio" class="pp-input" aria-label="Buscar clientes" />
+            <ul id="c-list" class="clist" aria-label="Lista de clientes"></ul>
+            <p class="flex flex-wrap gap-x-4 gap-y-1 px-1 text-xs font-bold text-ink/55"><span><span class="badge chg !h-4 !min-w-4 !p-0 align-middle"></span> Con cambios</span><span><span class="badge ok !h-4 !min-w-4 !p-0 align-middle"></span> Para publicar</span><span><span class="badge wait !h-4 !min-w-4 !p-0 align-middle"></span> Por revisar</span></p>
+          </aside>
+          <!-- Ficha del cliente elegido -->
+          <div class="grid min-w-0 content-start gap-6" id="c-detail">
+            <section class="pp-card" aria-labelledby="c-name">
+              <div class="flex flex-wrap items-start justify-between gap-4">
+                <div class="flex min-w-0 items-center gap-4">
+                  <span id="c-avatar" class="cav cav-lg" aria-hidden="true"></span>
+                  <div class="min-w-0"><h2 id="c-name" class="pp-title !text-[1.7rem] leading-tight"></h2><p id="c-contact" class="mt-1 text-sm text-ink/60"></p></div>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                  <label class="flex items-center gap-2 text-sm font-bold" for="c-plan">Galería
+                    <select id="c-plan" class="pp-input !py-2"><option value="basico">Básico · 20 archivos</option><option value="plus">Plus · 40 archivos</option><option value="pro">Pro · 60 archivos</option></select></label>
+                  <button type="button" id="c-edit" class="mini-btn">Editar cliente</button>
+                </div>
+              </div>
+              <h3 class="mt-5 text-sm font-bold text-ink/55">Servicios contratados</h3>
+              <ul id="c-services" class="mt-2 flex flex-wrap gap-2"></ul>
+              <div id="c-stats" class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4"></div>
+              <p id="c-msg" role="status" aria-live="polite" class="mt-3 min-h-[1.25em] text-sm text-navy"></p>
+            </section>
+            <div class="grid gap-6 2xl:grid-cols-2">
+              <section class="pp-card" aria-labelledby="h-brief"><h2 id="h-brief" class="pp-h2">Brief de marca</h2><p id="c-brief-date" class="mt-1 text-sm text-ink/55"></p><dl id="c-brief" class="mt-4 grid gap-4"></dl></section>
+              <section class="pp-card" aria-labelledby="h-gal"><h2 id="h-gal" class="pp-h2">Galería <span id="c-gal-n" class="font-sans text-base font-normal text-ink/50"></span></h2><p class="mt-1 text-sm text-ink/55">Toca un archivo para descargarlo.</p><ul id="c-gal" class="gal mt-4"></ul></section>
+            </div>
           </div>
-          <ul id="c-services" class="mt-3 flex flex-wrap gap-2"></ul>
-          <p id="c-contact" class="mt-3 text-sm text-ink/60"></p>
-        </section>
-        <p id="c-msg" role="status" aria-live="polite" class="mt-2 min-h-[1.25em] text-sm text-navy"></p>
-        <div class="mt-3 grid gap-6 xl:grid-cols-2">
-          <section class="pp-card" aria-labelledby="h-brief"><h2 id="h-brief" class="pp-h2">Brief de marca</h2><p id="c-brief-date" class="mt-1 text-sm text-ink/55"></p><dl id="c-brief" class="mt-4 grid gap-4"></dl></section>
-          <section class="pp-card" aria-labelledby="h-gal"><h2 id="h-gal" class="pp-h2">Galería <span id="c-gal-n" class="font-sans text-base font-normal text-ink/50"></span></h2><p class="mt-1 text-sm text-ink/55">Toca un archivo para descargarlo.</p><ul id="c-gal" class="gal mt-4"></ul></section>
         </div>
       </div>
     </div>
@@ -192,6 +207,20 @@ import '../../styles/portal.css';
   .svc input[type="radio"] { border-radius: 9999px; }
   .svc input:checked { border-color: var(--color-navy); background: var(--color-navy); box-shadow: inset 0 0 0 3px #fff; }
   .svc input:focus-visible { outline: 2px solid var(--color-cyan); outline-offset: 2px; }
+  .clist { display: grid; gap: .5rem; max-height: min(70vh, 720px); overflow-y: auto; padding: .15rem; }
+  .crow { display: grid; grid-template-columns: 2.75rem minmax(0,1fr) auto; gap: .8rem; align-items: center; width: 100%; text-align: left; border-radius: 1.1rem; border: 1px solid rgba(11,23,48,.08); background: #fff; padding: .75rem .85rem; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .crow:hover { border-color: rgba(11,23,48,.3); transform: translateY(-1px); }
+  .crow[aria-current="true"] { border-color: var(--color-navy); box-shadow: 0 0 0 2px var(--color-navy) inset, 0 18px 40px -30px rgba(11,23,48,.5); }
+  .cav { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 9999px; background: var(--color-navy); color: #fff; font-family: var(--font-display); font-weight: 900; font-size: .95rem; }
+  .cav-lg { width: 3.6rem; height: 3.6rem; font-size: 1.2rem; flex-shrink: 0; }
+  .crow-sub { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .8rem; color: rgba(11,23,48,.58); margin-top: .1rem; }
+  .badge { display: inline-grid; place-items: center; min-width: 1.6rem; height: 1.6rem; border-radius: 9999px; padding: 0 .45rem; font-size: .78rem; font-weight: 900; }
+  .badge.wait { background: #eef3fb; color: var(--color-navy); }
+  .badge.chg { background: #fdefd6; color: #8a5200; }
+  .badge.ok { background: #e0f7fa; color: #006a7a; }
+  .cstat { border-radius: 1rem; background: #f6f7fa; padding: .8rem .9rem; }
+  .cstat b { display: block; font-family: var(--font-display); font-size: 1.6rem; font-weight: 900; line-height: 1.05; color: var(--color-ink); }
+  .cstat span { font-size: .8rem; font-weight: 700; color: rgba(11,23,48,.6); }
   .chip { border-radius: 9999px; background: #eef3fb; color: var(--color-navy); padding: .35rem .8rem; font-size: .85rem; font-weight: 800; }
 </style>
 
@@ -219,7 +248,7 @@ import '../../styles/portal.css';
     document.querySelectorAll<HTMLElement>('[data-view]').forEach((b) => b.setAttribute('aria-current', b.dataset.view === v ? 'page' : 'false'));
     try { history.replaceState(null, '', '#' + v); } catch { /* sin historial */ }
     window.scrollTo({ top: 0 });
-    if (v === 'clientes') loadClient();
+    if (v === 'clientes') loadBriefDates().then(loadClient);
     rise(document.querySelector(`[data-panel="${v}"]`)!.children, 70);
   }
   document.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((b) => b.onclick = () => setView(b.dataset.view!));
@@ -408,9 +437,48 @@ import '../../styles/portal.css';
 
   // ── Clientes: brief, galería y plan ──
   const LABELS: Record<string, string> = { negocio: 'Qué vende', cliente: 'Cliente ideal', diferencia: 'Qué lo hace diferente', productos: 'Lo que quiere vender más', tono: 'Cómo quiere sonar', idioma: 'Idioma', palabras: 'Palabras que lo representan', estilo: 'Colores y estilo', referencias: 'Referencias', objetivo: 'Objetivos', fechas: 'Fechas y promociones', evitar: 'Qué evitar', web: 'Sitio web', instagram: 'Instagram', otros: 'Otros enlaces' };
+  // Lista de clientes: quién es, qué contrató y qué tiene pendiente.
+  let briefDates: Record<string, string> = {};
+  const initials = (n: string) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+  const counts = (cid: string) => {
+    const mine = posts.filter((p) => p.client_id === cid);
+    return { wait: mine.filter((p) => p.status === 'pendiente').length, chg: mine.filter((p) => p.status === 'cambios').length, ok: mine.filter((p) => p.status === 'aprobado').length, pub: mine.filter((p) => p.status === 'publicado').length };
+  };
+  async function loadBriefDates() {
+    const { data } = await sb.from('briefs').select('client_id, updated_at');
+    briefDates = Object.fromEntries((data ?? []).map((b: { client_id: string; updated_at: string }) => [b.client_id, b.updated_at]));
+  }
+  function renderClientList() {
+    const sel = $<HTMLSelectElement>('c-client').value;
+    const q = $<HTMLInputElement>('c-q').value.trim().toLowerCase();
+    const match = (c: Client) => !q || [c.name, c.email ?? '', ...(c.services ?? []).map((x) => SERVICE_NAME[x] ?? x)].join(' ').toLowerCase().includes(q);
+    const list = clients.filter(match);
+    $('c-count').textContent = `${clients.length} ${clients.length === 1 ? 'cliente' : 'clientes'}`;
+    $('c-list').innerHTML = list.length ? list.map((c) => {
+      const n = counts(c.id);
+      const svc = (c.services ?? []).map((x) => SERVICE_NAME[x] ?? x).join(' · ') || 'Sin servicios';
+      const badges = [n.chg && `<span class="badge chg" title="Con cambios">${n.chg}</span>`, n.ok && `<span class="badge ok" title="Para publicar">${n.ok}</span>`, n.wait && `<span class="badge wait" title="Por revisar">${n.wait}</span>`].filter(Boolean).join('');
+      return `<li><button type="button" class="crow" data-client="${c.id}" aria-current="${c.id === sel}">
+        <span class="cav" aria-hidden="true">${esc(initials(c.name))}</span>
+        <span class="min-w-0"><span class="block truncate font-bold">${esc(c.name)}</span><span class="crow-sub">${esc(svc)}</span><span class="crow-sub">${briefDates[c.id] ? '✓ Brief listo' : 'Brief pendiente'}</span></span>
+        <span class="flex gap-1">${badges}</span></button></li>`;
+    }).join('') : `<li class="rounded-2xl bg-white p-5 text-center text-sm text-ink/60">${clients.length ? 'Ningún cliente coincide con la búsqueda.' : 'Aún no tienes clientes. Crea el primero con «Nuevo cliente».'}</li>`;
+    $('c-list').querySelectorAll<HTMLButtonElement>('[data-client]').forEach((b) => b.onclick = () => {
+      $<HTMLSelectElement>('c-client').value = b.dataset.client!; loadClient();
+      if (matchMedia('(max-width: 1279px)').matches) $('c-detail').scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
+    });
+  }
+  $<HTMLInputElement>('c-q').oninput = renderClientList;
+
   async function loadClient() {
-    const c = cById($<HTMLSelectElement>('c-client').value); if (!c) return;
+    const c = cById($<HTMLSelectElement>('c-client').value);
+    $('c-detail').hidden = !c;
+    renderClientList();
+    if (!c) return;
     $<HTMLSelectElement>('c-plan').value = c.plan ?? 'basico'; $('c-msg').textContent = '';
+    $('c-name').textContent = c.name; $('c-avatar').textContent = initials(c.name);
+    const n = counts(c.id);
+    $('c-stats').innerHTML = [[n.wait, 'Por revisar'], [n.chg, 'Con cambios'], [n.ok, 'Para publicar'], [n.pub, 'Publicadas']].map(([v, l]) => `<div class="cstat"><b>${v}</b><span>${l}</span></div>`).join('');
     const svc = c.services ?? [];
     $('c-services').innerHTML = svc.length ? svc.map((s) => `<li class="chip">${esc(SERVICE_NAME[s] ?? s)}</li>`).join('') : '<li class="text-sm text-ink/60">Sin servicios registrados. Usa «Editar cliente» para agregarlos.</li>';
     $('c-contact').textContent = [c.email && `Acceso: ${c.email}`, c.phone && `WhatsApp: ${c.phone}`, tzName(c.timezone)].filter(Boolean).join(' · ');
