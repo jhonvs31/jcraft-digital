@@ -87,7 +87,7 @@ export const otherPricing = [
   {
     title: 'Estrategia digital', period: 'pago único',
     plans: [
-      { name: 'Diagnóstico digital', cop: 250000, price: 79, items: ['Revisión de redes, web y ficha de Google', 'Comparación con 3 competidores', 'Informe con recomendaciones', '1 reunión para explicarlo'] },
+      { name: 'Diagnóstico digital', cop: 0, price: 0, free: true, items: ['Revisión de redes, web y ficha de Google', 'Comparación con 3 competidores', 'Informe con recomendaciones', '1 reunión para explicarlo'] },
       { name: 'Plan estratégico', cop: 500000, price: 160, items: ['Diagnóstico digital', 'Cliente ideal', 'Plan de contenidos y canales para 3 meses', 'Objetivos medibles', 'Presentación de resultados'] },
     ],
   },

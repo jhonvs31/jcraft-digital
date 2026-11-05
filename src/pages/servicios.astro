@@ -103,13 +103,15 @@ const schema = [
             {g.plans.map((p) => (
               <article data-reveal class="glass flex flex-col p-8">
                 <h4 class="text-2xl">{p.name}</h4>
-                <p class="mt-4 flex flex-wrap items-baseline gap-x-2"><span class="text-sm font-extrabold tracking-[.18em] text-white/60">{p.from && 'DESDE '}<span data-cur-label>COP</span></span><span data-cop={`$${cop(p.cop)}`} data-usd={String(p.price)} class:list={["font-display text-5xl font-black tracking-tight tabular-nums", g.plans.length === 3 && "lg:text-4xl xl:text-5xl"]}>${cop(p.cop)}</span>{p.unit && <span class="text-white/60">{p.unit}</span>}</p>
+                {'free' in p && p.free
+                  ? <p class="mt-4 flex flex-wrap items-baseline gap-x-2"><span class="font-display text-5xl font-black tracking-tight text-cyan">Gratis</span><span class="text-white/60">sin compromiso</span></p>
+                  : <p class="mt-4 flex flex-wrap items-baseline gap-x-2"><span class="text-sm font-extrabold tracking-[.18em] text-white/60">{p.from && 'DESDE '}<span data-cur-label>COP</span></span><span data-cop={`$${cop(p.cop)}`} data-usd={String(p.price)} class:list={["font-display text-5xl font-black tracking-tight tabular-nums", g.plans.length === 3 && "lg:text-4xl xl:text-5xl"]}>${cop(p.cop)}</span>{p.unit && <span class="text-white/60">{p.unit}</span>}</p>}
                 <ul class="mt-6 grid gap-2.5 border-t border-white/10 pt-6">
                   {p.items.map((it) => (
                     <li class="flex items-start gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-cyan text-[10px] font-black text-navy" aria-hidden="true">✓</span>{it}</li>
                   ))}
                 </ul>
-                <a href={wa(`Hola! Me interesa: ${p.name}.`)} target="_blank" rel="noopener" class="btn btn-ghost mt-8 self-start">Lo quiero</a>
+                <a href={wa(`Hola! Me interesa: ${p.name}${'free' in p && p.free ? ' (gratis)' : ''}.`)} target="_blank" rel="noopener" class="btn btn-ghost mt-8 self-start">{'free' in p && p.free ? 'Pedir mi diagnóstico' : 'Lo quiero'}</a>
               </article>
             ))}
           </div>
