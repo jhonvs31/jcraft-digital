@@ -1,0 +1,96 @@
+---
+// Política de privacidad y tratamiento de datos personales (Ley 1581 de 2012 y Decreto 1074 de 2015, Colombia)
+// y uso de cookies (Google Analytics y Google Ads). Si cambias algo importante, actualiza `updated`.
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { contact } from '../data/site';
+import { u } from '../lib/url';
+const updated = '5 de noviembre de 2026';
+const email = contact.email;
+---
+<Base title="Política de privacidad | JCraft Digital" description="Cómo JCraft Digital recoge, usa y protege tus datos personales, qué cookies usamos y cómo ejercer tus derechos según la Ley 1581 de 2012." page="privacidad.html" crumbs={[{ name: 'Política de privacidad', page: 'privacidad.html' }]}>
+  <PageHero crumb="Política de privacidad" title="Política de *privacidad*" text={`Cómo recogemos, usamos y protegemos tus datos personales. Última actualización: ${updated}.`} />
+
+  <div class="bg-paper py-16 sm:py-24">
+    <div class="prose-jc wrap max-w-3xl">
+      <p>En JCraft Digital respetamos tu privacidad. Esta política explica qué datos personales tratamos, para qué, con quién los compartimos, qué cookies usamos y cómo puedes ejercer tus derechos. Se aplica a este sitio web (<strong>jcraft-digital.com</strong>), al portal de clientes y a los canales por los que nos contactas, como WhatsApp, Instagram y correo.</p>
+
+      <h2>1. Responsable del tratamiento</h2>
+      <ul>
+        <li><strong>Responsable:</strong> JCraft Digital, agencia de marketing digital de Jhon Jairo Vega y Catalina Escobar.</li>
+        <li><strong>Ubicación:</strong> Cali, Colombia.</li>
+        <li><strong>Correo para temas de datos personales:</strong> <a href={`mailto:${email}`}>{email}</a></li>
+        <li><strong>WhatsApp:</strong> {contact.phone}</li>
+      </ul>
+
+      <h2>2. Qué datos recogemos</h2>
+      <ul>
+        <li><strong>Datos que nos das:</strong> nombre, correo, teléfono o WhatsApp, nombre de tu negocio y lo que nos cuentas de tu proyecto, cuando usas el formulario de contacto, nos escribes por WhatsApp o redes, o contratas un servicio.</li>
+        <li><strong>Datos de clientes en el portal:</strong> correo de acceso, la información de tu brief de marca, los archivos que subes a tu galería y tus decisiones sobre las publicaciones (aprobaciones, cambios y fechas).</li>
+        <li><strong>Datos de navegación:</strong> si aceptas las cookies, datos sobre cómo usas el sitio, como páginas visitadas, tipo de dispositivo, ciudad aproximada y de dónde llegaste (por ejemplo, un anuncio o una búsqueda). No recogemos datos sensibles.</li>
+      </ul>
+
+      <h2>3. Para qué usamos tus datos</h2>
+      <ul>
+        <li>Responder tus consultas, enviarte cotizaciones y prestarte los servicios que contrates.</li>
+        <li>Darte acceso al portal de clientes y gestionar tu contenido, brief y archivos.</li>
+        <li>Facturar y cumplir obligaciones legales y contables.</li>
+        <li>Medir y mejorar el sitio y saber qué anuncios y contenidos funcionan (solo si aceptas las cookies).</li>
+        <li>Enviarte información sobre nuestros servicios, solo si nos lo autorizas. Puedes pedir que dejemos de hacerlo en cualquier momento.</li>
+      </ul>
+      <p>No vendemos tus datos personales.</p>
+
+      <h2>4. Cookies</h2>
+      <p>Al entrar al sitio te mostramos un aviso para que elijas. Si eliges <strong>«Solo necesarias»</strong>, no cargamos cookies de medición ni de publicidad. Si eliges <strong>«Aceptar»</strong>, usamos:</p>
+      <ul>
+        <li><strong>Google Analytics:</strong> para medir visitas y acciones como tocar el botón de WhatsApp o enviar el formulario.</li>
+        <li><strong>Google Ads:</strong> para medir los resultados de nuestros anuncios y mostrar anuncios de JCraft Digital a personas que ya visitaron el sitio.</li>
+      </ul>
+      <p>Puedes cambiar tu elección cuando quieras en <a href="#" data-cookie-settings>Preferencias de cookies</a> (también en el pie de página), o borrar las cookies desde tu navegador. Para controlar los anuncios personalizados de Google, visita <a href="https://adssettings.google.com" target="_blank" rel="noopener">la configuración de anuncios de Google</a>. Puedes ver cómo usa Google los datos en <a href="https://policies.google.com/technologies/partner-sites?hl=es" target="_blank" rel="noopener">esta página de Google</a>.</p>
+      <p>El portal de clientes y las propuestas privadas no usan cookies de medición ni de publicidad; solo las necesarias para iniciar sesión.</p>
+
+      <h2>5. Con quién compartimos datos</h2>
+      <p>Solo con proveedores que necesitamos para operar, que tratan los datos por cuenta nuestra:</p>
+      <ul>
+        <li><strong>Vercel</strong> (alojamiento del sitio web).</li>
+        <li><strong>Supabase</strong> (base de datos y archivos del portal de clientes).</li>
+        <li><strong>Google</strong> (Analytics y Ads, si aceptas las cookies).</li>
+        <li><strong>Meta</strong> (WhatsApp e Instagram, cuando nos escribes por esos canales).</li>
+        <li>Herramientas de diseño, programación de publicaciones y producción de contenido que usamos para prestar el servicio a nuestros clientes.</li>
+      </ul>
+      <p>Algunos de estos proveedores guardan los datos en servidores fuera de Colombia, principalmente en Estados Unidos. Al aceptar esta política autorizas esa transferencia, que hacemos solo con proveedores que ofrecen medidas de seguridad adecuadas. También podemos entregar datos a una autoridad cuando la ley lo exija.</p>
+
+      <h2>6. Tus derechos</h2>
+      <p>Según la Ley 1581 de 2012, como titular de tus datos puedes:</p>
+      <ul>
+        <li>Conocer, actualizar y rectificar tus datos.</li>
+        <li>Pedir prueba de la autorización que nos diste.</li>
+        <li>Saber cómo hemos usado tus datos.</li>
+        <li>Revocar la autorización o pedir que borremos tus datos, cuando no exista un deber legal o contractual de conservarlos.</li>
+        <li>Presentar quejas ante la Superintendencia de Industria y Comercio (SIC) si consideras que no respetamos estos derechos.</li>
+        <li>Acceder gratis a tus datos personales.</li>
+      </ul>
+
+      <h2>7. Cómo ejercer tus derechos</h2>
+      <p>Escríbenos a <a href={`mailto:${email}`}>{email}</a> con tu nombre, cómo contactarte y qué necesitas. Si la solicitud es para otra persona, incluye el documento que lo autorice.</p>
+      <ul>
+        <li><strong>Consultas</strong> (saber qué datos tenemos y cómo los usamos): respondemos en máximo 10 días hábiles. Si necesitamos más tiempo, te avisamos el motivo y respondemos en máximo 5 días hábiles más.</li>
+        <li><strong>Reclamos</strong> (corregir, actualizar, borrar o revocar): respondemos en máximo 15 días hábiles. Si necesitamos más tiempo, te avisamos el motivo y respondemos en máximo 8 días hábiles más.</li>
+      </ul>
+
+      <h2>8. Cuánto tiempo guardamos los datos</h2>
+      <p>Mientras dure la relación contigo y el tiempo necesario para cumplir la finalidad para la que los recogimos o nuestras obligaciones legales, contables y tributarias. Los datos de consultas que no terminan en un servicio se guardan como máximo 2 años. Los datos de medición de Google Analytics se guardan según la configuración de conservación de esa herramienta.</p>
+
+      <h2>9. Seguridad</h2>
+      <p>Usamos conexiones cifradas (HTTPS), accesos con usuario y contraseña, reglas de permisos para que cada cliente vea solo su información y acceso limitado a las personas de nuestro equipo que lo necesitan.</p>
+
+      <h2>10. Menores de edad</h2>
+      <p>Nuestros servicios son para negocios y personas mayores de 18 años. No recogemos a sabiendas datos de menores de edad.</p>
+
+      <h2>11. Cambios a esta política</h2>
+      <p>Si cambiamos esta política, publicaremos la nueva versión en esta página con su fecha de actualización. Si el cambio es importante, te lo avisaremos por los canales que tengamos contigo.</p>
+
+      <p><strong>Vigente desde el {updated}.</strong> ¿Dudas? <a href={u('contacto.html')}>Escríbenos</a>.</p>
+    </div>
+  </div>
+</Base>

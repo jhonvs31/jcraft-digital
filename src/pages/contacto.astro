@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Title from '../components/Title.astro';
 import { contact, afterContact, claims, services_options, budget_options } from '../data/site';
-import { wa } from '../lib/url';
+import { u, wa } from '../lib/url';
 const channels = [
   { href: wa('Hola! Quiero una consulta gratuita.'), icon: '💬', title: 'WhatsApp', text: 'Respuesta inmediata en horario laboral', cta: 'Chatear ahora', ext: true },
   { href: `mailto:${contact.email}`, icon: '📧', title: 'Correo electrónico', text: contact.email, cta: 'Enviar correo' },
@@ -55,7 +55,7 @@ const channels = [
           </div>
           <label class="block"><span class="mb-2 block text-sm font-bold">Cuéntanos más sobre tu proyecto *</span>
             <textarea class="field min-h-36" name="mensaje" required placeholder="¿Qué hace tu negocio? ¿Cuál es tu principal objetivo digital? ¿Tienes algún plazo específico? Mientras más nos cuentes, mejor te podremos asesorar."></textarea></label>
-          <label class="flex items-start gap-3 text-sm text-white/70"><input type="checkbox" required class="mt-1 h-4 w-4 accent-cyan" />Acepto que JCraft Digital me contacte para dar respuesta a mi consulta. Tu información es confidencial y no se comparte con terceros.</label>
+          <label class="flex items-start gap-3 text-sm text-white/70"><input type="checkbox" required class="mt-1 h-4 w-4 accent-cyan" /><span>Acepto que JCraft Digital trate mis datos para responder mi consulta, según la <a href={u('privacidad.html')} class="font-bold text-cyan underline" target="_blank">política de privacidad</a>. No vendemos tus datos.</span></label>
           <button type="submit" class="btn btn-primary w-full" data-magnetic>Enviar por WhatsApp</button>
           <p data-form-ok hidden role="status" class="rounded-2xl bg-cyan/15 p-4 font-semibold text-cyan">✅ Se abrió WhatsApp con tu mensaje. Solo tienes que tocar «Enviar».</p>
         </form>
