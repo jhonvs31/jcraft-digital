@@ -153,6 +153,7 @@ const help = [
             <li><a href={wa(h.text)} target="_blank" rel="noopener" class="pp-help"><span aria-hidden="true">{h.icon}</span>{h.label}</a></li>
           ))}
         </ul>
+        <button type="button" data-tour class="pp-help mt-1 w-full"><span aria-hidden="true">🧭</span>Ver guía del portal</button>
       </section>
       <p class="px-1 text-xs text-ink/50">Las piezas llevan marca de agua de JCraft hasta que se publican.</p>
     </aside>
@@ -169,6 +170,7 @@ const help = [
   <div id="more" class="pp-more" hidden>
     <button type="button" data-view="historial"><span aria-hidden="true">✅</span>Aprobadas</button>
     <button type="button" data-view="cuenta"><span aria-hidden="true">🔑</span>Mi contraseña</button>
+    <button type="button" data-tour><span aria-hidden="true">🧭</span>Ver guía del portal</button>
   </div>
 
   <dialog id="modal" data-lenis-prevent class="pp-modal">
@@ -186,6 +188,7 @@ const help = [
 
 
 <script>
+  import { startTour, tourDone } from '../../scripts/portal/onboarding';
   import { sb, requireSession, go, TYPES, STATUS, GALLERY_LIMIT, PLAN_NAME, MAX_FILE_MB, toInputs, fromInputs, fmtDate, fmtTime, tzName, signed, isVideo, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -265,6 +268,11 @@ const help = [
       sel.onchange = () => load(clients.find((c) => c.id === sel.value)!);
     }
     await load(clients[0]);
+    // Guía para clientes nuevos: aparece la primera vez (o con ?guia en la dirección) y se repite con «Ver guía».
+    const meta = (session.user.user_metadata ?? {}) as Record<string, unknown>;
+    const tour = () => startTour({ clientName: client.name, tempPassword: meta.must_change_password === true, setView: (v) => setView(v) });
+    document.querySelectorAll<HTMLButtonElement>('[data-tour]').forEach((b) => b.onclick = () => { $('more').hidden = true; tour(); });
+    if (!tourDone(meta) || new URLSearchParams(location.search).has('guia')) setTimeout(tour, calm ? 200 : 1300);
     const startView = location.hash.slice(1) || 'inicio';
     setView(startView, true);
     // Entrada: menú, saludo y bloques en secuencia; después los días y las piezas.
@@ -786,7 +794,7 @@ const help = [
     if (p1.value.length < 8) { msg.textContent = 'La contraseña debe tener al menos 8 caracteres.'; return; }
     if (p1.value !== p2.value) { msg.textContent = 'Las dos contraseñas no coinciden.'; return; }
     btn.disabled = true; msg.textContent = 'Guardando…';
-    const { error } = await sb.auth.updateUser({ password: p1.value });
+    const { error } = await sb.auth.updateUser({ password: p1.value, data: { must_change_password: false } });
     btn.disabled = false;
     if (error) { msg.textContent = 'No pudimos guardarla. Inténtalo de nuevo en unos minutos.'; return; }
     p1.value = p2.value = ''; msg.textContent = 'Contraseña guardada.'; confetti(btn);
