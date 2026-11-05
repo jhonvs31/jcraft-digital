@@ -18,7 +18,25 @@ export type Post = {
   caption: string | null; stickers: string | null; media: string[]; suggested_at: string | null; scheduled_at: string | null;
   status: 'pendiente' | 'aprobado' | 'cambios' | 'publicado'; feedback: string | null; decided_at: string | null;
 };
-export type Client = { id: string; slug: string; name: string; timezone: string; plan?: 'basico' | 'plus' | 'pro' };
+export type Client = { id: string; slug: string; name: string; timezone: string; plan?: 'basico' | 'plus' | 'pro'; services?: string[]; email?: string | null; phone?: string | null };
+
+// Servicios que un cliente puede contratar (los mismos de la página de Servicios, src/data/site.ts).
+// Los códigos deben coincidir con SERVICES en supabase/functions/crear-cliente/index.ts.
+export const SERVICE_GROUPS: { title: string; items: [code: string, name: string][] }[] = [
+  { title: 'Web', items: [['sitio_web', 'Sitio web'], ['tienda_online', 'Tienda online'], ['mantenimiento_web', 'Mantenimiento web']] },
+  { title: 'Pauta digital', items: [['pauta_basica', 'Pauta Básica'], ['pauta_plus', 'Pauta Plus'], ['pack_redes_pauta', 'Pack Redes + Pauta']] },
+  { title: 'Diseño e identidad', items: [['logo', 'Logo'], ['identidad_marca', 'Identidad de marca'], ['piezas_sueltas', 'Piezas sueltas'], ['brochure', 'Brochure o catálogo']] },
+  { title: 'Estrategia', items: [['diagnostico', 'Diagnóstico digital'], ['plan_estrategico', 'Plan estratégico']] },
+];
+export const SERVICE_NAME: Record<string, string> = {
+  redes_basico: 'Redes · Básico', redes_plus: 'Redes · Plus', redes_pro: 'Redes · Pro',
+  ...Object.fromEntries(SERVICE_GROUPS.flatMap((g) => g.items)),
+};
+export const TIMEZONES: [string, string][] = [
+  ['America/Bogota', 'Colombia (Bogotá)'], ['America/New_York', 'EE. UU. Este (Nueva York, Miami, Orlando)'], ['America/Chicago', 'EE. UU. Centro (Chicago, Houston)'],
+  ['America/Los_Angeles', 'EE. UU. Pacífico (Los Ángeles)'], ['America/Mexico_City', 'México'], ['America/Lima', 'Perú'], ['America/Guayaquil', 'Ecuador'],
+  ['America/Panama', 'Panamá'], ['America/Santiago', 'Chile'], ['America/Argentina/Buenos_Aires', 'Argentina'], ['Europe/Madrid', 'España'],
+];
 
 // Archivos por plan en la galería (igual que public.gallery_limit en supabase/02_brief_galeria.sql).
 export const GALLERY_LIMIT = { basico: 20, plus: 40, pro: 60 } as const;

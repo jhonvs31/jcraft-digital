@@ -66,8 +66,17 @@ import '../../styles/portal.css';
             <select id="c-client" class="pp-input !py-2" aria-label="Cliente"></select>
             <label class="flex items-center gap-2 text-sm font-bold" for="c-plan">Plan
               <select id="c-plan" class="pp-input !py-2"><option value="basico">Básico · 20 archivos</option><option value="plus">Plus · 40 archivos</option><option value="pro">Pro · 60 archivos</option></select></label>
+            <button type="button" id="c-new" class="pp-btn pp-btn-main !py-2">＋ Nuevo cliente</button>
           </div>
         </div>
+        <section class="pp-card mt-5" aria-labelledby="h-svc">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h2 id="h-svc" class="pp-h2">Servicios contratados</h2>
+            <button type="button" id="c-edit" class="mini-btn">Editar cliente</button>
+          </div>
+          <ul id="c-services" class="mt-3 flex flex-wrap gap-2"></ul>
+          <p id="c-contact" class="mt-3 text-sm text-ink/60"></p>
+        </section>
         <p id="c-msg" role="status" aria-live="polite" class="mt-2 min-h-[1.25em] text-sm text-navy"></p>
         <div class="mt-3 grid gap-6 xl:grid-cols-2">
           <section class="pp-card" aria-labelledby="h-brief"><h2 id="h-brief" class="pp-h2">Brief de marca</h2><p id="c-brief-date" class="mt-1 text-sm text-ink/55"></p><dl id="c-brief" class="mt-4 grid gap-4"></dl></section>
@@ -117,6 +126,44 @@ import '../../styles/portal.css';
       </div>
     </form>
   </dialog>
+
+  <!-- Nuevo cliente / editar cliente -->
+  <dialog id="cdlg" data-lenis-prevent class="pp-modal !w-[min(760px,calc(100vw-24px))]">
+    <form id="cform" class="grid gap-4 p-6 sm:p-8" novalidate>
+      <div class="flex items-center justify-between gap-4">
+        <h2 id="cf-title" class="pp-title">Nuevo cliente</h2>
+        <button type="button" id="cf-close" class="pp-btn pp-btn-ghost !py-2">Cerrar</button>
+      </div>
+      <div data-step="datos" class="grid gap-4">
+        <p id="cf-intro" class="text-sm text-ink/65">Crea el acceso al portal cuando el cliente contrate. Te daremos una contraseña temporal para enviársela por WhatsApp.</p>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="grid gap-1 text-sm font-bold" for="cf-name">Nombre del negocio<input id="cf-name" class="pp-input" required autocomplete="off" /></label>
+          <label class="grid gap-1 text-sm font-bold" for="cf-email">Correo del cliente <span class="font-normal text-ink/55">Con este entra al portal.</span><input id="cf-email" type="email" class="pp-input" required autocomplete="off" /></label>
+          <label class="grid gap-1 text-sm font-bold" for="cf-phone">WhatsApp <span class="font-normal text-ink/55">Opcional, con indicativo (+57…).</span><input id="cf-phone" type="tel" class="pp-input" autocomplete="off" placeholder="+57 300 000 0000" /></label>
+          <label class="grid gap-1 text-sm font-bold" for="cf-tz">Zona horaria <span class="font-normal text-ink/55">Para las fechas de publicación.</span><select id="cf-tz" class="pp-input"></select></label>
+        </div>
+        <fieldset class="grid gap-2">
+          <legend class="text-sm font-bold">Redes sociales</legend>
+          <div id="cf-redes" class="flex flex-wrap gap-2" role="radiogroup"></div>
+        </fieldset>
+        <div id="cf-groups" class="grid gap-4 sm:grid-cols-2"></div>
+        <p id="cf-msg" role="status" aria-live="polite" class="min-h-[1.25em] text-sm text-[#b42318]"></p>
+        <div class="flex flex-wrap justify-end gap-3"><button type="submit" id="cf-save" class="pp-btn pp-btn-main">Crear cliente y acceso</button></div>
+      </div>
+      <div data-step="listo" hidden class="grid gap-4">
+        <p class="rounded-2xl bg-[#e0f7fa] p-4 text-sm text-[#00525e]"><strong id="cf-done-name"></strong> ya tiene acceso al portal. Esta contraseña solo se muestra ahora: cópiala o envíala antes de cerrar.</p>
+        <dl class="grid gap-3 sm:grid-cols-2">
+          <div><dt class="text-sm font-bold text-ink/55">Usuario</dt><dd id="cf-done-email" class="mt-1 break-all font-bold"></dd></div>
+          <div><dt class="text-sm font-bold text-ink/55">Contraseña temporal</dt><dd id="cf-done-pw" class="mt-1 font-mono text-lg font-bold tracking-wider"></dd></div>
+        </dl>
+        <label class="grid gap-1 text-sm font-bold" for="cf-welcome">Mensaje de bienvenida<textarea id="cf-welcome" rows="8" class="pp-input"></textarea></label>
+        <div class="flex flex-wrap justify-end gap-3">
+          <button type="button" id="cf-copy" class="pp-btn pp-btn-ghost">Copiar mensaje</button>
+          <a id="cf-wa" href="#" target="_blank" rel="noopener" class="pp-btn pp-btn-main">Enviar por WhatsApp</a>
+        </div>
+      </div>
+    </form>
+  </dialog>
 </PortalShell>
 
 <style is:global>
@@ -138,9 +185,18 @@ import '../../styles/portal.css';
   .mini-btn.main:hover { background: var(--color-blue); color: #fff; }
   .filter { border-radius: 9999px; border: 1px solid rgba(11,23,48,.15); background: #fff; padding: .4rem .85rem; font-size: .85rem; font-weight: 700; color: var(--color-ink); }
   .filter[aria-pressed="true"] { background: var(--color-navy); border-color: var(--color-navy); color: #fff; }
+  .svc { display: flex; align-items: center; gap: .55rem; border-radius: .9rem; border: 1px solid rgba(11,23,48,.12); background: #fff; padding: .55rem .8rem; font-size: .92rem; font-weight: 700; cursor: pointer; transition: border-color .2s, background-color .2s; }
+  .svc:hover { border-color: var(--color-navy); }
+  .svc:has(input:checked) { border-color: var(--color-navy); background: #eef3fb; }
+  .svc input { appearance: none; -webkit-appearance: none; flex-shrink: 0; width: 1.15rem; height: 1.15rem; border: 2px solid rgba(11,23,48,.35); border-radius: .35rem; background: #fff; display: grid; place-content: center; }
+  .svc input[type="radio"] { border-radius: 9999px; }
+  .svc input:checked { border-color: var(--color-navy); background: var(--color-navy); box-shadow: inset 0 0 0 3px #fff; }
+  .svc input:focus-visible { outline: 2px solid var(--color-cyan); outline-offset: 2px; }
+  .chip { border-radius: 9999px; background: #eef3fb; color: var(--color-navy); padding: .35rem .8rem; font-size: .85rem; font-weight: 800; }
 </style>
 
 <script>
+  import { SERVICE_GROUPS, SERVICE_NAME, TIMEZONES, portalUrl } from '../../scripts/portal/lib';
   import { sb, requireSession, isAdmin, go, TYPES, STATUS, GALLERY_LIMIT, PLAN_NAME, toInputs, fromInputs, fmtDate, fmtTime, tzName, signed, isVideo, esc, toast, type Post, type Client } from '../../scripts/portal/lib';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -175,12 +231,7 @@ import '../../styles/portal.css';
     if (!(await isAdmin(session.user.id))) { go('panel.html'); return; }
     document.querySelector('[data-user]')!.textContent = session.user.email ?? '';
     document.querySelector('[data-logout]')!.addEventListener('click', async () => { await sb.auth.signOut(); go('acceso.html'); });
-    const { data } = await sb.from('clients').select('*').order('name');
-    clients = (data ?? []) as Client[];
-    const opts = clients.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
-    $<HTMLSelectElement>('f-client').innerHTML = `<option value="">Todos los clientes</option>${opts}`;
-    $<HTMLSelectElement>('e-client').innerHTML = opts;
-    $<HTMLSelectElement>('c-client').innerHTML = opts;
+    await loadClients();
     $<HTMLSelectElement>('f-client').onchange = renderAll;
     $<HTMLInputElement>('q').oninput = renderAll;
     $<HTMLSelectElement>('c-client').onchange = loadClient;
@@ -189,6 +240,20 @@ import '../../styles/portal.css';
     await load();
     $('state').hidden = true;
     setView(location.hash.slice(1) || 'resumen');
+  }
+
+  async function loadClients(selectId?: string) {
+    const { data } = await sb.from('clients').select('*').order('name');
+    clients = (data ?? []) as Client[];
+    const opts = clients.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+    const keep = (id: string) => $<HTMLSelectElement>(id).value;
+    const f = keep('f-client'), e = keep('e-client'), c = selectId ?? keep('c-client');
+    $<HTMLSelectElement>('f-client').innerHTML = `<option value="">Todos los clientes</option>${opts}`;
+    $<HTMLSelectElement>('e-client').innerHTML = opts;
+    $<HTMLSelectElement>('c-client').innerHTML = opts;
+    if (f) $<HTMLSelectElement>('f-client').value = f;
+    if (e) $<HTMLSelectElement>('e-client').value = e;
+    if (c) $<HTMLSelectElement>('c-client').value = c;
   }
 
   async function load() {
@@ -346,6 +411,9 @@ import '../../styles/portal.css';
   async function loadClient() {
     const c = cById($<HTMLSelectElement>('c-client').value); if (!c) return;
     $<HTMLSelectElement>('c-plan').value = c.plan ?? 'basico'; $('c-msg').textContent = '';
+    const svc = c.services ?? [];
+    $('c-services').innerHTML = svc.length ? svc.map((s) => `<li class="chip">${esc(SERVICE_NAME[s] ?? s)}</li>`).join('') : '<li class="text-sm text-ink/60">Sin servicios registrados. Usa «Editar cliente» para agregarlos.</li>';
+    $('c-contact').textContent = [c.email && `Acceso: ${c.email}`, c.phone && `WhatsApp: ${c.phone}`, tzName(c.timezone)].filter(Boolean).join(' · ');
     const { data: b, error: be } = await sb.from('briefs').select('data, updated_at').eq('client_id', c.id).maybeSingle();
     const d = (b?.data ?? {}) as Record<string, string | string[]>;
     $('c-brief-date').textContent = be ? 'Falta ejecutar supabase/02_brief_galeria.sql.' : b?.updated_at ? `Actualizado el ${fmtDate(b.updated_at, c.timezone, { day: 'numeric', month: 'long' })}.` : 'El cliente todavía no lo ha llenado.';
@@ -364,6 +432,104 @@ import '../../styles/portal.css';
     const { error } = await sb.from('clients').update({ plan }).eq('id', c.id);
     if (error) { $('c-msg').textContent = 'No se pudo cambiar el plan: ' + error.message; return; }
     c.plan = plan; $('c-msg').textContent = `Plan de ${c.name} cambiado a ${PLAN_NAME[plan!]}.`; loadClient();
+  }
+
+  // ── Nuevo cliente / editar cliente ──
+  const REDES: [string, string][] = [['', 'No contrató redes'], ['basico', 'Básico'], ['plus', 'Plus'], ['pro', 'Pro']];
+  $<HTMLSelectElement>('cf-tz').innerHTML = TIMEZONES.map(([v, l]) => `<option value="${v}">${l}</option>`).join('');
+  $('cf-redes').innerHTML = REDES.map(([v, l]) => `<label class="svc"><input type="radio" name="cf-redes" value="${v}" />${l}</label>`).join('');
+  $('cf-groups').innerHTML = SERVICE_GROUPS.map((g) => `<fieldset class="grid content-start gap-2"><legend class="mb-1 text-sm font-bold">${g.title}</legend>${g.items.map(([v, l]) => `<label class="svc"><input type="checkbox" name="cf-svc" value="${v}" />${l}</label>`).join('')}</fieldset>`).join('');
+  let editingClient: Client | null = null;
+
+  function openClientForm(c: Client | null) {
+    editingClient = c;
+    const f = $<HTMLFormElement>('cform');
+    f.querySelector<HTMLElement>('[data-step="datos"]')!.hidden = false;
+    f.querySelector<HTMLElement>('[data-step="listo"]')!.hidden = true;
+    $('cf-title').textContent = c ? `Editar ${c.name}` : 'Nuevo cliente';
+    $('cf-intro').hidden = Boolean(c);
+    $('cf-save').textContent = c ? 'Guardar cambios' : 'Crear cliente y acceso';
+    $<HTMLInputElement>('cf-name').value = c?.name ?? '';
+    const em = $<HTMLInputElement>('cf-email'); em.value = c?.email ?? ''; em.disabled = Boolean(c);
+    $<HTMLInputElement>('cf-phone').value = c?.phone ?? '';
+    $<HTMLSelectElement>('cf-tz').value = c?.timezone ?? 'America/Bogota';
+    const svc = new Set(c?.services ?? []);
+    const redes = ['basico', 'plus', 'pro'].find((p) => svc.has(`redes_${p}`)) ?? '';
+    f.querySelectorAll<HTMLInputElement>('input[name="cf-redes"]').forEach((i) => i.checked = i.value === redes);
+    f.querySelectorAll<HTMLInputElement>('input[name="cf-svc"]').forEach((i) => i.checked = svc.has(i.value));
+    $('cf-msg').textContent = '';
+    const d = $<HTMLDialogElement>('cdlg'); d.showModal();
+    if (!calm) d.animate([{ opacity: 0, transform: 'translateY(24px) scale(.97)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
+  }
+  $('c-new').onclick = () => openClientForm(null);
+  $('c-edit').onclick = () => { const c = cById($<HTMLSelectElement>('c-client').value); if (c) openClientForm(c); };
+  $('cf-close').onclick = () => $<HTMLDialogElement>('cdlg').close();
+
+  function readServices() {
+    const f = $<HTMLFormElement>('cform');
+    const redes = f.querySelector<HTMLInputElement>('input[name="cf-redes"]:checked')?.value ?? '';
+    const services = [...f.querySelectorAll<HTMLInputElement>('input[name="cf-svc"]:checked')].map((i) => i.value);
+    if (redes) services.unshift(`redes_${redes}`);
+    // El plan define el límite de la galería: el de redes, o Básico si solo tiene el pack u otros servicios.
+    const plan = (redes || 'basico') as NonNullable<Client['plan']>;
+    return { services, plan };
+  }
+
+  $('cform').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('cf-msg'); msg.textContent = '';
+    const name = $<HTMLInputElement>('cf-name').value.trim();
+    const email = $<HTMLInputElement>('cf-email').value.trim();
+    const phone = $<HTMLInputElement>('cf-phone').value.trim();
+    const timezone = $<HTMLSelectElement>('cf-tz').value;
+    const { services, plan } = readServices();
+    if (name.length < 2) { msg.textContent = 'Escribe el nombre del cliente.'; return; }
+    if (!editingClient && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Revisa el correo del cliente.'; return; }
+    if (!services.length) { msg.textContent = 'Elige al menos un servicio.'; return; }
+    const btn = $<HTMLButtonElement>('cf-save'); btn.disabled = true;
+    try {
+      if (editingClient) {
+        const { error } = await sb.from('clients').update({ name, phone: phone.replace(/[^\d+]/g, '') || null, timezone, services, plan }).eq('id', editingClient.id);
+        if (error) throw error;
+        await loadClients(editingClient.id); loadClient();
+        $<HTMLDialogElement>('cdlg').close(); toast('Cliente actualizado.');
+        return;
+      }
+      btn.textContent = 'Creando…';
+      const { data, error } = await sb.functions.invoke('crear-cliente', { body: { name, email, phone, timezone, services, plan } });
+      if (error) {
+        let text = error.message;
+        try { const j = await (error as { context?: Response }).context?.json(); if (j?.error) text = j.error; } catch { /* sin detalle */ }
+        throw new Error(text);
+      }
+      const res = data as { client: Client; email: string; password: string };
+      await loadClients(res.client.id);
+      showWelcome(res.client, res.email, res.password);
+    } catch (err) {
+      msg.textContent = (err as Error).message || 'No pudimos guardar el cliente.';
+    } finally {
+      btn.disabled = false; btn.textContent = editingClient ? 'Guardar cambios' : 'Crear cliente y acceso';
+    }
+  });
+
+  function showWelcome(c: Client, email: string, password: string) {
+    const f = $<HTMLFormElement>('cform');
+    f.querySelector<HTMLElement>('[data-step="datos"]')!.hidden = true;
+    f.querySelector<HTMLElement>('[data-step="listo"]')!.hidden = false;
+    $('cf-title').textContent = 'Cliente creado';
+    $('cf-done-name').textContent = c.name; $('cf-done-email').textContent = email; $('cf-done-pw').textContent = password;
+    const link = new URL(portalUrl('acceso.html'), location.origin).href;
+    const svc = (c.services ?? []).map((s) => SERVICE_NAME[s] ?? s).join(', ');
+    const text = `¡Hola! Bienvenido a JCraft Digital 💙\n\nYa tienes acceso a tu portal de cliente${svc ? ` (${svc})` : ''}. Ahí vas a aprobar tus publicaciones, llenar tu brief de marca y subir tus fotos y archivos.\n\nEntra aquí: ${link}\nUsuario: ${email}\nContraseña temporal: ${password}\n\nAl entrar, cámbiala en «Mi contraseña». Cualquier duda, escríbenos por aquí.`;
+    $<HTMLTextAreaElement>('cf-welcome').value = text;
+    const wa = $<HTMLAnchorElement>('cf-wa');
+    const num = (c.phone ?? '').replace(/\D/g, '');
+    wa.href = `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
+    $('cf-copy').onclick = async () => {
+      try { await navigator.clipboard.writeText($<HTMLTextAreaElement>('cf-welcome').value); toast('Mensaje copiado.'); } catch { toast('No se pudo copiar.', 'error'); }
+    };
+    $('cf-welcome').oninput = () => { wa.href = `https://wa.me/${num}?text=${encodeURIComponent($<HTMLTextAreaElement>('cf-welcome').value)}`; };
+    setView('clientes');
   }
 
   init();
