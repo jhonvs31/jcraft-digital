@@ -8,7 +8,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "portal:cargar": "node scripts/portal-cargar.mjs"
+    "portal:cargar": "node scripts/portal-cargar.mjs",
+    "portal:reemplazar": "node scripts/portal-reemplazar.mjs"
   },
   "engines": {
     "node": ">=20.19"
