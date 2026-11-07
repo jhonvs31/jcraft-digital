@@ -7,6 +7,7 @@
   var me = document.currentScript;
   var ID = me && me.getAttribute('data-ga');
   var AW = me && me.getAttribute('data-aw'); // etiqueta de Google Ads (conversiones y remarketing)
+  var AWL = me && me.getAttribute('data-aw-label'); // etiqueta de la conversión «Contacto» de Google Ads
   var PRIV = me && me.getAttribute('data-privacy'); // enlace a la política de privacidad (opcional)
   if (!ID) return;
   // v2: el aviso ahora incluye publicidad (Google Ads), así que se vuelve a preguntar a todos.
@@ -30,6 +31,8 @@
     document.head.appendChild(s);
   }
   var track = function (name, params) { if (loaded) gtag('event', name, params || {}); };
+  // Conversión «Contacto» en Google Ads: clic a WhatsApp o envío del formulario
+  var convert = function () { if (AW && AWL) track('conversion', { send_to: AW + '/' + AWL, value: 1.0, currency: 'COP', transport_type: 'beacon' }); };
 
   // Conversiones
   document.addEventListener('click', function (e) {
@@ -38,10 +41,11 @@
     var href = a.getAttribute('href') || '';
     if (/(wa\.me|api\.whatsapp\.com|web\.whatsapp\.com)/i.test(href)) {
       track('whatsapp_click', { link_url: href.split('?')[0], link_text: (a.getAttribute('aria-label') || a.textContent || '').trim().slice(0, 80), page_path: location.pathname });
+      convert();
     }
   }, true);
   document.addEventListener('submit', function (e) {
-    if (e.target && e.target.id === 'contactForm') track('contacto_enviado', { form: 'contacto', page_path: location.pathname });
+    if (e.target && e.target.id === 'contactForm') { track('contacto_enviado', { form: 'contacto', page_path: location.pathname }); convert(); }
   }, true);
 
   // Aviso de cookies
