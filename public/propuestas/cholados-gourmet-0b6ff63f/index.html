@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Propuesta de marca y contenido · Cholados Gourmet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=DM+Sans:wght@400;700&family=Fraunces:opsz,wght@9..144,900&family=Oswald:wght@600&display=swap">
+<style>
+  :root{--nar:#ED7409;--hielo:#FFF4E6;--cacao:#3B2314;--mango:#FFB21A;--fresa:#D9263B;--line:rgba(59,35,20,.2)}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--nar);color:#fff;font-family:'DM Sans',system-ui,sans-serif;padding:24px 16px;
+    background-image:repeating-linear-gradient(108deg,rgba(255,255,255,.1) 0 40px,transparent 40px 80px)}
+  main{width:100%;max-width:430px;display:grid;gap:20px;background:var(--hielo);color:var(--cacao);border-radius:28px;padding:34px 30px;box-shadow:0 18px 0 rgba(59,35,20,.22)}
+  .rayas{height:16px;margin:-34px -30px 6px;border-radius:28px 28px 0 0;background:repeating-linear-gradient(72deg,var(--nar) 0 14px,#fff 14px 28px)}
+  .eyebrow{font-family:Oswald,sans-serif;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--nar)}
+  h1{font-family:Fraunces,serif;font-weight:900;font-size:42px;line-height:1;margin:0}
+  h1 span{display:block;font-family:'Caveat Brush',cursive;font-weight:400;color:var(--nar);font-size:1.1em;transform:rotate(-3deg);margin-top:6px}
+  p{margin:0;line-height:1.6;opacity:.8}
+  form{display:grid;gap:12px}
+  label{font-family:Oswald,sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+  input{font:inherit;font-size:17px;padding:14px 16px;border:1px solid var(--line);background:#fff;color:var(--cacao);border-radius:12px}
+  input:focus{outline:2px solid var(--nar);outline-offset:2px}
+  button{font:700 13px/1 Oswald,sans-serif;letter-spacing:.2em;text-transform:uppercase;padding:17px;border:0;border-radius:99px;background:var(--cacao);color:var(--mango);cursor:pointer}
+  button:disabled{opacity:.6;cursor:wait}
+  #msg{min-height:1.6em;font-size:14px;color:var(--fresa)}
+  small{font-size:12px;opacity:.6;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<main>
+  <div class="rayas"></div>
+  <div class="eyebrow">Propuesta privada · JCraft</div>
+  <h1>Cholados Gourmet<span>con nombre propio</span></h1>
+  <p>Esta página es solo para ustedes. Escriban la contraseña que les enviamos para ver la propuesta de marca y contenido.</p>
+  <form id="gate">
+    <label for="pass">Contraseña</label>
+    <input id="pass" type="password" autocomplete="current-password" required autofocus>
+    <button id="go" type="submit">Ver la propuesta</button>
+    <div id="msg" role="status" aria-live="polite"></div>
+  </form>
+  <small>© JCraft Digital · Piezas de muestra, no autorizadas para publicarse.</small>
+</main>
+<script src="gate.js"></script>
+</body>
+</html>
