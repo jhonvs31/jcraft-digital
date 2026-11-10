@@ -5,8 +5,6 @@ export const contact = {
   email: 'jcraft.digital@gmail.com',
   phone: '+57 300 811 3078',
   instagram: 'https://instagram.com/jcraftdigital',
-  facebook: 'https://facebook.com/jcraftdigital',
-  linkedin: 'https://linkedin.com/company/jcraftdigital',
   web: 'jcraftdigital.com',
   location: 'Colombia — atendemos clientes en todo el país y LATAM',
   hours: ['Lunes a Viernes: 8:00 am – 6:00 pm', 'Sábados: 9:00 am – 1:00 pm'],

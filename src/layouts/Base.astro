@@ -23,7 +23,7 @@ const org = {
   '@type': 'ProfessionalService', '@id': `${home}#org`, name: 'JCraft Digital', url: home, logo: abs('assets/logo-color.png'), image: abs('og.jpg'),
   description: 'Agencia de marketing digital para pymes: redes sociales, diseño web, pauta digital en Google y Meta, diseño gráfico y estrategia digital.',
   email: contact.email, telephone: contact.phone, priceRange: '$$', areaServed: [{ '@type': 'Country', name: 'Colombia' }, { '@type': 'Place', name: 'Latinoamérica' }],
-  address: { '@type': 'PostalAddress', addressCountry: 'CO' }, sameAs: [contact.instagram, contact.facebook, contact.linkedin],
+  address: { '@type': 'PostalAddress', addressCountry: 'CO' }, sameAs: [contact.instagram],
   founder: team.map((m) => ({ '@type': 'Person', name: m.name, jobTitle: m.role })),
   contactPoint: { '@type': 'ContactPoint', telephone: contact.phone, contactType: 'customer service', availableLanguage: ['es'] },
 };

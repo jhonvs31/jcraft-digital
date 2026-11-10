@@ -69,7 +69,7 @@ const links = [
       </ul>
 
       <div class="mt-8 flex gap-3" data-reveal>
-        {[['Facebook', contact.facebook], ['LinkedIn', contact.linkedin], ['Web', utm('index.html', 'web')]].map(([n, h]) => (
+        {[['Instagram', contact.instagram], ['Web', utm('index.html', 'web')]].map(([n, h]) => (
           <a href={h} target={n === 'Web' ? undefined : '_blank'} rel="noopener" class="lg lg-chip px-4 py-2 text-sm font-semibold text-white/90"><span class="lg-fx" aria-hidden="true"></span>{n}</a>
         ))}
       </div>
