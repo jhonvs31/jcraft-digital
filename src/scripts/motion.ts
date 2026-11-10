@@ -8,18 +8,12 @@ import './nudges';
 gsap.registerPlugin(ScrollTrigger);
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ── Cabecera: al bajar se vuelve una cápsula flotante de vidrio con barra de progreso;
-//    se esconde al bajar rápido y vuelve a aparecer al subir.
+// ── Cabecera: al bajar se vuelve una cápsula flotante de vidrio con barra de progreso (siempre visible).
 const header = document.querySelector<HTMLElement>('[data-header]');
 const progress = header?.querySelector<HTMLElement>('[data-hdr-progress]');
-let lastY = window.scrollY;
 const onScroll = () => {
   const y = window.scrollY;
   header?.classList.toggle('is-scrolled', y > 40);
-  const menuOpen = document.querySelector('[data-menu-toggle]')?.getAttribute('aria-expanded') === 'true';
-  const caseOpen = !!document.querySelector('dialog[open]');
-  if (!menuOpen && !caseOpen && Math.abs(y - lastY) > 6) header?.classList.toggle('is-hidden', y > lastY && y > 420);
-  lastY = y;
   const max = document.documentElement.scrollHeight - window.innerHeight;
   if (progress) progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
 };
