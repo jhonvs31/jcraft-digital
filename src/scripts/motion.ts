@@ -56,9 +56,24 @@ document.querySelectorAll<HTMLElement>('[data-filters]').forEach((group) => {
   group.querySelectorAll<HTMLButtonElement>('button[data-filter]').forEach((btn) => btn.addEventListener('click', () => {
     group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
     const f = btn.dataset.filter;
-    scope?.querySelectorAll<HTMLElement>('[data-cat]').forEach((el) => { el.hidden = !(f === 'all' || (el.dataset.cat ?? '').split(' ').includes(f)); });
+    const shown: HTMLElement[] = [];
+    scope?.querySelectorAll<HTMLElement>('[data-cat]').forEach((el) => {
+      el.hidden = !(f === 'all' || (el.dataset.cat ?? '').split(' ').includes(f!));
+      if (!el.hidden) shown.push(el);
+    });
+    moveInd();
+    const count = document.querySelector('[data-pf-count]'); if (count) count.textContent = String(shown.length);
+    if (!reduce && group.classList.contains('seg')) gsap.fromTo(shown, { y: 30, opacity: 0, scale: 0.97 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'expo.out', stagger: 0.05, overwrite: true });
     ScrollTrigger.refresh();
   }));
+  // Indicador que se desliza bajo el botón activo (control segmentado del portafolio)
+  const ind = group.querySelector<HTMLElement>('.seg-ind');
+  function moveInd() {
+    const on = group.querySelector<HTMLElement>('button[aria-pressed="true"]');
+    if (!ind || !on) return;
+    ind.style.width = `${on.offsetWidth}px`; ind.style.transform = `translateX(${on.offsetLeft}px)`;
+  }
+  if (ind) { moveInd(); window.addEventListener('resize', moveInd); document.fonts?.ready.then(moveInd); }
 });
 
 // ── Portafolio: pop-up de cada caso (solo en la página de portafolio)

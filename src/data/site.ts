@@ -172,7 +172,7 @@ export const portfolio: Case[] = [
     mobile: A('oh-lala-beauty-bar', 'web-movil'),
   },
   {
-    cat: 'internacional web redes', tag: 'Internacional · EE. UU.', emoji: '🏗️', name: 'HR Unlimited Builders', place: '🌎 Cliente internacional · Estados Unidos', slug: 'hr-unlimited',
+    cat: 'web redes', tag: 'Internacional · EE. UU.', emoji: '🏗️', name: 'HR Unlimited Builders', place: '🌎 Cliente internacional · Estados Unidos', slug: 'hr-unlimited',
     text: 'Sitio web y contenido para redes en inglés para constructora residencial de Florida: empresa, servicios, portafolio de proyectos y piezas educativas.',
     result: 'Diseño Web · Redes · Contenido en inglés',
     url: 'https://hrunlimitedbuilders.com/', urlLabel: 'hrunlimitedbuilders.com',
@@ -197,7 +197,7 @@ export const portfolio: Case[] = [
     ],
   },
   {
-    cat: 'internacional', tag: 'Internacional · México', emoji: '🎓', name: 'Ya Me Fui', place: '🌎 Cliente internacional · México', slug: 'ya-me-fui',
+    cat: 'web', tag: 'Internacional · México', emoji: '🎓', name: 'Ya Me Fui', place: '🌎 Cliente internacional · México', slug: 'ya-me-fui',
     text: 'Sitio web para agencia de estudios en el extranjero: destinos, servicios, blog y agenda de asesorías gratuitas.',
     result: 'Diseño Web · Contenido',
     url: 'https://yamefui.com/', urlLabel: 'yamefui.com',
@@ -313,7 +313,7 @@ export const portfolio: Case[] = [
     ],
   },
   {
-    cat: 'internacional', tag: 'Internacional · EE. UU.', emoji: '⚖️', name: 'Ehrlich & Naparstek', place: '🌎 Cliente internacional · Florida, Estados Unidos', slug: 'ehrlich-naparstek',
+    cat: 'web', tag: 'Internacional · EE. UU.', emoji: '⚖️', name: 'Ehrlich & Naparstek', place: '🌎 Cliente internacional · Florida, Estados Unidos', slug: 'ehrlich-naparstek',
     text: 'Sitio web en inglés para firma de abogados de lesiones personales en Florida: casos que atienden, zonas, resultados, reseñas y evaluación gratuita.',
     result: 'Diseño Web · Contenido en inglés',
     url: 'https://eninjurylaw.com/', urlLabel: 'eninjurylaw.com',
@@ -337,7 +337,7 @@ portfolio.sort((a, b) => ORDER.indexOf(a.slug) - ORDER.indexOf(b.slug));
 
 
 export const portfolioFilters = [
-  { id: 'all', label: 'Todos' }, { id: 'redes', label: 'Redes Sociales' }, { id: 'web', label: 'Diseño Web' }, { id: 'internacional', label: 'Internacional' },
+  { id: 'all', label: 'Todos', icon: 'all' }, { id: 'redes', label: 'Redes sociales', icon: 'redes' }, { id: 'web', label: 'Diseño web', icon: 'web' },
 ];
 
 export const portfolioProcess = [
