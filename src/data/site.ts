@@ -115,18 +115,226 @@ export const process = [
   { n: '04', title: 'Resultados', text: 'Medimos, reportamos y optimizamos continuamente para maximizar el impacto.' },
 ];
 
-export const portfolio = [
-  { cat: 'redes', tag: 'Redes Sociales', emoji: '🌿', name: 'Caracolí', place: '📍 Cliente nacional · Cali', text: 'Gestión integral de redes sociales para esta marca local. Desarrollamos la estrategia de contenido, producción creativa, edición de videos y fotografía profesional para posicionar la marca digitalmente.', short: 'Gestión integral de redes sociales para marca local en Cali. Estrategia de contenido, producción creativa, edición de videos y fotografía profesional.', result: 'Estrategia · Contenido · Redes · Foto & Video', home: true },
-  { cat: 'redes', tag: 'Redes Sociales', emoji: '🎓', name: 'Aspaen', place: '📍 Cliente nacional · Cali', text: 'Manejo completo de redes sociales para institución educativa. Estrategia de contenido enfocada en comunidad y valores institucionales, con producción audiovisual y fotografía.', result: 'Estrategia · Contenido · Redes · Foto & Video' },
-  { cat: 'redes', tag: 'Redes Sociales', emoji: '🏗️', name: 'Siamco Ingenierías', place: '📍 Cliente nacional · Cali', text: 'Posicionamiento digital para empresa de ingeniería. Creación de contenido técnico y visual atractivo para redes sociales, con estrategia orientada a generación de confianza y autoridad de marca.', result: 'Estrategia · Contenido · Redes · Foto & Video' },
-  { cat: 'web', tag: 'Diseño Web', emoji: '👩‍💼', name: 'Mónica Muñoz', place: '📍 Cliente nacional · Cali', text: 'Diseño y creación de contenido para sitio web profesional. Producción de material audiovisual y fotografía para potenciar la presencia digital y credibilidad de esta profesional independiente.', result: 'Diseño Web · Contenido · Foto & Video' },
-  { cat: 'web', tag: 'Diseño Web', emoji: '📚', name: 'Cedecur', place: '📍 Cliente nacional · Cali', text: 'Desarrollo de contenido web completo para esta institución. Diseño visual, redacción web, edición de videos y fotografía corporativa para comunicar su propuesta de valor de forma clara y atractiva.', result: 'Diseño Web · Contenido · Foto & Video' },
-  { cat: 'web', tag: 'Diseño Web', emoji: '💼', name: 'IbVC Momentum', place: '📍 Cliente nacional · Bogotá', text: 'Creación del ecosistema web para esta empresa de capital de riesgo bogotana. Diseño de contenido web profesional, producción audiovisual y fotografía corporativa de alto impacto.', result: 'Diseño Web · Contenido · Foto & Video' },
-  { cat: 'internacional', tag: 'Internacional · México', emoji: '✈️', name: 'Ya Me Fui', place: '🌎 Cliente internacional · México', text: 'Proyecto digital internacional para marca mexicana de viajes y lifestyle. Diseño de contenido web, producción de material audiovisual y fotografía adaptada al mercado latinoamericano.', result: 'Diseño Web · Contenido · Foto & Video' },
-  { cat: 'internacional', tag: 'Internacional · EEUU', emoji: '🇺🇸', name: 'HR Unlimited', place: '🌎 Cliente internacional · Estados Unidos', text: 'Desarrollo de contenido web para empresa de recursos humanos con sede en Estados Unidos. Diseño visual bilingüe, edición de videos corporativos y fotografía profesional para mercado angloparlante.', result: 'Diseño Web · Contenido · Foto & Video' },
-  { cat: 'web', tag: 'Web · Ads · SEO', emoji: '💅', name: 'Oh Lala Beauty Bar', place: '📍 Cliente nacional', text: 'Rediseño completo del sitio web con foco en experiencia de usuario y conversión. Implementación de estrategia SEO para posicionamiento orgánico y gestión de campañas de Google Ads para atraer nuevos clientes al salón de belleza.', short: 'Rediseño completo del sitio web, campañas de Google Ads y estrategia SEO para posicionamiento orgánico y captación de nuevas clientas.', result: 'Rediseño Web · Google Ads · SEO', home: true },
-  { cat: 'redes', tag: 'Full Digital', emoji: '✈️', name: 'Pasaporte al Mundo Turismo', place: '📍 Cliente nacional', text: 'Gestión integral 360° para agencia de viajes: manejo de redes sociales, diseño gráfico de piezas para campañas, campañas de Meta Ads para captación de viajeros, y creación de sitio web con estrategia SEO para posicionamiento en búsquedas de turismo.', short: 'Gestión 360° para agencia de viajes: redes sociales, diseño gráfico, Meta Ads, sitio web con estrategia SEO.', result: 'Redes · Diseño · Meta Ads · Web · SEO', home: true },
+// Portafolio. Los campos `url`, `intro`, `did`, `web`, `mobile` y `posts` alimentan el pop-up de cada caso.
+// Solo datos verificables: nada de cifras de resultados sin respaldo.
+export type Case = {
+  cat: string; tag: string; emoji: string; name: string; place: string; text: string; short?: string; result: string; home?: boolean;
+  slug: string; url?: string; urlLabel?: string; ig?: string; intro?: string; did?: string[];
+  web?: { src: string; alt: string }[]; mobile?: string; posts?: { src: string; alt: string }[];
+};
+const A = (slug: string, f: string) => `assets/portafolio/${slug}/${f}.webp`;
+export const portfolio: Case[] = [
+  {
+    cat: 'redes web', tag: 'Full Digital', emoji: '✈️', name: 'Pasaporte al Mundo Turismo', place: '📍 Cliente nacional · Cali', slug: 'pasaporte-al-mundo',
+    text: 'Gestión 360° para agencia de viajes con 30 años en Cali: sitio web nuevo, estrategia SEO con blog, redes sociales con reels y piezas para campañas.',
+    short: 'Gestión 360° para agencia de viajes: redes sociales, diseño gráfico, Meta Ads, sitio web con estrategia SEO.',
+    result: 'Web · SEO · Redes · Diseño · Meta Ads', home: true,
+    url: 'https://pasaportealmundo.co/', urlLabel: 'pasaportealmundo.co', ig: 'https://www.instagram.com/pasaportealmundo_turismo/',
+    intro: 'Agencia de viajes de Cali que desde 1996 ayuda a sus clientes con visas, paquetes turísticos y seguros de viaje.',
+    did: [
+      'Sitio web nuevo con formulario de asesoría y WhatsApp, y secciones de visas, paquetes, seguros y blog.',
+      'Estrategia SEO: auditoría del sitio y calendario de 36 artículos para el blog, de mayo a octubre de 2026.',
+      'Parrilla mensual de 20 piezas para Instagram, Facebook y TikTok: posts, carruseles, reels y stories.',
+      'Reels con motion graphics, como la serie que explica el trámite de la visa de Estados Unidos.',
+      'Piezas para campañas de paquetes y promociones, y pauta en Meta Ads.',
+    ],
+    web: [
+      { src: A('pasaporte-al-mundo', 'web-inicio'), alt: 'Inicio del sitio web de Pasaporte al Mundo con formulario de asesoría' },
+      { src: A('pasaporte-al-mundo', 'web-visas'), alt: 'Sección del proceso de visa en 4 pasos' },
+      { src: A('pasaporte-al-mundo', 'web-paquetes'), alt: 'Sección de paquetes turísticos y asistencia' },
+    ],
+    mobile: A('pasaporte-al-mundo', 'web-movil'),
+    posts: [
+      { src: A('pasaporte-al-mundo', 'post-30-anos'), alt: 'Post 30 años de confianza' },
+      { src: A('pasaporte-al-mundo', 'post-espana'), alt: 'Post de paquete a España' },
+      { src: A('pasaporte-al-mundo', 'post-aruba'), alt: 'Post de paquete a Aruba' },
+      { src: A('pasaporte-al-mundo', 'post-agendate'), alt: 'Post Agéndate ya' },
+    ],
+  },
+  {
+    cat: 'web', tag: 'Tienda online · Ads · SEO', emoji: '💅', name: 'Oh Lala Beauty Bar', place: '📍 Cliente nacional', slug: 'oh-lala-beauty-bar',
+    text: 'Rediseño completo de la tienda online de belleza con foco en experiencia de compra y conversión, estrategia SEO y campañas de Google Ads.',
+    short: 'Rediseño completo del sitio web, campañas de Google Ads y estrategia SEO para posicionamiento orgánico y captación de nuevas clientas.',
+    result: 'Tienda online · Google Ads · SEO', home: true,
+    url: 'https://ohlalabeautybar.com/', urlLabel: 'ohlalabeautybar.com',
+    intro: 'Tienda de maquillaje, cuidado capilar, skincare y cuidado corporal, con envíos a todo Colombia.',
+    did: [
+      'Rediseño de la tienda online: catálogo por categorías y marcas, ofertas, búsqueda de productos y carrito.',
+      'Pagos con tarjeta, Nequi, transferencia y compra ahora, paga después.',
+      'Botón de WhatsApp en todas las páginas para resolver dudas antes de comprar.',
+      'Estrategia SEO para categorías y productos, y campañas de Google Ads.',
+    ],
+    web: [
+      { src: A('oh-lala-beauty-bar', 'web-inicio'), alt: 'Inicio de la tienda online de Oh Lala Beauty Bar' },
+      { src: A('oh-lala-beauty-bar', 'web-productos'), alt: 'Productos destacados y medios de pago' },
+      { src: A('oh-lala-beauty-bar', 'web-marcas'), alt: 'Productos organizados por marca' },
+    ],
+    mobile: A('oh-lala-beauty-bar', 'web-movil'),
+  },
+  {
+    cat: 'internacional web redes', tag: 'Internacional · EE. UU.', emoji: '🏗️', name: 'HR Unlimited Builders', place: '🌎 Cliente internacional · Estados Unidos', slug: 'hr-unlimited',
+    text: 'Sitio web y contenido para redes en inglés para constructora residencial de Florida: empresa, servicios, portafolio de proyectos y piezas educativas.',
+    result: 'Diseño Web · Redes · Contenido en inglés',
+    url: 'https://hrunlimitedbuilders.com/', urlLabel: 'hrunlimitedbuilders.com',
+    intro: 'Constructora residencial de Florida fundada en 2018, clasificada como Minority Business por el Florida State Minority Supplier Development Council.',
+    did: [
+      'Sitio web en inglés para el mercado de Estados Unidos.',
+      'Secciones de empresa, valores (diseño, seguridad, diversidad), servicios y contacto.',
+      'Portafolio de proyectos residenciales en carrusel.',
+      'Opciones de accesibilidad y enlaces a Instagram y Facebook.',
+      'Diseño de piezas para redes en inglés: datos del sector, tips para construir y decorar, y contenido sobre BIM.',
+    ],
+    web: [
+      { src: A('hr-unlimited', 'web-nosotros'), alt: 'Sección About Us de HR Unlimited Builders' },
+      { src: A('hr-unlimited', 'web-portafolio'), alt: 'Portafolio de proyectos residenciales' },
+      { src: A('hr-unlimited', 'web-servicios'), alt: 'Servicios: consultoría, programación y administración de contratos' },
+    ],
+    posts: [
+      { src: A('hr-unlimited', 'post-sabias-que'), alt: 'Post Did you know that… sobre construcción de edificios' },
+      { src: A('hr-unlimited', 'post-tips-casa'), alt: 'Carrusel 3 tips para construir tu casa' },
+      { src: A('hr-unlimited', 'post-real-estate'), alt: 'Carrusel 3 datos de finca raíz' },
+      { src: A('hr-unlimited', 'post-bim'), alt: 'Post sobre Building Information Modeling (BIM)' },
+    ],
+  },
+  {
+    cat: 'internacional', tag: 'Internacional · México', emoji: '🎓', name: 'Ya Me Fui', place: '🌎 Cliente internacional · México', slug: 'ya-me-fui',
+    text: 'Sitio web para agencia de estudios en el extranjero: destinos, servicios, blog y agenda de asesorías gratuitas.',
+    result: 'Diseño Web · Contenido',
+    url: 'https://yamefui.com/', urlLabel: 'yamefui.com',
+    intro: 'Agencia que asesora a estudiantes para estudiar en el extranjero: programas académicos, trámites de visa y adaptación cultural.',
+    did: [
+      'Sitio web con llamado principal a agendar una asesoría educativa gratuita.',
+      'Fichas de destinos por continente: Canadá, Australia, Irlanda, Malta, España y más.',
+      'Secciones de servicios clave (seguro médico, traducción de documentos), equipo, preguntas frecuentes y blog.',
+      'Versión en español e inglés.',
+    ],
+    web: [
+      { src: A('ya-me-fui', 'web-inicio'), alt: 'Inicio del sitio web de Ya Me Fui' },
+      { src: A('ya-me-fui', 'web-destinos'), alt: 'Destinos para estudiar en el extranjero' },
+      { src: A('ya-me-fui', 'web-servicios'), alt: 'Servicios clave: traducción de documentos' },
+    ],
+    mobile: A('ya-me-fui', 'web-movil'),
+  },
+  {
+    cat: 'web', tag: 'Diseño Web', emoji: '☀️', name: 'IbVC Momentum', place: '📍 Cliente nacional · Bogotá', slug: 'ibvc-momentum',
+    text: 'Sitio web para empresa de sostenibilidad en la construcción: paneles solares, gerenciamiento de activos, bombeo de concreto e infraestructura.',
+    result: 'Diseño Web · Contenido',
+    url: 'https://ibvcmomentum.com/', urlLabel: 'ibvcmomentum.com',
+    intro: 'Empresa que construye, mantiene y acondiciona activos para mejorar su eficiencia energética y reducir la huella de carbono en la construcción.',
+    did: [
+      'Sitio web con sus líneas de servicio: bombeo de concreto, gerenciamiento de activos, facilidades e infraestructura.',
+      'Mensaje central de sostenibilidad y eficiencia, con llamado a solicitar cotización.',
+      'Secciones de equipo de trabajo y aliados.',
+    ],
+    web: [
+      { src: A('ibvc-momentum', 'web-inicio'), alt: 'Inicio del sitio web de IbVC Momentum' },
+      { src: A('ibvc-momentum', 'web-sostenibilidad'), alt: 'Sección de sostenibilidad y eficiencia' },
+      { src: A('ibvc-momentum', 'web-aliados'), alt: 'Equipo de trabajo y aliados' },
+    ],
+    mobile: A('ibvc-momentum', 'web-movil'),
+  },
+  {
+    cat: 'web', tag: 'Diseño Web', emoji: '🤝', name: 'Cedecur', place: '📍 Cliente nacional · Cali', slug: 'cedecur',
+    text: 'Sitio web para entidad sin ánimo de lucro de desarrollo comunitario: historia, modelo de intervención, impacto, testimonios y donaciones.',
+    result: 'Diseño Web · Contenido',
+    url: 'https://cedecur.org/web/', urlLabel: 'cedecur.org',
+    intro: 'Centro de Educación e Investigación para el Desarrollo Comunitario Urbano y Rural: entidad sin ánimo de lucro creada en 1982 en Cali.',
+    did: [
+      'Sitio web con su historia, modelo de intervención, líneas de trabajo e impacto.',
+      'Testimonios en video y sección de publicaciones.',
+      'Botón de donación visible en todo el sitio.',
+      'Muro de organizaciones aliadas.',
+    ],
+    web: [
+      { src: A('cedecur', 'web-inicio'), alt: 'Inicio del sitio web de Cedecur' },
+      { src: A('cedecur', 'web-modelo'), alt: 'Modelo de intervención de Cedecur' },
+      { src: A('cedecur', 'web-aliados'), alt: 'Organizaciones aliadas' },
+    ],
+    mobile: A('cedecur', 'web-movil'),
+  },
+  {
+    cat: 'redes', tag: 'Redes Sociales', emoji: '🧁', name: 'Caracolí Pastelería', place: '📍 Cliente nacional · Cali', slug: 'caracoli',
+    text: 'Gestión integral de redes sociales para pastelería en Cali. Desarrollamos la estrategia de contenido, producción creativa, edición de videos y fotografía profesional para posicionar la marca digitalmente.',
+    short: 'Gestión integral de redes sociales para pastelería en Cali. Estrategia de contenido, producción creativa, edición de videos y fotografía profesional.',
+    result: 'Estrategia · Contenido · Redes · Foto & Video', home: true,
+    intro: 'Pastelería de Cali con tortas, cupcakes y mesas dulces para celebraciones familiares y eventos empresariales.',
+    did: [
+      'Estrategia de contenido para Instagram con su identidad: rosado, flores ilustradas y tipografía a mano.',
+      'Sesiones de fotografía de producto y con personas, en exteriores.',
+      'Carruseles para mostrar los productos y la línea de pastelería para eventos empresariales.',
+      'Contenido para fechas especiales, como el Día de la Madre.',
+    ],
+    posts: [
+      { src: A('caracoli', 'post-dulce-legado'), alt: 'Carrusel Dulce legado, nuestros productos' },
+      { src: A('caracoli', 'post-conoce'), alt: 'Carrusel Conoce algunos de nuestros productos' },
+      { src: A('caracoli', 'post-eventos'), alt: 'Post de pastelería para eventos empresariales' },
+      { src: A('caracoli', 'post-dia-madre'), alt: 'Carrusel del Día de la Madre' },
+    ],
+  },
+  {
+    cat: 'redes', tag: 'Redes Sociales', emoji: '🎓', name: 'Aspaen', place: '📍 Cliente nacional · Cali', slug: 'aspaen',
+    text: 'Manejo completo de redes sociales para institución educativa. Estrategia de contenido enfocada en comunidad y valores institucionales, con producción audiovisual y fotografía.',
+    result: 'Estrategia · Contenido · Redes · Foto & Video',
+    intro: 'Red de colegios y preescolares (Juanambú, Entrevalles, Tayana y Tacurí) con una ruta de formación desde el preescolar hasta la universidad.',
+    did: [
+      'Estrategia de contenido para redes enfocada en comunidad y valores institucionales.',
+      'Piezas para la temporada de admisiones: agenda tu cita, entrevistas y Open Day.',
+      'Comunicación del regreso a clases y de las adecuaciones de las instalaciones.',
+      'Fotografía de estudiantes en el colegio con la línea gráfica de cada sede.',
+    ],
+    posts: [
+      { src: A('aspaen', 'post-formacion'), alt: 'Post Ofrecemos una ruta de formación completa' },
+      { src: A('aspaen', 'post-open-day'), alt: 'Post Open Day, agenda tu visita' },
+      { src: A('aspaen', 'post-libertad'), alt: 'Post Libertad y confianza' },
+      { src: A('aspaen', 'post-evolucionando'), alt: 'Post En Aspaen seguimos evolucionando' },
+    ],
+  },
+  {
+    cat: 'web redes', tag: 'Web · Redes', emoji: '🏗️', name: 'Siamco Ingeniería', place: '📍 Cliente nacional · Cali', slug: 'siamco',
+    text: 'Sitio web y redes sociales para empresa de ingeniería de Cali: servicios, proyectos y aliados en la web, y contenido técnico y visual para generar confianza y autoridad de marca.',
+    result: 'Diseño Web · Estrategia · Contenido · Redes',
+    url: 'https://siamcoingenieria.com/', urlLabel: 'siamcoingenieria.com',
+    intro: 'Empresa de Cali especializada en impermeabilización, pisos arquitectónicos e industriales (concreto estampado, microcemento) y lavado de tanques de agua potable.',
+    did: [
+      'Sitio web con los servicios de la empresa, proyectos recientes y marcas aliadas.',
+      'Botón de WhatsApp y llamados a la acción para pedir cotización.',
+      'Piezas para redes con contenido técnico: datos de impermeabilización, pisos y proyectos realizados.',
+    ],
+    web: [
+      { src: A('siamco', 'web-servicios'), alt: 'Sección de servicios del sitio web de Siamco Ingeniería' },
+      { src: A('siamco', 'web-proyectos'), alt: 'Proyectos recientes de Siamco' },
+      { src: A('siamco', 'web-aliados'), alt: 'Marcas aliadas de Siamco' },
+    ],
+    posts: [
+      { src: A('siamco', 'post-scarlatta'), alt: 'Post Proyecto Edificio Scarlatta' },
+      { src: A('siamco', 'post-impermeabilizar'), alt: 'Post ¿Sabías que? sobre impermeabilización' },
+      { src: A('siamco', 'post-pisos'), alt: 'Post Marca la diferencia en tus pisos' },
+      { src: A('siamco', 'post-nuevo-proyecto'), alt: 'Post ¿Un nuevo proyecto?' },
+    ],
+  },
+  {
+    cat: 'internacional', tag: 'Internacional · EE. UU.', emoji: '⚖️', name: 'Ehrlich & Naparstek', place: '🌎 Cliente internacional · Florida, Estados Unidos', slug: 'ehrlich-naparstek',
+    text: 'Sitio web en inglés para firma de abogados de lesiones personales en Florida: casos que atienden, zonas, resultados, reseñas y evaluación gratuita.',
+    result: 'Diseño Web · Contenido en inglés',
+    url: 'https://eninjurylaw.com/', urlLabel: 'eninjurylaw.com',
+    intro: 'Firma de abogados de Florida especializada en lesiones personales, accidentes de tránsito y compensación laboral, con oficinas en Palm Beach y la Treasure Coast.',
+    did: [
+      'Sitio web en inglés con llamado constante a la evaluación gratuita y a llamar 24/7.',
+      'Páginas por tipo de caso y por cada ciudad o zona que atienden.',
+      'Secciones de abogados, resultados de casos, reseñas de clientes, preguntas frecuentes y noticias.',
+    ],
+    web: [
+      { src: A('ehrlich-naparstek', 'web-resultados'), alt: 'Sección de resultados de casos de Ehrlich & Naparstek' },
+      { src: A('ehrlich-naparstek', 'web-equipo'), alt: 'Sección de los abogados de la firma' },
+      { src: A('ehrlich-naparstek', 'web-contacto'), alt: 'Llamado a contacto 24/7' },
+    ],
+    mobile: A('ehrlich-naparstek', 'web-movil'),
+  },
 ];
+// Orden en que aparecen en la página de portafolio
+const ORDER = ['pasaporte-al-mundo', 'caracoli', 'aspaen', 'oh-lala-beauty-bar', 'siamco', 'ibvc-momentum', 'hr-unlimited', 'cedecur', 'ya-me-fui', 'ehrlich-naparstek'];
+portfolio.sort((a, b) => ORDER.indexOf(a.slug) - ORDER.indexOf(b.slug));
+
 
 export const portfolioFilters = [
   { id: 'all', label: 'Todos' }, { id: 'redes', label: 'Redes Sociales' }, { id: 'web', label: 'Diseño Web' }, { id: 'internacional', label: 'Internacional' },

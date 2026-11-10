@@ -56,10 +56,13 @@ document.querySelectorAll<HTMLElement>('[data-filters]').forEach((group) => {
   group.querySelectorAll<HTMLButtonElement>('button[data-filter]').forEach((btn) => btn.addEventListener('click', () => {
     group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
     const f = btn.dataset.filter;
-    scope?.querySelectorAll<HTMLElement>('[data-cat]').forEach((el) => { el.hidden = !(f === 'all' || el.dataset.cat === f); });
+    scope?.querySelectorAll<HTMLElement>('[data-cat]').forEach((el) => { el.hidden = !(f === 'all' || (el.dataset.cat ?? '').split(' ').includes(f)); });
     ScrollTrigger.refresh();
   }));
 });
+
+// ── Portafolio: pop-up de cada caso (solo en la página de portafolio)
+if (document.querySelector('[data-case-open]')) import('./portfolio').then((m) => m.initPortfolio(gsap, reduce));
 
 // ── Formulario de contacto → WhatsApp con el mensaje ya escrito (sitio estático, sin servidor)
 const form = document.querySelector<HTMLFormElement>('#contactForm');

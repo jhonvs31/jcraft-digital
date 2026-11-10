@@ -4,9 +4,12 @@ import PageHero from '../components/PageHero.astro';
 import Title from '../components/Title.astro';
 import Cta from '../components/Cta.astro';
 import { portfolio, portfolioFilters, portfolioProcess, claims } from '../data/site';
+import { u, wa } from '../lib/url';
+
+const chips = (r: string) => r.split('·').map((x) => x.trim()).filter(Boolean);
 ---
 <Base title="Portafolio | JCraft Digital" description="Proyectos reales de redes sociales, diseño web, SEO y pauta digital para marcas de Colombia, México y Estados Unidos." page="portafolio.html" crumbs={[{ name: 'Portafolio', page: 'portafolio.html' }]}>
-  <PageHero crumb="Portafolio" title="Nuestro *portafolio*" text="Proyectos reales, resultados reales. Cada caso es una historia de crecimiento junto a nuestros clientes." />
+  <PageHero crumb="Portafolio" title="Nuestro *portafolio*" text="Proyectos reales, resultados reales. Toca cada empresa para ver qué hicimos." />
 
   {claims.show && (
     <section class="border-y border-white/10 bg-navy">
@@ -27,17 +30,108 @@ import { portfolio, portfolioFilters, portfolioProcess, claims } from '../data/s
         ))}
       </div>
       <div id="proyectos" class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-stagger>
-        {portfolio.map((p) => (
-          <article data-cat={p.cat} data-reveal data-tilt class="card-paper group flex flex-col overflow-hidden">
-            <div class="relative grid h-52 place-items-center overflow-hidden bg-navy text-7xl"><div class="glow h-72 w-72 opacity-70 transition-transform duration-700 group-hover:scale-125"></div><span class="relative" aria-hidden="true">{p.emoji}</span>
-              <span class="absolute top-4 left-4 rounded-full bg-cyan px-3 py-1 text-xs font-extrabold text-navy">{p.tag}</span></div>
-            <div class="flex flex-1 flex-col p-7"><h2 class="text-2xl">{p.name}</h2><p class="mt-1 text-sm font-semibold text-navy/55">{p.place}</p>
-              <p class="mt-4 flex-1 text-navy/70">{p.text}</p><p class="mt-6 text-sm font-bold text-blue">{p.result}</p></div>
-          </article>
-        ))}
+        {portfolio.map((p) => {
+          const cover = p.web?.[0]?.src ?? p.posts?.[0]?.src;
+          return (
+            <article data-cat={p.cat} data-reveal data-case-card={p.slug} class="card-paper case-card group relative flex flex-col overflow-hidden">
+              <div class="relative h-56 overflow-hidden bg-navy">
+                {cover ? (
+                  <img src={u(cover)} alt="" loading="lazy" decoding="async" width="1200" height="750" class={`h-full w-full object-cover ${p.web?.[0] ? 'object-top' : 'object-center'} transition-transform duration-700 group-hover:scale-105`} />
+                ) : (
+                  <div class="grid h-full place-items-center text-7xl"><div class="glow h-72 w-72 opacity-70 transition-transform duration-700 group-hover:scale-125"></div><span class="relative" aria-hidden="true">{p.emoji}</span></div>
+                )}
+                <span class="absolute top-4 left-4 rounded-full bg-cyan px-3 py-1 text-xs font-extrabold text-navy">{p.tag}</span>
+              </div>
+              <div class="flex flex-1 flex-col p-7">
+                <h2 class="text-2xl">{p.name}</h2><p class="mt-1 text-sm font-semibold text-navy/55">{p.place}</p>
+                <p class="mt-4 flex-1 text-navy/70">{p.text}</p>
+                <div class="mt-6 flex items-center justify-between gap-4">
+                  <p class="text-sm font-bold text-blue">{p.result}</p>
+                  <span class="case-more inline-flex shrink-0 items-center gap-1.5 rounded-full bg-navy px-4 py-2 text-sm font-extrabold text-white transition group-hover:bg-blue" aria-hidden="true">Ver caso <span class="transition-transform group-hover:translate-x-1">→</span></span>
+                </div>
+              </div>
+              <button type="button" class="absolute inset-0 z-10 cursor-pointer rounded-3xl" data-case-open={p.slug} aria-haspopup="dialog" aria-controls={`caso-${p.slug}`}><span class="sr-only">Ver el caso de {p.name}</span></button>
+            </article>
+          );
+        })}
       </div>
     </div>
   </section>
+
+  {portfolio.map((p) => (
+    <dialog id={`caso-${p.slug}`} class="case-dialog" aria-labelledby={`caso-${p.slug}-t`} data-case={p.slug}>
+      <div class="case-panel" data-lenis-prevent>
+        <div class="case-grab" aria-hidden="true"></div>
+        <header class="relative bg-navy px-6 pt-10 pb-8 text-white sm:px-12 sm:pt-12">
+          <div class="glow pointer-events-none absolute -top-24 -right-24 h-80 w-80 opacity-60" aria-hidden="true"></div>
+          <button type="button" class="case-close" data-case-close aria-label="Cerrar">✕</button>
+          <span class="relative rounded-full bg-cyan px-3 py-1 text-xs font-extrabold text-navy" data-case-item>{p.tag}</span>
+          <h2 id={`caso-${p.slug}-t`} class="relative mt-5 font-display text-4xl font-black tracking-tight sm:text-6xl" data-case-item>{p.name}</h2>
+          <p class="relative mt-2 font-semibold text-white/60" data-case-item>{p.place}</p>
+          <p class="relative mt-5 max-w-2xl text-lg text-white/80" data-case-item>{p.intro ?? p.text}</p>
+          {p.web?.[0] && (
+            <figure class="browser relative mt-8" data-case-item>
+              <div class="browser-bar"><span></span><span></span><span></span>{p.urlLabel && <em>{p.urlLabel}</em>}</div>
+              <img src={u(p.web[0].src)} alt={p.web[0].alt} loading="lazy" decoding="async" width="1200" height="750" />
+            </figure>
+          )}
+        </header>
+
+        <div class="bg-paper px-6 py-10 text-navy sm:px-12">
+          <div class="grid gap-8 lg:grid-cols-[1fr_300px]">
+            <div data-case-item>
+              <h3 class="text-sm font-extrabold tracking-[.18em] text-blue uppercase">Lo que hicimos</h3>
+              {p.did ? (
+                <ul class="mt-5 space-y-4">
+                  {p.did.map((d) => (
+                    <li class="flex gap-3 text-navy/80"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-cyan text-xs font-black text-navy" aria-hidden="true">✓</span><span>{d}</span></li>
+                  ))}
+                </ul>
+              ) : (<p class="mt-5 text-navy/75">{p.text}</p>)}
+            </div>
+            <aside class="self-start rounded-3xl bg-white p-6 shadow-[0_20px_50px_-30px_rgba(10,47,110,.4)]" data-case-item>
+              <h3 class="text-sm font-extrabold tracking-[.18em] text-blue uppercase">Servicios</h3>
+              <div class="mt-4 flex flex-wrap gap-2">{chips(p.result).map((c) => <span class="rounded-full border-2 border-navy/10 px-3 py-1 text-sm font-bold">{c}</span>)}</div>
+              {(p.url || p.ig) && (
+                <div class="mt-6 flex flex-col gap-2">
+                  {p.url && <a href={p.url} target="_blank" rel="noopener" class="btn btn-primary justify-center">Ver el sitio web ↗</a>}
+                  {p.ig && <a href={p.ig} target="_blank" rel="noopener" class="btn btn-ghost justify-center !text-navy">Ver Instagram ↗</a>}
+                </div>
+              )}
+            </aside>
+          </div>
+
+          {(p.web && p.web.length > 1) || p.mobile ? (
+            <section class="mt-12" data-case-item>
+              <h3 class="text-sm font-extrabold tracking-[.18em] text-blue uppercase">La web</h3>
+              <div class="case-strip mt-5">
+                {p.mobile && (
+                  <figure class="phone"><img src={u(p.mobile)} alt={`${p.name} en el celular`} loading="lazy" decoding="async" width="390" height="780" /></figure>
+                )}
+                {p.web?.slice(1).map((w) => (
+                  <figure class="browser browser-sm"><div class="browser-bar"><span></span><span></span><span></span></div><img src={u(w.src)} alt={w.alt} loading="lazy" decoding="async" width="1200" height="750" /></figure>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {p.posts && (
+            <section class="mt-12" data-case-item>
+              <h3 class="text-sm font-extrabold tracking-[.18em] text-blue uppercase">En redes</h3>
+              <div class="mt-5 grid grid-cols-2 items-start gap-4 lg:grid-cols-4">
+                {p.posts.map((x) => <img src={u(x.src)} alt={x.alt} loading="lazy" decoding="async" width="720" height="720" class="h-auto w-full rounded-2xl shadow-[0_20px_40px_-25px_rgba(10,47,110,.6)]" />)}
+              </div>
+            </section>
+          )}
+
+          <div class="mt-12 flex flex-col items-start justify-between gap-5 rounded-3xl bg-navy p-7 text-white sm:flex-row sm:items-center" data-case-item>
+            <p class="font-display text-2xl font-black">¿Quieres algo así para <em class="k">tu negocio?</em></p>
+            <a href={wa(`Hola! Vi el caso de ${p.name} en el portafolio y quiero algo así.`)} target="_blank" rel="noopener" class="btn btn-primary shrink-0">Escríbenos</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+  ))}
 
   <section class="bg-deep py-28 sm:py-36">
     <div class="wrap">
