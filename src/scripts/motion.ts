@@ -8,15 +8,36 @@ import './nudges';
 gsap.registerPlugin(ScrollTrigger);
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ── Cabecera: se compacta y toma fondo al bajar
+// ── Cabecera: al bajar se vuelve una cápsula flotante de vidrio con barra de progreso;
+//    se esconde al bajar rápido y vuelve a aparecer al subir.
 const header = document.querySelector<HTMLElement>('[data-header]');
+const progress = header?.querySelector<HTMLElement>('[data-hdr-progress]');
+let lastY = window.scrollY;
 const onScroll = () => {
-  const on = window.scrollY > 40;
-  header?.classList.toggle('bg-deep/80', on);
-  header?.classList.toggle('backdrop-blur-xl', on);
-  header?.querySelector('[data-header-inner]')?.classList.toggle('!py-3', on);
+  const y = window.scrollY;
+  header?.classList.toggle('is-scrolled', y > 40);
+  const menuOpen = document.querySelector('[data-menu-toggle]')?.getAttribute('aria-expanded') === 'true';
+  const caseOpen = !!document.querySelector('dialog[open]');
+  if (!menuOpen && !caseOpen && Math.abs(y - lastY) > 6) header?.classList.toggle('is-hidden', y > lastY && y > 420);
+  lastY = y;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  if (progress) progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
 };
 window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+// Píldora que sigue al enlace bajo el cursor y vuelve a la página actual
+const hdrNav = header?.querySelector<HTMLElement>('[data-hdr-nav]');
+const pill = hdrNav?.querySelector<HTMLElement>('[data-hdr-pill]');
+const pillTo = (el: HTMLElement | null) => {
+  if (!pill) return;
+  if (!el) { pill.style.opacity = '0'; return; }
+  pill.style.opacity = '1'; pill.style.width = `${el.offsetWidth}px`; pill.style.transform = `translateX(${el.offsetLeft}px)`;
+  pill.classList.toggle('is-current', el.getAttribute('aria-current') === 'page');
+};
+const currentLink = () => hdrNav?.querySelector<HTMLElement>('[aria-current="page"]') ?? null;
+hdrNav?.querySelectorAll<HTMLElement>('.hdr-link').forEach((a) => { a.addEventListener('mouseenter', () => pillTo(a)); a.addEventListener('focus', () => pillTo(a)); });
+hdrNav?.addEventListener('mouseleave', () => pillTo(currentLink()));
+if (pill) { pillTo(currentLink()); document.fonts?.ready.then(() => pillTo(currentLink())); window.addEventListener('resize', () => pillTo(currentLink())); }
 
 // ── Menú móvil: círculo que se expande desde el botón + enlaces escalonados (y al revés al cerrar)
 const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');

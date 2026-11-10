@@ -6,24 +6,35 @@ const { current } = Astro.props as { current: string };
 const isActive = (href: string) => current === href || (href === 'blog.html' && current.startsWith('blog/'));
 const mobile = [...nav, { href: 'contacto.html', label: 'Contacto' }];
 ---
-<header data-header class="fixed inset-x-0 top-0 z-40 transition-[background-color,backdrop-filter,padding] duration-500">
-  <div class="wrap flex items-center justify-between py-5 transition-[padding] duration-500" data-header-inner>
-    <a href={u('index.html')} class="relative z-10 shrink-0" aria-label="JCraft Digital, inicio">
-      <Logo class="h-10 w-auto sm:h-11" />
-    </a>
-    <nav aria-label="Principal" class="hidden items-center gap-1 lg:flex">
-      {nav.slice(1).map((l) => (
-        <a href={u(l.href)} aria-current={isActive(l.href) ? 'page' : undefined}
-          class:list={['rounded-full px-4 py-2 text-[15px] font-semibold transition hover:text-cyan', isActive(l.href) ? 'text-cyan' : 'text-white/85']}>{l.label}</a>
-      ))}
-      <a href={u('portal/acceso.html')} class="ml-2 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2.5 text-[15px] font-semibold text-white/85 transition hover:border-cyan hover:text-cyan"><span aria-hidden="true">🔒</span>Portal</a>
-      <a href={u('contacto.html')} class="btn btn-primary ml-2 !py-3" data-magnetic>Hablemos</a>
-    </nav>
-    <button type="button" data-menu-toggle aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú"
-      class="relative z-10 grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-deep/40 backdrop-blur lg:hidden">
-      <span class="absolute block h-0.5 w-5 -translate-y-1 bg-white transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)]" data-bar="1"></span>
-      <span class="absolute block h-0.5 w-5 translate-y-1 bg-white transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)]" data-bar="2"></span>
-    </button>
+<header data-header class="hdr">
+  <div class="wrap">
+    <div class="hdr-bar" data-header-inner>
+      <a href={u('index.html')} class="relative z-10 shrink-0" aria-label="JCraft Digital, inicio">
+        <Logo class="h-10 w-auto sm:h-11" />
+      </a>
+      <nav aria-label="Principal" class="hdr-nav" data-hdr-nav>
+        <span class="hdr-pill" aria-hidden="true" data-hdr-pill></span>
+        {nav.slice(1).map((l) => (
+          <a href={u(l.href)} aria-current={isActive(l.href) ? 'page' : undefined} class="hdr-link">{l.label}</a>
+        ))}
+      </nav>
+      <div class="hidden items-center gap-2 lg:flex">
+        <a href={u('portal/acceso.html')} class="hdr-portal">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+          Portal
+        </a>
+        <a href={u('contacto.html')} class="btn btn-primary hdr-cta !py-3" data-magnetic>
+          <span class="hdr-dot" aria-hidden="true"></span>Hablemos
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hdr-arrow"><path d="M7 17 17 7M8 7h9v9" /></svg>
+        </a>
+      </div>
+      <button type="button" data-menu-toggle aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú"
+        class="relative z-10 grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-deep/40 backdrop-blur lg:hidden">
+        <span class="absolute block h-0.5 w-5 -translate-y-1 bg-white transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)]" data-bar="1"></span>
+        <span class="absolute block h-0.5 w-5 translate-y-1 bg-white transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)]" data-bar="2"></span>
+      </button>
+      <span class="hdr-progress" aria-hidden="true" data-hdr-progress></span>
+    </div>
   </div>
 </header>
   <!-- Menú móvil: se abre como un círculo desde el botón y los enlaces entran escalonados; al cerrar, lo mismo al revés. -->
