@@ -23,33 +23,44 @@ const links = [
 ];
 ---
 <Base title="Enlaces | JCraft Digital" description="Todos los enlaces de JCraft Digital: consulta gratuita por WhatsApp, servicios, portafolio, blog y contacto." page="links.html" noindex bare>
-  <section class="grain relative min-h-[100svh] overflow-hidden bg-deep px-5 py-14">
-    <div class="gridlines absolute inset-0"></div>
-    <div class="glow -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2"></div>
-    <div class="glow bottom-[-20%] right-[-30%] h-[420px] w-[420px] opacity-50"></div>
-    <div class="relative mx-auto flex max-w-md flex-col items-center text-center">
-      <div class="hero-in flex">
-        {[{ src: cata, alt: 'Catalina Escobar' }, { src: jhon, alt: 'Jhon Vega' }].map((p, i) => (
-          <div class:list={['relative', i && '-ml-5']}>
-            <div class="absolute -inset-1.5 rounded-full bg-gradient-to-br from-cyan via-blue to-cyan opacity-90 blur-[2px]"></div>
-            <Picture src={p.src} formats={['avif', 'webp']} widths={[112, 224, 336]} sizes="112px" quality={90} alt={`${p.alt}, cofundador${i ? '' : 'a'} de JCraft Digital`} class="relative h-28 w-28 rounded-full border-4 border-deep object-cover" loading="eager" />
-          </div>
-        ))}
-      </div>
-      <div class="mt-6 hero-in" style="--d:120ms"><Logo class="h-10 w-auto" /></div>
-      <h1 class="hero-in mt-5 text-3xl sm:text-4xl" style="--d:200ms">Hacemos que tu negocio <em class="k">se vea</em></h1>
-      <p class="hero-in mt-3 text-white/70" style="--d:280ms">Diseño, marketing y tecnología para pymes · Colombia y LATAM</p>
+  <section class="lg-page relative min-h-[100svh] overflow-hidden px-5 py-14" data-lg>
+    <!-- Fondo de color en movimiento: es lo que el vidrio refracta -->
+    <div class="lg-bg" aria-hidden="true"><span class="lg-blob b1"></span><span class="lg-blob b2"></span><span class="lg-blob b3"></span><span class="lg-blob b4"></span></div>
+    <!-- Filtro de refracción (solo lo usan los navegadores que lo soportan) -->
+    <svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+      <filter id="lg-refract" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="n" />
+        <feGaussianBlur in="n" stdDeviation="2" result="nb" />
+        <feDisplacementMap in="SourceGraphic" in2="nb" scale="22" xChannelSelector="R" yChannelSelector="G" result="d" />
+        <feComposite in="d" in2="SourceGraphic" operator="over" />
+      </filter>
+    </svg>
 
-      <ul class="mt-9 w-full space-y-3.5" data-stagger>
+    <div class="relative mx-auto flex max-w-md flex-col items-center text-center">
+      <div class="lg lg-card hero-in w-full px-6 pt-8 pb-7">
+        <span class="lg-fx" aria-hidden="true"></span>
+        <div class="flex justify-center">
+          {[{ src: cata, alt: 'Catalina Escobar' }, { src: jhon, alt: 'Jhon Vega' }].map((p, i) => (
+            <div class:list={['lg-avatar relative', i && '-ml-4']}>
+              <Picture src={p.src} formats={['avif', 'webp']} widths={[112, 224, 336]} sizes="104px" quality={90} alt={`${p.alt}, cofundador${i ? '' : 'a'} de JCraft Digital`} class="relative h-26 w-26 rounded-full object-cover" loading="eager" />
+            </div>
+          ))}
+        </div>
+        <div class="mt-6 flex justify-center"><Logo class="h-10 w-auto" /></div>
+        <h1 class="mt-4 text-3xl sm:text-4xl">Hacemos que tu negocio <em class="k">se vea</em></h1>
+        <p class="mt-3 text-white/75">Diseño, marketing y tecnología para pymes · Colombia y LATAM</p>
+      </div>
+
+      <ul class="mt-5 w-full space-y-3.5" data-stagger>
         {links.map((l) => (
           <li data-reveal>
-            <a href={l.href} target={l.ext ? '_blank' : undefined} rel={l.ext ? 'noopener' : undefined} data-magnetic
-              class:list={['group flex w-full items-center gap-4 rounded-2xl px-5 py-4 text-left transition duration-300 hover:-translate-y-0.5',
-                l.primary ? 'bg-cyan text-navy shadow-[0_18px_40px_-12px_rgba(0,188,212,.7)]' : 'border border-white/12 bg-white/[.06] backdrop-blur-xl hover:border-cyan/60 hover:bg-white/[.1]']}>
-              <span class:list={['grid h-11 w-11 shrink-0 place-items-center rounded-xl text-xl', l.primary ? 'bg-navy/10' : 'bg-white/[.08]']} aria-hidden="true">{l.icon}</span>
+            <a href={l.href} target={l.ext ? '_blank' : undefined} rel={l.ext ? 'noopener' : undefined}
+              class:list={['lg lg-link group flex w-full items-center gap-4 px-5 py-4 text-left', l.primary && 'lg-primary']}>
+              <span class="lg-fx" aria-hidden="true"></span>
+              <span class="lg-icon grid h-11 w-11 shrink-0 place-items-center text-xl" aria-hidden="true">{l.icon}</span>
               <span class="min-w-0 flex-1">
                 <span class="block font-display text-[17px] font-extrabold leading-tight">{l.title}</span>
-                <span class:list={['mt-0.5 block truncate text-sm', l.primary ? 'text-navy/75' : 'text-white/55']}>{l.sub}</span>
+                <span class:list={['mt-0.5 block truncate text-sm', l.primary ? 'text-navy/75' : 'text-white/65']}>{l.sub}</span>
               </span>
               <span class="text-lg transition group-hover:translate-x-1" aria-hidden="true">→</span>
             </a>
@@ -57,12 +68,12 @@ const links = [
         ))}
       </ul>
 
-      <div class="mt-9 flex gap-3" data-reveal>
+      <div class="mt-8 flex gap-3" data-reveal>
         {[['Facebook', contact.facebook], ['LinkedIn', contact.linkedin], ['Web', utm('index.html', 'web')]].map(([n, h]) => (
-          <a href={h} target={n === 'Web' ? undefined : '_blank'} rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan hover:text-cyan">{n}</a>
+          <a href={h} target={n === 'Web' ? undefined : '_blank'} rel="noopener" class="lg lg-chip px-4 py-2 text-sm font-semibold text-white/90"><span class="lg-fx" aria-hidden="true"></span>{n}</a>
         ))}
       </div>
-      <p class="mt-10 text-xs text-white/40">© {new Date().getFullYear()} JCraft Digital · {contact.phone}</p>
+      <p class="mt-10 text-xs text-white/50">© {new Date().getFullYear()} JCraft Digital · {contact.phone}</p>
     </div>
   </section>
 </Base>

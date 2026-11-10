@@ -91,6 +91,9 @@ document.querySelectorAll<HTMLElement>('[data-filters]').forEach((group) => {
   if (ind) { moveInd(); window.addEventListener('resize', moveInd); document.fonts?.ready.then(moveInd); }
 });
 
+// ── Enlaces (bio de Instagram): vidrio líquido que sigue el dedo / el mouse
+if (document.querySelector('[data-lg]')) import('./liquid-glass').then((m) => m.initLiquidGlass(reduce));
+
 // ── Portafolio: pop-up de cada caso (solo en la página de portafolio)
 if (document.querySelector('[data-case-open]')) import('./portfolio').then((m) => m.initPortfolio(gsap, reduce));
 
