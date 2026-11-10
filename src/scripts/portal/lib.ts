@@ -10,7 +10,7 @@ export const configured = Boolean(URL_ && KEY);
 export const sb = createClient(URL_ || 'https://sin-configurar.supabase.co', KEY || 'sin-configurar');
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-export const portalUrl = (page: string) => `${base}/portal/${page}`;
+export const portalUrl = (page: string) => `${base}/portal/${page.replace(/\.html(?=$|[?#])/, '')}`;
 export const go = (page: string) => location.assign(portalUrl(page));
 
 export type Post = {

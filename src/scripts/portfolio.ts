@@ -72,7 +72,7 @@ export function initPortfolio(gsap: typeof gsapType, reduce: boolean) {
     });
   });
 
-  // Enlace directo a un caso: /portafolio.html#caso-slug
+  // Enlace directo a un caso: /portafolio#caso-slug
   const fromHash = location.hash.match(/^#caso-([\w-]+)$/);
   if (fromHash) setTimeout(() => open(fromHash[1], null, false), 400);
 }

@@ -7,7 +7,7 @@ export const GET: APIRoute = ({ site }) => {
   const body = [
     'User-agent: *',
     'Allow: /',
-    'Disallow: /404.html',
+    'Disallow: /404',
     '',
     ...bots.flatMap((b) => [`User-agent: ${b}`, 'Allow: /', '']),
     `Sitemap: ${new URL('sitemap-index.xml', site).href}`,

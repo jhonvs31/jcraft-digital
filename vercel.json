@@ -1,6 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
+  "cleanUrls": true,
   "headers": [
     {
       "source": "/((?!propuestas/|portal/).*)",
@@ -149,12 +150,12 @@
     },
     {
       "source": "/portal",
-      "destination": "/portal/acceso.html",
+      "destination": "/portal/acceso",
       "permanent": false
     },
     {
       "source": "/portal/",
-      "destination": "/portal/acceso.html",
+      "destination": "/portal/acceso",
       "permanent": false
     }
   ]

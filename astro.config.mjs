@@ -10,23 +10,23 @@ const SITE = process.env.SITE_URL || 'https://jcraft-digital.vercel.app';
 
 // Fecha de cada artículo para el <lastmod> del sitemap.
 const posts = JSON.parse(readFileSync(new URL('./src/data/posts.json', import.meta.url), 'utf8'));
-const lastmod = Object.fromEntries(posts.map((p) => [`blog/${p.slug}.html`, p.modified || p.iso]));
+const lastmod = Object.fromEntries(posts.map((p) => [`blog/${p.slug}`, p.modified || p.iso]));
 const newest = posts.map((p) => p.modified || p.iso).sort().at(-1);
 
 export default defineConfig({
   site: SITE,
-  // Conserva las URLs antiguas (servicios.html, blog/seo-local.html…) para no romper enlaces ni SEO.
+  // Las páginas se generan como archivos .html; Vercel las sirve sin la extensión (cleanUrls) y redirige las URLs antiguas con .html.
   build: { format: 'file' },
   trailingSlash: 'ignore',
   integrations: [sitemap({
     filter: (page) => !/\/(404|links)(\.html)?$/.test(page) && !/\/portal\//.test(page),
     serialize(item) {
-      // El sitemap genera las URLs sin «.html», pero con format 'file' las páginas viven en «.html» (sin él darían 404).
+      // URLs limpias, sin «.html» (vercel.json → cleanUrls).
       const url = new URL(item.url);
-      if (url.pathname !== '/' && !url.pathname.endsWith('.html')) url.pathname += '.html';
+      url.pathname = url.pathname.replace(/\.html$/, '').replace(/(.)\/$/, '$1');
       item.url = url.href;
       const path = url.pathname.replace(/^\//, '');
-      const d = lastmod[path] || (path === 'blog.html' || path === '' ? newest : undefined);
+      const d = lastmod[path] || (path === 'blog' || path === '' ? newest : undefined);
       if (d) item.lastmod = new Date(`${d}T12:00:00-05:00`).toISOString();
       return item;
     },
