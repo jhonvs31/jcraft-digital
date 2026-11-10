@@ -3,7 +3,7 @@
 
 export const contact = {
   email: 'jcraft.digital@gmail.com',
-  phone: '+57 313 549 4737',
+  phone: '+57 300 811 3078',
   instagram: 'https://instagram.com/jcraftdigital',
   facebook: 'https://facebook.com/jcraftdigital',
   linkedin: 'https://linkedin.com/company/jcraftdigital',
