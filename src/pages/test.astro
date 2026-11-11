@@ -1,0 +1,67 @@
+---
+// Test interactivo: 7 preguntas → recomendación de servicio y plan con los precios publicados en Servicios.
+import Base from '../layouts/Base.astro';
+import { socialPlans, webPlans, otherPricing } from '../data/site';
+import { u, WA_NUMBER } from '../lib/url';
+
+const all = [...socialPlans, ...webPlans, ...otherPricing.flatMap((g) => g.plans)];
+const pick = (name: string) => {
+  const p = all.find((x) => x.name === name)!;
+  return { name: p.name, cop: p.cop, price: p.price, items: p.items, from: 'from' in p ? p.from : false, unit: 'unit' in p ? p.unit : '' };
+};
+const data = {
+  wa: WA_NUMBER,
+  servicios: u('servicios.html') + '#precios',
+  plans: Object.fromEntries(['Básico', 'Plus', 'Pro', 'Sitio web', 'Tienda online', 'Pauta Básica', 'Pauta Plus', 'Pack Redes + Pauta', 'Logo', 'Identidad de marca', 'Diagnóstico digital', 'Plan estratégico'].map((n) => [n, pick(n)])),
+};
+---
+<Base title="Test: ¿qué necesita tu negocio en digital? | JCraft Digital" description="Responde 7 preguntas en 60 segundos y descubre si tu negocio necesita redes sociales, página web, pauta, marca o estrategia, con el plan y el precio que más te conviene." page="test.html" crumbs={[{ name: 'Test', page: 'test.html' }]}>
+  <section class="qz grain" data-quiz>
+    <div class="gridlines absolute inset-0"></div>
+    <div class="qz-orb" aria-hidden="true"><span></span><span></span><span></span></div>
+    <canvas class="qz-confetti" aria-hidden="true"></canvas>
+
+    <div class="wrap relative z-10 flex min-h-[100svh] flex-col justify-center pt-32 pb-16 sm:pt-36">
+      <!-- Portada del test -->
+      <div class="qz-screen" data-step="intro">
+        <span class="eyebrow hero-in">Test gratis · 60 segundos</span>
+        <h1 class="hero-in mt-7 max-w-5xl text-5xl leading-[.95] sm:text-7xl lg:text-8xl" style="--d:100ms">¿Qué necesita tu negocio <em class="k">para crecer en digital?</em></h1>
+        <p class="hero-in mt-7 max-w-2xl text-lg text-white/70 sm:text-xl" style="--d:200ms">Responde 7 preguntas rápidas y te decimos por dónde empezar: redes, página web, pauta, marca o estrategia. Con el plan y el precio que mejor te queda.</p>
+        <div class="hero-in mt-10 flex flex-wrap items-center gap-5" style="--d:300ms">
+          <button type="button" class="btn btn-primary qz-start" data-start data-magnetic>Empezar el test <span aria-hidden="true">→</span></button>
+          <span class="text-sm font-semibold text-white/50">Sin registro · Resultado al instante</span>
+        </div>
+        <ul class="hero-in mt-14 flex flex-wrap gap-3 text-sm font-bold text-white/70" style="--d:400ms">
+          {['📱 Redes sociales', '🌐 Página web', '📣 Pauta', '🎨 Marca', '🧭 Estrategia'].map((t) => <li class="qz-chip">{t}</li>)}
+        </ul>
+      </div>
+
+      <!-- Preguntas (las arma quiz.ts) -->
+      <div class="qz-screen" data-step="q" hidden>
+        <div class="flex items-center justify-between gap-4">
+          <button type="button" class="qz-back" data-back aria-label="Pregunta anterior">← Atrás</button>
+          <p class="font-mono text-sm font-bold tracking-[.14em] text-white/60" aria-live="polite"><span data-qnum>1</span> / <span data-qtotal>7</span></p>
+        </div>
+        <div class="qz-progress mt-5" aria-hidden="true"><span data-bar></span></div>
+        <div class="mt-12 sm:mt-16" data-qbox>
+          <p class="qz-kicker" data-qkicker></p>
+          <h2 class="mt-4 max-w-4xl text-4xl leading-[1.02] sm:text-6xl" data-qtitle tabindex="-1"></h2>
+          <p class="mt-4 text-white/55" data-qhint></p>
+          <div class="qz-options mt-10" role="radiogroup" data-options></div>
+        </div>
+      </div>
+
+      <!-- Analizando -->
+      <div class="qz-screen text-center" data-step="loading" hidden>
+        <div class="qz-scan mx-auto" aria-hidden="true"><i></i><i></i><i></i><b>🔍</b></div>
+        <p class="mt-10 font-display text-3xl font-black sm:text-4xl" data-loadmsg aria-live="polite">Analizando tus respuestas…</p>
+      </div>
+
+      <!-- Resultado (lo llena quiz.ts) -->
+      <div class="qz-screen" data-step="result" hidden>
+        <div data-result></div>
+      </div>
+    </div>
+  </section>
+  <script type="application/json" id="quiz-data" set:html={JSON.stringify(data)} />
+</Base>

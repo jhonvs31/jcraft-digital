@@ -235,3 +235,52 @@ body.overflow-hidden [data-wa-float], body.overflow-hidden [data-nudge] { opacit
 .lg-avatar { padding: 4px; border-radius: 9999px; background: linear-gradient(140deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, .15)); box-shadow: 0 12px 28px -12px rgba(0, 0, 0, .6); }
 .lg-avatar img { width: 6.5rem; height: 6.5rem; }
 @media (prefers-reduced-motion: reduce) { .lg-blob { animation: none; } }
+
+/* ── Test «¿Qué necesita tu negocio?» */
+.qz { --qz-hue: 0; position: relative; overflow: hidden; background: #04122E; isolation: isolate; }
+.qz-orb { position: absolute; inset: 0; z-index: 0; filter: hue-rotate(calc(var(--qz-hue) * 1deg)); transition: filter 1s ease; pointer-events: none; }
+.qz-orb span { position: absolute; border-radius: 9999px; filter: blur(70px); opacity: .75; animation: lg-float 20s ease-in-out infinite alternate; }
+.qz-orb span:nth-child(1) { width: 60vmax; height: 60vmax; right: -20vmax; top: -25vmax; background: radial-gradient(circle, #00BCD4, transparent 65%); }
+.qz-orb span:nth-child(2) { width: 50vmax; height: 50vmax; left: -20vmax; bottom: -25vmax; background: radial-gradient(circle, #1E5BFF, transparent 65%); animation-duration: 26s; animation-delay: -8s; }
+.qz-orb span:nth-child(3) { width: 30vmax; height: 30vmax; left: 40%; top: 30%; background: radial-gradient(circle, #7B61FF, transparent 65%); opacity: .4; animation-duration: 22s; animation-delay: -4s; }
+.qz-confetti { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 50; pointer-events: none; }
+.qz-chip { padding: 10px 18px; border-radius: 9999px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .14); backdrop-filter: blur(10px); }
+.qz-start { font-size: 18px; padding: 20px 34px; }
+.qz-back { font-weight: 700; color: rgba(255, 255, 255, .7); padding: 8px 16px; border-radius: 9999px; border: 1px solid rgba(255, 255, 255, .18); transition: color .2s, border-color .2s; }
+.qz-back:hover { color: var(--color-cyan); border-color: var(--color-cyan); }
+.qz-progress { height: 6px; border-radius: 9999px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+.qz-progress span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, #00BCD4, #6FE7F5); box-shadow: 0 0 20px rgba(0, 188, 212, .8); }
+.qz-kicker { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--color-cyan); }
+.qz-options { display: grid; gap: 14px; }
+@media (min-width: 640px) { .qz-options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.qz-opt { position: relative; display: flex; align-items: center; gap: 18px; width: 100%; text-align: left; padding: 18px 22px; border-radius: 22px; color: #fff;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03)); border: 1px solid rgba(255, 255, 255, .14);
+  -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 20px 40px -25px rgba(0, 0, 0, .7);
+  transition: transform .35s cubic-bezier(.16, 1, .3, 1), border-color .3s, background .3s, opacity .3s, box-shadow .3s; }
+.qz-opt:hover { transform: translateY(-3px); border-color: rgba(0, 188, 212, .7); background: linear-gradient(135deg, rgba(0, 188, 212, .2), rgba(255, 255, 255, .04)); }
+.qz-opt:focus-visible { outline: 3px solid var(--color-cyan); outline-offset: 3px; }
+.qz-emo { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; font-size: 28px; background: rgba(255, 255, 255, .1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35); transition: transform .4s cubic-bezier(.16, 1, .3, 1); }
+.qz-opt:hover .qz-emo { transform: scale(1.1) rotate(-6deg); }
+.qz-txt { flex: 1; font-family: var(--font-display); font-size: 19px; font-weight: 800; letter-spacing: -.01em; line-height: 1.2; }
+.qz-opt kbd { flex: none; display: none; place-items: center; width: 28px; height: 28px; border-radius: 8px; font: 700 13px/1 ui-monospace, monospace; color: rgba(255, 255, 255, .55); border: 1px solid rgba(255, 255, 255, .2); }
+@media (hover: hover) { .qz-opt kbd { display: grid; } }
+.qz-opt.is-picked { border-color: var(--color-cyan); background: linear-gradient(135deg, rgba(0, 188, 212, .55), rgba(0, 188, 212, .2)); box-shadow: 0 0 0 4px rgba(0, 188, 212, .25), 0 24px 50px -20px rgba(0, 188, 212, .8); transform: scale(1.02); }
+.qz-opt.is-picked .qz-emo { transform: scale(1.15); background: rgba(255, 255, 255, .25); }
+.qz-opt.is-dim { opacity: .4; }
+.qz-scan { position: relative; width: 180px; height: 180px; display: grid; place-items: center; }
+.qz-scan i { position: absolute; inset: 0; border-radius: 9999px; border: 2px solid rgba(0, 188, 212, .7); animation: qz-ping 2s cubic-bezier(0, 0, .2, 1) infinite; }
+.qz-scan i:nth-child(2) { animation-delay: .6s; } .qz-scan i:nth-child(3) { animation-delay: 1.2s; }
+.qz-scan b { font-size: 56px; animation: qz-bob 1.4s ease-in-out infinite; }
+@keyframes qz-ping { 0% { transform: scale(.3); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
+@keyframes qz-bob { 50% { transform: translateY(-10px) rotate(-8deg); } }
+.qz-res { display: grid; gap: 40px; align-items: start; }
+@media (min-width: 1024px) { .qz-res { grid-template-columns: 1fr 400px; } }
+.qz-plan { border-radius: 30px; padding: 34px; background: linear-gradient(180deg, #fff, #EEF6FA); box-shadow: 0 0 0 4px rgba(0, 188, 212, .35), 0 50px 100px -40px rgba(0, 188, 212, .7); }
+.qz-tick { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 9999px; background: var(--color-cyan); color: var(--color-navy); font-weight: 900; font-size: 13px; margin-top: 1px; }
+.qz-res-grid { display: grid; gap: 24px; }
+@media (min-width: 768px) { .qz-res-grid { grid-template-columns: 1fr 1fr; } }
+.qz-meter { height: 10px; border-radius: 9999px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+.qz-meter span { display: block; height: 100%; width: 0; border-radius: inherit; background: rgba(255, 255, 255, .35); }
+.qz-meter span.is-top { background: linear-gradient(90deg, #00BCD4, #6FE7F5); box-shadow: 0 0 16px rgba(0, 188, 212, .8); }
+@media (prefers-reduced-motion: reduce) { .qz-orb span, .qz-scan i, .qz-scan b { animation: none; } }
