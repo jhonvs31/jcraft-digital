@@ -238,7 +238,7 @@ body.overflow-hidden [data-wa-float], body.overflow-hidden [data-nudge] { opacit
 
 /* ── Test «¿Qué necesita tu negocio?» */
 .qz { --qz-hue: 0; position: relative; overflow: hidden; background: #04122E; isolation: isolate; }
-.qz-orb { position: absolute; inset: 0; z-index: 0; filter: hue-rotate(calc(var(--qz-hue) * 1deg)); transition: filter 1s ease; pointer-events: none; }
+.qz-orb { position: absolute; inset: 0; z-index: 0; overflow: hidden; filter: hue-rotate(calc(var(--qz-hue) * 1deg)); transition: filter 1s ease; pointer-events: none; }
 .qz-orb span { position: absolute; border-radius: 9999px; filter: blur(70px); opacity: .75; animation: lg-float 20s ease-in-out infinite alternate; }
 .qz-orb span:nth-child(1) { width: 60vmax; height: 60vmax; right: -20vmax; top: -25vmax; background: radial-gradient(circle, #00BCD4, transparent 65%); }
 .qz-orb span:nth-child(2) { width: 50vmax; height: 50vmax; left: -20vmax; bottom: -25vmax; background: radial-gradient(circle, #1E5BFF, transparent 65%); animation-duration: 26s; animation-delay: -8s; }
@@ -284,3 +284,14 @@ body.overflow-hidden [data-wa-float], body.overflow-hidden [data-nudge] { opacit
 .qz-meter span { display: block; height: 100%; width: 0; border-radius: inherit; background: rgba(255, 255, 255, .35); }
 .qz-meter span.is-top { background: linear-gradient(90deg, #00BCD4, #6FE7F5); box-shadow: 0 0 16px rgba(0, 188, 212, .8); }
 @media (prefers-reduced-motion: reduce) { .qz-orb span, .qz-scan i, .qz-scan b { animation: none; } }
+
+/* ── Test en ventana emergente */
+.qz-dialog { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; overflow: hidden; }
+.qz-dialog::backdrop { background: rgba(2, 8, 24, 0); backdrop-filter: blur(0); transition: background .4s, backdrop-filter .4s; }
+.qz-dialog.is-open::backdrop { background: rgba(2, 8, 24, .65); backdrop-filter: blur(8px); }
+.qz-panel { position: absolute; inset: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; color: #fff; }
+@media (min-width: 768px) { .qz-panel { inset: 20px; border-radius: 32px; border: 1px solid rgba(255, 255, 255, .14); box-shadow: 0 60px 140px -40px rgba(0, 0, 0, .9); } }
+.qz-panel > .wrap { min-height: 100%; }
+.qz-close { position: sticky; top: 16px; float: right; margin: 16px 16px -60px 0; z-index: 30; width: 46px; height: 46px; border-radius: 9999px; color: #fff; font-weight: 800; font-size: 18px;
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); backdrop-filter: blur(10px); transition: background .2s, transform .3s; }
+.qz-close:hover { background: var(--color-cyan); color: var(--color-navy); transform: rotate(90deg); }

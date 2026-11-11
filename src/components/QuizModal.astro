@@ -1,0 +1,10 @@
+---
+// Ventana emergente con el test: se abre desde cualquier botón o enlace con data-quiz-open, sin cambiar de página.
+import QuizBody from './QuizBody.astro';
+---
+<dialog class="qz-dialog" data-quiz-dialog aria-label="Test: ¿qué necesita tu negocio?">
+  <div class="qz qz-panel grain" data-quiz-root data-lenis-prevent>
+    <button type="button" class="qz-close" data-quiz-close aria-label="Cerrar el test">✕</button>
+    <QuizBody modal />
+  </div>
+</dialog>

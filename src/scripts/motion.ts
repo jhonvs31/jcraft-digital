@@ -95,7 +95,15 @@ document.querySelectorAll<HTMLElement>('[data-filters]').forEach((group) => {
 if (document.querySelector('[data-lg]')) import('./liquid-glass').then((m) => m.initLiquidGlass(reduce));
 
 // ── Test «¿Qué necesita tu negocio?»
-if (document.querySelector('[data-quiz]')) import('./quiz').then((m) => m.initQuiz(gsap, reduce));
+const quizPage = document.querySelector<HTMLElement>('[data-quiz]');
+if (quizPage) import('./quiz').then((m) => m.initQuiz(gsap, reduce, quizPage));
+// Botones y enlaces con data-quiz-open abren el test en una ventana emergente (el código se carga solo al tocarlos)
+document.addEventListener('click', (e) => {
+  const t = (e.target as HTMLElement).closest('[data-quiz-open]');
+  if (!t || !document.querySelector('[data-quiz-dialog]')) return;
+  e.preventDefault();
+  import('./quiz').then((m) => m.openQuizModal(gsap, reduce));
+});
 
 // ── Portafolio: pop-up de cada caso (solo en la página de portafolio)
 if (document.querySelector('[data-case-open]')) import('./portfolio').then((m) => m.initPortfolio(gsap, reduce));

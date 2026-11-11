@@ -14,7 +14,7 @@ const utm = (path: string, content: string) => `${u(path)}?utm_source=instagram&
 const latest = posts[0];
 const links = [
   { href: wa('Hola JCraft! Vengo de Instagram y quiero una consulta gratuita.'), icon: '💬', title: 'Consulta gratuita por WhatsApp', sub: 'Respuesta en horario laboral', primary: true, ext: true },
-  { href: utm('test.html', 'test'), icon: '🧪', title: 'Test: ¿qué necesita tu negocio?', sub: '7 preguntas · resultado al instante' },
+  { href: utm('test.html', 'test'), icon: '🧪', title: 'Test: ¿qué necesita tu negocio?', sub: '7 preguntas · resultado al instante', quiz: true },
   { href: utm('servicios.html', 'servicios'), icon: '🧭', title: 'Nuestros servicios', sub: 'Redes · Web · Pauta · Diseño · Estrategia' },
   { href: utm('portafolio.html', 'portafolio'), icon: '🗂️', title: 'Portafolio', sub: 'Proyectos en Colombia, México y EE. UU.' },
   { href: utm(`blog/${latest.slug}.html`, 'ultimo_articulo'), icon: latest.emoji, title: 'Nuevo en el blog', sub: latest.title },
@@ -55,7 +55,7 @@ const links = [
       <ul class="mt-5 w-full space-y-3.5" data-stagger>
         {links.map((l) => (
           <li data-reveal>
-            <a href={l.href} target={l.ext ? '_blank' : undefined} rel={l.ext ? 'noopener' : undefined}
+            <a href={l.href} data-quiz-open={l.quiz ? '' : undefined} target={l.ext ? '_blank' : undefined} rel={l.ext ? 'noopener' : undefined}
               class:list={['lg lg-link group flex w-full items-center gap-4 px-5 py-4 text-left', l.primary && 'lg-primary']}>
               <span class="lg-fx" aria-hidden="true"></span>
               <span class="lg-icon grid h-11 w-11 shrink-0 place-items-center text-xl" aria-hidden="true">{l.icon}</span>

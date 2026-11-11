@@ -64,10 +64,9 @@ const ORDER: Area[] = ['redes', 'web', 'pauta', 'marca', 'estrategia'];
 const fmt = (n: number) => '$' + n.toLocaleString('es-CO');
 const nice = (n: string) => (['Básico', 'Plus', 'Pro'].includes(n) ? `Redes ${n}` : n);
 
-export function initQuiz(gsap: typeof gsapType, reduce: boolean) {
-  const root = document.querySelector<HTMLElement>('[data-quiz]');
-  const raw = document.getElementById('quiz-data');
-  if (!root || !raw) return;
+export function initQuiz(gsap: typeof gsapType, reduce: boolean, root: HTMLElement, scroller?: HTMLElement) {
+  const raw = root.querySelector('[data-quiz-json]');
+  if (!raw) return;
   const D = JSON.parse(raw.textContent || '{}') as { wa: string; servicios: string; plans: Record<string, Plan> };
   const $ = <T extends HTMLElement>(s: string) => root.querySelector<T>(s)!;
   const screens = { intro: $('[data-step="intro"]'), q: $('[data-step="q"]'), loading: $('[data-step="loading"]'), result: $('[data-step="result"]') };
@@ -80,7 +79,7 @@ export function initQuiz(gsap: typeof gsapType, reduce: boolean) {
     const next = screens[name];
     if (cur === next) return Promise.resolve();
     return new Promise<void>((res) => {
-      const go = () => { if (cur) cur.hidden = true; next.hidden = false; window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      const go = () => { if (cur) cur.hidden = true; next.hidden = false; (scroller ?? window).scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
         if (reduce) return res(); gsap.fromTo(next, { opacity: 0, y: 40, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6, ease: 'expo.out', clearProps: 'filter', onComplete: res }); };
       if (!cur || reduce) return go();
       gsap.to(cur, { opacity: 0, y: -30, filter: 'blur(8px)', duration: 0.35, ease: 'power2.in', onComplete: () => { gsap.set(cur, { clearProps: 'all' }); go(); } });
@@ -92,6 +91,8 @@ export function initQuiz(gsap: typeof gsapType, reduce: boolean) {
   const optsEl = $('[data-options]');
   const render = (dir = 1) => {
     const q = QS[i];
+    const sc = scroller ?? document.scrollingElement;
+    if (sc && sc.scrollTop > 0) sc.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
     $('[data-qnum]').textContent = String(i + 1);
     $('[data-qtotal]').textContent = String(QS.length);
     $('[data-qkicker]').textContent = q.k;
@@ -140,7 +141,7 @@ export function initQuiz(gsap: typeof gsapType, reduce: boolean) {
     gsap.to(box, { opacity: 0, x: 50, duration: 0.25, ease: 'power2.in', onComplete: () => { gsap.set(box, { clearProps: 'all' }); render(-1); } });
   });
   document.addEventListener('keydown', (e) => {
-    if (screens.q.hidden || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (screens.q.hidden || !root.getClientRects().length || e.metaKey || e.ctrlKey || e.altKey) return;
     const n = Number(e.key) - 1;
     const btn = optsEl.children[n] as HTMLElement | undefined;
     if (btn) { e.preventDefault(); btn.click(); }
@@ -273,4 +274,32 @@ function confetti(cv: HTMLCanvasElement) {
     if (alive) requestAnimationFrame(tick); else ctx.clearRect(0, 0, innerWidth, innerHeight);
   };
   tick();
+}
+
+// ── Ventana emergente: el test se abre encima de la página actual, sin navegar.
+let ready = false;
+export function openQuizModal(gsap: typeof gsapType, reduce: boolean) {
+  const d = document.querySelector<HTMLDialogElement>('[data-quiz-dialog]');
+  if (!d) { location.href = '/test'; return; }
+  const panel = d.querySelector<HTMLElement>('[data-quiz-root]')!;
+  if (!ready) {
+    ready = true;
+    initQuiz(gsap, reduce, panel, panel);
+    const close = () => {
+      if (!d.open) return;
+      const done = () => { d.close(); d.classList.remove('is-open'); gsap.set(panel, { clearProps: 'all' }); document.documentElement.style.overflow = ''; };
+      d.classList.remove('is-open');
+      if (reduce) return done();
+      gsap.to(panel, { opacity: 0, scale: 0.94, y: 30, duration: 0.35, ease: 'power3.in', onComplete: done });
+    };
+    d.addEventListener('cancel', (e) => { e.preventDefault(); close(); });
+    d.addEventListener('click', (e) => { if (e.target === d) close(); });
+    panel.querySelector('[data-quiz-close]')?.addEventListener('click', close);
+  }
+  if (d.open) return;
+  d.showModal();
+  document.documentElement.style.overflow = 'hidden';
+  requestAnimationFrame(() => d.classList.add('is-open'));
+  if (!reduce) gsap.fromTo(panel, { opacity: 0, scale: 0.94, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'expo.out', clearProps: 'transform,opacity' });
+  window.dispatchEvent(new CustomEvent('quiz:open'));
 }
