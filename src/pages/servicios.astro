@@ -122,7 +122,9 @@ const schema = [
                     <li class="flex items-start gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-cyan text-[10px] font-black text-navy" aria-hidden="true">✓</span>{it}</li>
                   ))}
                 </ul>
-                <a href={wa(`Hola! Me interesa: ${p.name}${'free' in p && p.free ? ' (gratis)' : ''}.`)} target="_blank" rel="noopener" class="btn btn-ghost mt-8 self-start">{'free' in p && p.free ? 'Pedir mi diagnóstico' : 'Lo quiero'}</a>
+                {'free' in p && p.free
+                  ? <button type="button" data-diag-open class="btn btn-primary mt-8 self-start">Pedir mi diagnóstico gratis</button>
+                  : <a href={wa(`Hola! Me interesa: ${p.name}.`)} target="_blank" rel="noopener" class="btn btn-ghost mt-8 self-start">Lo quiero</a>}
               </article>
             ))}
           </div>

@@ -1,0 +1,86 @@
+---
+// Diagnóstico digital gratis: formulario corto en 4 pasos (ventana blanca) + aviso discreto flotante.
+// Las respuestas se guardan en Supabase (tabla diagnosticos: el público solo puede enviar, nunca leer)
+// y JCraft prepara la vista previa del diagnóstico y la envía por WhatsApp o correo.
+import { u } from '../lib/url';
+const rubros = ['Comida y bebidas', 'Tienda o productos', 'Belleza y bienestar', 'Salud', 'Servicios profesionales', 'Educación', 'Turismo', 'Construcción o inmobiliaria', 'Otro'];
+const objetivos = ['Más clientes por WhatsApp', 'Vender en línea', 'Aparecer en Google', 'Más seguidores', 'Verme más profesional', 'Ordenar mis redes'];
+const maneja = ['Yo mismo', 'Alguien de mi equipo', 'Una agencia o freelance', 'Nadie por ahora'];
+---
+<!-- Aviso flotante: aparece a los pocos segundos; al cerrarlo queda solo la cápsula pequeña -->
+<div class="dg-teaser" data-dg-teaser hidden>
+  <button type="button" class="dg-card" data-diag-open aria-label="Pedir mi diagnóstico digital gratis">
+    <span class="dg-card-ic" aria-hidden="true">🔎</span>
+    <span class="dg-card-txt"><b>Diagnóstico digital gratis</b><span>Revisamos tu web y tus redes. Te toma 2 minutos.</span></span>
+    <span class="dg-card-go" aria-hidden="true">→</span>
+  </button>
+  <button type="button" class="dg-x" data-dg-dismiss aria-label="Ocultar aviso">✕</button>
+</div>
+<button type="button" class="dg-pill" data-dg-pill data-diag-open hidden><span aria-hidden="true">🔎</span> Diagnóstico gratis</button>
+
+<dialog class="dg-dialog" data-dg-dialog aria-labelledby="dg-title">
+  <form class="dg-panel" data-dg-form novalidate data-lenis-prevent>
+    <button type="button" class="dg-close" data-dg-close aria-label="Cerrar">✕</button>
+    <header class="dg-head">
+      <p class="dg-eyebrow">Diagnóstico digital · Gratis</p>
+      <h2 id="dg-title" class="dg-h">Descubre cómo está tu negocio en digital</h2>
+      <div class="dg-steps" aria-hidden="true"><span class="is-on"></span><span></span><span></span><span></span></div>
+      <p class="dg-count" aria-live="polite">Paso <b data-dg-n>1</b> de 4</p>
+    </header>
+
+    <fieldset class="dg-step" data-dg-step="1">
+      <legend class="dg-legend">Tu negocio</legend>
+      <label class="dg-field"><span>¿Cómo se llama tu negocio? *</span><input name="negocio" required maxlength="120" autocomplete="organization" placeholder="Ej: Café La Esquina" /></label>
+      <div class="dg-field"><span id="dg-rubro">¿A qué se dedica? *</span>
+        <div class="dg-chips" role="radiogroup" aria-labelledby="dg-rubro">{rubros.map((r) => <label class="dg-chip"><input type="radio" name="rubro" value={r} required /><span>{r}</span></label>)}</div>
+      </div>
+      <label class="dg-field"><span>Ciudad</span><input name="ciudad" maxlength="80" autocomplete="address-level2" placeholder="Ej: Cali" /></label>
+    </fieldset>
+
+    <fieldset class="dg-step" data-dg-step="2" hidden>
+      <legend class="dg-legend">Dónde te encuentran</legend>
+      <p class="dg-note">Llena al menos uno. Con esto revisamos tu presencia.</p>
+      <label class="dg-field"><span>Página web</span><input name="web" maxlength="200" inputmode="url" placeholder="tunegocio.com" /></label>
+      <label class="dg-field"><span>Instagram</span><input name="instagram" maxlength="120" placeholder="@tunegocio" /></label>
+      <label class="dg-field"><span>Otra red (TikTok, Facebook…)</span><input name="otras_redes" maxlength="200" placeholder="Enlace o usuario" /></label>
+      <div class="dg-field"><span id="dg-gmb">¿Tienes ficha en Google Maps?</span>
+        <div class="dg-chips" role="radiogroup" aria-labelledby="dg-gmb">{['Sí', 'No', 'No sé'].map((r) => <label class="dg-chip"><input type="radio" name="ficha_google" value={r} /><span>{r}</span></label>)}</div>
+      </div>
+    </fieldset>
+
+    <fieldset class="dg-step" data-dg-step="3" hidden>
+      <legend class="dg-legend">Qué quieres mejorar</legend>
+      <div class="dg-field"><span id="dg-obj">Elige lo que más te importa *</span>
+        <div class="dg-chips" aria-labelledby="dg-obj">{objetivos.map((r) => <label class="dg-chip"><input type="checkbox" name="objetivos" value={r} /><span>{r}</span></label>)}</div>
+      </div>
+      <div class="dg-field"><span id="dg-man">¿Quién maneja tus redes hoy?</span>
+        <div class="dg-chips" role="radiogroup" aria-labelledby="dg-man">{maneja.map((r) => <label class="dg-chip"><input type="radio" name="quien_maneja" value={r} /><span>{r}</span></label>)}</div>
+      </div>
+      <label class="dg-field"><span>¿Algo en especial que quieras que revisemos?</span><textarea name="problema" maxlength="600" rows="3" placeholder="Ej: publico seguido pero no me escriben"></textarea></label>
+    </fieldset>
+
+    <fieldset class="dg-step" data-dg-step="4" hidden>
+      <legend class="dg-legend">¿A dónde te enviamos los resultados?</legend>
+      <label class="dg-field"><span>Tu nombre *</span><input name="nombre" required maxlength="80" autocomplete="name" placeholder="Ej: Laura" /></label>
+      <label class="dg-field"><span>WhatsApp</span><input name="whatsapp" maxlength="30" inputmode="tel" autocomplete="tel" placeholder="Ej: 300 123 4567" /></label>
+      <label class="dg-field"><span>Correo</span><input name="email" type="email" maxlength="160" autocomplete="email" placeholder="tu@correo.com" /></label>
+      <p class="dg-note">Déjanos al menos uno de los dos.</p>
+      <label class="dg-check"><input type="checkbox" name="acepta_datos" required /><span>Acepto que JCraft Digital use estos datos para preparar mi diagnóstico y contactarme, según la <a href={u('privacidad.html')} target="_blank">política de privacidad</a>.</span></label>
+      <input class="dg-hp" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    </fieldset>
+
+    <div class="dg-done" data-dg-done hidden tabindex="-1">
+      <div class="dg-done-ic" aria-hidden="true">✓</div>
+      <h3 class="dg-h">¡Listo, <span data-dg-name></span>!</h3>
+      <p>Recibimos tus datos. Vamos a revisar tu web y tus redes y te enviamos tu diagnóstico por <span data-dg-via>WhatsApp</span>.</p>
+      <ul class="dg-list"><li>Una calificación de tu presencia digital</li><li>Lo que estás haciendo bien</li><li>3 mejoras prioritarias para empezar</li></ul>
+      <button type="button" class="dg-btn" data-dg-close>Seguir navegando</button>
+    </div>
+
+    <p class="dg-error" data-dg-error role="alert" hidden></p>
+    <footer class="dg-foot" data-dg-foot>
+      <button type="button" class="dg-back" data-dg-back hidden>← Atrás</button>
+      <button type="submit" class="dg-btn" data-dg-next>Siguiente →</button>
+    </footer>
+  </form>
+</dialog>

@@ -19,6 +19,8 @@ const show = () => {
   box.querySelector('[data-nudge-a]')!.textContent = n.a;
   const cta = box.querySelector<HTMLAnchorElement>('[data-nudge-cta]')!; cta.textContent = n.cta + ' →'; cta.href = n.href;
   box.querySelector<HTMLAnchorElement>('[data-nudge-cta-short]')!.href = n.href;
+  // El mensaje del diagnóstico abre el formulario de diagnóstico gratis en vez de WhatsApp
+  box.querySelectorAll('[data-nudge-cta], [data-nudge-cta-short]').forEach((el) => el.toggleAttribute('data-diag-open', n.icon === '🧭' && !!document.querySelector('[data-dg-dialog]')));
   box.hidden = false; requestAnimationFrame(() => box.classList.remove('opacity-0', 'translate-y-6'));
   shown++; idx++; store.set('jc-nudges-shown', String(shown)); store.set('jc-nudges-next', String(idx % data.length));
   // La barra hace de reloj: al vaciarse, el mensaje se oculta (y se pausa mientras el cursor está encima).

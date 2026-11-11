@@ -95,6 +95,9 @@ document.querySelectorAll<HTMLElement>('[data-filters]').forEach((group) => {
 if (document.querySelector('[data-lg]')) import('./liquid-glass').then((m) => m.initLiquidGlass(reduce));
 
 // ── Test «¿Qué necesita tu negocio?»
+// ── Diagnóstico digital gratis (aviso flotante + formulario)
+if (document.querySelector('[data-dg-dialog]')) import('./diag').then((m) => m.initDiag(gsap, reduce));
+
 const quizPage = document.querySelector<HTMLElement>('[data-quiz]');
 if (quizPage) import('./quiz').then((m) => m.initQuiz(gsap, reduce, quizPage));
 // Botones y enlaces con data-quiz-open abren el test en una ventana emergente (el código se carga solo al tocarlos)
