@@ -1,0 +1,29 @@
+name: Publicar artículos programados
+
+on:
+  schedule:
+    - cron: '7 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Buscar artículos con fecha de hoy
+        id: hoy
+        run: |
+          HOY=$(TZ=America/Bogota date +%F)
+          LISTA=$(grep -l -E "^iso: ['\"]?${HOY}" src/content/blog/*.md 2>/dev/null | xargs -r -n1 basename | sed 's/\.md$//' | paste -sd ',' -)
+          echo "lista=$LISTA" >> "$GITHUB_OUTPUT"
+      - name: Publicar la web
+        if: steps.hoy.outputs.lista != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "Blog: publica artículos programados (${{ steps.hoy.outputs.lista }})"
+          git push origin HEAD:main
