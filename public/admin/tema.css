@@ -1,0 +1,210 @@
+/* Tema JCraft para el panel (Sveltia CMS): colores, tipografía y acabados de la marca.
+   Solo usa clases estables del panel (sui-*, toolbar-wrapper, primary-sidebar…), no las generadas. */
+@font-face {
+  font-family: 'Archivo';
+  src: url('/admin/archivo.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --jc-navy: #061d47;
+  --jc-blue: #0a2f6e;
+  --jc-royal: #0d47a1;
+  --jc-cyan: #00bcd4;
+  --jc-paper: #f3f6fb;
+  --jc-line: #e3e9f2;
+  --sui-base-hue: 216 !important;
+  --sui-font-family-default: 'Archivo', system-ui, sans-serif !important;
+  --sui-control-medium-border-radius: 10px !important;
+  --sui-focus-ring-width: 3px !important;
+}
+:root[data-theme='light'] {
+  --sui-primary-accent-color: var(--jc-royal) !important;
+  --sui-primary-accent-color-light: #1565c0 !important;
+  --sui-primary-accent-color-dark: var(--jc-blue) !important;
+  --sui-primary-accent-color-text: var(--jc-royal) !important;
+  --sui-background-color-1: #fff !important;
+}
+:root[data-theme='dark'] {
+  --sui-primary-accent-color: #0097a7 !important;
+  --sui-primary-accent-color-light: var(--jc-cyan) !important;
+  --sui-primary-accent-color-text: #4dd0e1 !important;
+}
+body { -webkit-font-smoothing: antialiased; }
+
+/* ── Entrada (iniciar sesión) */
+.sui.app-shell .main > .container {
+  background:
+    radial-gradient(900px 700px at 90% 5%, rgba(0, 188, 212, .30), transparent 60%),
+    radial-gradient(800px 600px at -5% 110%, rgba(13, 71, 161, .85), transparent 60%),
+    linear-gradient(140deg, var(--jc-blue), var(--jc-navy) 72%) !important;
+  position: relative;
+}
+.sui.app-shell .main > .container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask: radial-gradient(circle at 50% 45%, #000, transparent 70%);
+  mask: radial-gradient(circle at 50% 45%, #000, transparent 70%);
+  pointer-events: none;
+}
+.sui.app-shell .main > .container > .inner {
+  position: relative;
+  padding: 48px 56px !important;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .6), inset 0 1px 0 #fff;
+  color: var(--jc-navy);
+}
+.sui.app-shell .main > .container > .inner img.logo {
+  content: url('/assets/logo-color.png');
+  width: 220px !important;
+  height: auto !important;
+}
+.sui.app-shell .main > .container > .inner h1 {
+  font-weight: 850;
+  letter-spacing: -.02em;
+  color: var(--jc-navy);
+}
+.sui.app-shell .main > .container > .inner .sui.button.primary {
+  border-radius: 999px !important;
+  font-weight: 700;
+  background: linear-gradient(120deg, var(--jc-royal), var(--jc-blue)) !important;
+  box-shadow: 0 14px 30px -14px rgba(13, 71, 161, .9);
+}
+
+/* ── Barra superior */
+.toolbar-wrapper > .sui.toolbar {
+  background: linear-gradient(110deg, var(--jc-navy), var(--jc-blue) 55%, var(--jc-royal)) !important;
+  box-shadow: 0 10px 30px -18px rgba(6, 29, 71, .9);
+}
+.toolbar-wrapper .sui.button,
+.toolbar-wrapper .sui.icon { color: #fff !important; }
+.toolbar-wrapper .sui.button:hover { background-color: rgba(255, 255, 255, .12) !important; }
+.toolbar-wrapper img.logo {
+  content: url('/assets/logo-light.png');
+  width: auto !important;
+  height: 26px !important;
+  margin-inline: 4px 8px;
+}
+.toolbar-wrapper .sui.select-button-group .sui.button[aria-checked='true'],
+.toolbar-wrapper .sui.select-button-group .sui.button[aria-pressed='true'] {
+  background-color: rgba(255, 255, 255, .18) !important;
+}
+.toolbar-wrapper .sui.search-bar,
+.toolbar-wrapper .sui.search-bar input {
+  background: rgba(255, 255, 255, .12) !important;
+  border-color: rgba(255, 255, 255, .2) !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+}
+.toolbar-wrapper .sui.search-bar input::placeholder { color: rgba(255, 255, 255, .65) !important; }
+.toolbar-wrapper .sui.search-bar .sui.icon { color: rgba(255, 255, 255, .7) !important; }
+
+/* ── Fondo y menú lateral (modo claro) */
+:root[data-theme='light'] .page-root,
+:root[data-theme='light'] .sui.resizable-pane-group { background: var(--jc-paper) !important; }
+:root[data-theme='light'] nav.primary-sidebar { background: transparent !important; }
+nav.primary-sidebar .sui.option-group > .label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--jc-royal);
+  opacity: .8;
+}
+nav.primary-sidebar .sui.treeitem .row {
+  border-radius: 12px !important;
+  transition: background-color .2s, box-shadow .2s;
+}
+:root[data-theme='light'] nav.primary-sidebar .sui.treeitem:hover .row { background: rgba(13, 71, 161, .06) !important; }
+nav.primary-sidebar .sui.treeitem[aria-selected='true'] .row {
+  background: #fff !important;
+  color: var(--jc-blue) !important;
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--jc-cyan), 0 10px 24px -16px rgba(6, 29, 71, .55);
+}
+:root[data-theme='dark'] nav.primary-sidebar .sui.treeitem[aria-selected='true'] .row {
+  background: rgba(0, 188, 212, .14) !important;
+  color: #fff !important;
+}
+nav.primary-sidebar .sui.treeitem[aria-selected='true'] .sui.icon { color: var(--jc-royal) !important; }
+:root[data-theme='dark'] nav.primary-sidebar .sui.treeitem[aria-selected='true'] .sui.icon { color: var(--jc-cyan) !important; }
+
+/* ── Área principal como tarjeta */
+:root[data-theme='light'] main.wrapper,
+:root[data-theme='light'] .sui.resizable-pane > [role='group'] {
+  background: #fff !important;
+}
+main.wrapper {
+  border-radius: 22px !important;
+  box-shadow: 0 1px 0 var(--jc-line), 0 24px 50px -36px rgba(6, 29, 71, .45);
+}
+main.wrapper > .sui.toolbar h2 {
+  font-size: 26px !important;
+  font-weight: 850 !important;
+  letter-spacing: -.02em;
+  color: var(--jc-navy);
+}
+:root[data-theme='dark'] main.wrapper > .sui.toolbar h2 { color: #fff; }
+main.wrapper > .sui.toolbar .description { opacity: .75; }
+
+/* Filas de listas: más aire, esquinas suaves y resalte al pasar el mouse */
+main.wrapper .sui.grid-row { transition: background-color .15s; }
+:root[data-theme='light'] main.wrapper .sui.grid-row:hover { background: rgba(0, 188, 212, .07) !important; }
+main.wrapper .sui.grid-row .sui.grid-cell { padding-block: 14px !important; }
+main.wrapper .sui.grid-row .sui.grid-cell.title { font-weight: 600; }
+
+/* Botones principales (Guardar, Nuevo) */
+.sui.button.primary {
+  border-radius: 999px !important;
+  font-weight: 700;
+}
+:root[data-theme='light'] .sui.button.primary:not(:disabled) {
+  background: linear-gradient(120deg, var(--jc-royal), var(--jc-blue)) !important;
+  box-shadow: 0 10px 22px -14px rgba(13, 71, 161, .9);
+}
+
+/* Formularios */
+:root[data-theme='light'] .sui.text-input,
+:root[data-theme='light'] .sui.text-area,
+:root[data-theme='light'] .sui.number-input { border-radius: 10px !important; }
+
+/* Etiqueta «Colecciones» legible en modo oscuro */
+:root[data-theme='dark'] nav.primary-sidebar .sui.option-group > .label { color: var(--jc-cyan); }
+
+/* Íconos de las listas con el color de la marca */
+main.wrapper .sui.grid-row .sui.icon { color: var(--jc-royal) !important; }
+:root[data-theme='dark'] main.wrapper .sui.grid-row .sui.icon { color: var(--jc-cyan) !important; }
+:root[data-theme='light'] main.wrapper .sui.grid-row { border-color: var(--jc-line) !important; }
+
+/* ── Editor (al abrir un artículo, caso o ajuste) */
+.content-editor > .sui.toolbar {
+  background: linear-gradient(110deg, var(--jc-navy), var(--jc-blue) 55%, var(--jc-royal)) !important;
+  color: #fff;
+  box-shadow: 0 10px 30px -18px rgba(6, 29, 71, .9);
+  position: relative;
+  z-index: 1;
+}
+.content-editor > .sui.toolbar h2 { color: #fff !important; font-weight: 800 !important; letter-spacing: -.01em; }
+.content-editor > .sui.toolbar .sui.button:not(.primary),
+.content-editor > .sui.toolbar .sui.icon { color: #fff !important; }
+.content-editor > .sui.toolbar .sui.button:not(.primary):hover { background-color: rgba(255, 255, 255, .12) !important; }
+.content-editor > .sui.toolbar .sui.button.primary:not(:disabled) {
+  background: var(--jc-cyan) !important;
+  color: var(--jc-navy) !important;
+  box-shadow: 0 10px 24px -12px rgba(0, 188, 212, .9);
+}
+.content-editor > .sui.toolbar .sui.button.primary:not(:disabled):hover { background: #26c6da !important; }
+:root[data-theme='light'] .content-editor,
+:root[data-theme='light'] .content-editor .content-area { background: var(--jc-paper) !important; }
+:root[data-theme='light'] .content-editor .pane-wrapper > .sui.group.pane {
+  background: #fff !important;
+  border-radius: 22px;
+  margin: 16px;
+  box-shadow: 0 1px 0 var(--jc-line), 0 24px 50px -36px rgba(6, 29, 71, .45);
+}
+:root[data-theme='light'] .content-editor .sui.group.pane .header { color: var(--jc-navy); font-weight: 800; }

@@ -14,6 +14,7 @@ backend:
     uploadMedia: 'Panel: sube {{path}}'
     deleteMedia: 'Panel: borra {{path}}'
 
+app_title: Panel JCraft Digital
 site_url: https://jcraft-digital.com
 display_url: https://jcraft-digital.com
 logo:
