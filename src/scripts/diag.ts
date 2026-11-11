@@ -17,6 +17,7 @@ type Res = {
   areas: { id: string; pct: number; puntos: number; max: number }[];
   bien: string[]; mejoras: { area: string; texto: string }[];
   web: null | { revisada: boolean; ms?: number; https?: boolean; movil?: boolean; whatsapp?: boolean; motivo?: string };
+  ig?: null | { revisada: boolean; motivo?: string; usuario?: string; seguidores?: number | null; publicaciones?: number | null; ult30?: number; diasUltimo?: number | null; reels?: number; revisadas?: number; promedio?: number | null; bio?: boolean; enlace?: boolean };
 };
 type Saved = { r: Res; nombre: string; negocio: string };
 const AREA: Record<string, string> = { web: '🌐 Página web', redes: '📱 Redes sociales', google: '📍 Google', marca: '🎨 Marca' };
@@ -152,6 +153,21 @@ export function initDiag(gsap: typeof gsapType, reduce: boolean) {
       webBox.hidden = false;
       webBox.innerHTML = '<p class="dg-sub">🔍 Tu web</p><p class="dg-note">No pudimos abrir tu página web para revisarla. Revisa que la dirección esté bien y que esté en línea.</p>';
     } else webBox.hidden = true;
+    const igBox = out.querySelector<HTMLElement>('[data-dg-ig]')!;
+    const ig = r.ig;
+    const nf = (n: number | null | undefined) => (n == null ? '—' : n.toLocaleString('es-CO'));
+    if (ig?.revisada) {
+      igBox.hidden = false;
+      const dias = ig.diasUltimo;
+      const ult = dias == null ? 'Sin publicaciones' : `Última publicación: ${dias === 0 ? 'hoy' : dias === 1 ? 'ayer' : `hace ${dias} días`}`;
+      igBox.innerHTML = `<p class="dg-sub">📸 Revisamos tu Instagram</p><p class="dg-note">@${esc(ig.usuario ?? '')} · ${nf(ig.seguidores)} seguidores · ${nf(ig.publicaciones)} publicaciones</p><div class="dg-facts"><span>${(ig.ult30 ?? 0) >= 8 ? '✅' : '⚠️'} ${ig.ult30 ?? 0} ${(ig.ult30 ?? 0) === 1 ? 'publicación' : 'publicaciones'} en 30 días</span><span>${dias != null && dias <= 7 ? '✅' : '⚠️'} ${ult}</span><span>${ig.bio ? '✅' : '⚠️'} Bio clara</span><span>${ig.enlace ? '✅' : '⚠️'} Enlace en la bio</span>${ig.revisadas ? `<span>🎬 ${ig.reels ?? 0} de ${ig.revisadas} recientes son video</span>` : ''}${ig.promedio != null ? `<span>💬 ${nf(ig.promedio)} interacciones por publicación</span>` : ''}</div>`;
+    } else if (ig && ig.motivo === 'no_publica') {
+      igBox.hidden = false;
+      igBox.innerHTML = '<p class="dg-sub">📸 Tu Instagram</p><p class="dg-note">No pudimos ver tu cuenta: es personal o privada. Pásala a cuenta profesional (es gratis) y vuelve a hacer el diagnóstico.</p>';
+    } else if (ig && ig.motivo === 'usuario') {
+      igBox.hidden = false;
+      igBox.innerHTML = '<p class="dg-sub">📸 Tu Instagram</p><p class="dg-note">No reconocimos el usuario de Instagram. Escríbelo así: @tunegocio.</p>';
+    } else igBox.hidden = true;
     // Cierre: plan sugerido según el área más débil + regalo del diagnóstico completo al contratar
     const PLAN: Record<string, [string, string, string]> = {
       web: ['tu página web', 'Sitio web', 'clientes que te encuentran'],
@@ -185,7 +201,7 @@ export function initDiag(gsap: typeof gsapType, reduce: boolean) {
     }
     out.focus({ preventScroll: true });
   };
-  const wipe = () => { current = null; form.reset(); step = 0; go(0); };
+  const wipe = () => { current = null; form.reset(); out.querySelectorAll<HTMLElement>('[data-dg-web], [data-dg-ig]').forEach((b) => { b.innerHTML = ''; b.hidden = true; }); step = 0; go(0); };
   out.querySelector('[data-dg-again]')?.addEventListener('click', wipe);
 
   // ── Abrir y cerrar
