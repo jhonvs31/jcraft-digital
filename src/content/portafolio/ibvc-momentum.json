@@ -1,0 +1,36 @@
+{
+  "orden": 6,
+  "tag": "Diseño Web",
+  "emoji": "☀️",
+  "name": "IbVC Momentum",
+  "place": "📍 Cliente nacional · Bogotá",
+  "slug": "ibvc-momentum",
+  "text": "Sitio web para empresa de sostenibilidad en la construcción: paneles solares, gerenciamiento de activos, bombeo de concreto e infraestructura.",
+  "result": "Diseño Web · Contenido",
+  "url": "https://ibvcmomentum.com/",
+  "urlLabel": "ibvcmomentum.com",
+  "intro": "Empresa que construye, mantiene y acondiciona activos para mejorar su eficiencia energética y reducir la huella de carbono en la construcción.",
+  "did": [
+    "Sitio web con sus líneas de servicio: bombeo de concreto, gerenciamiento de activos, facilidades e infraestructura.",
+    "Mensaje central de sostenibilidad y eficiencia, con llamado a solicitar cotización.",
+    "Secciones de equipo de trabajo y aliados."
+  ],
+  "web": [
+    {
+      "src": "/assets/portafolio/ibvc-momentum/web-inicio.webp",
+      "alt": "Inicio del sitio web de IbVC Momentum"
+    },
+    {
+      "src": "/assets/portafolio/ibvc-momentum/web-sostenibilidad.webp",
+      "alt": "Sección de sostenibilidad y eficiencia"
+    },
+    {
+      "src": "/assets/portafolio/ibvc-momentum/web-aliados.webp",
+      "alt": "Equipo de trabajo y aliados"
+    }
+  ],
+  "mobile": "/assets/portafolio/ibvc-momentum/web-movil.webp",
+  "cats": [
+    "web"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "orden": 8,
+  "tag": "Diseño Web",
+  "emoji": "🤝",
+  "name": "Cedecur",
+  "place": "📍 Cliente nacional · Cali",
+  "slug": "cedecur",
+  "text": "Sitio web para entidad sin ánimo de lucro de desarrollo comunitario: historia, modelo de intervención, impacto, testimonios y donaciones.",
+  "result": "Diseño Web · Contenido",
+  "url": "https://cedecur.org/web/",
+  "urlLabel": "cedecur.org",
+  "intro": "Centro de Educación e Investigación para el Desarrollo Comunitario Urbano y Rural: entidad sin ánimo de lucro creada en 1982 en Cali.",
+  "did": [
+    "Sitio web con su historia, modelo de intervención, líneas de trabajo e impacto.",
+    "Testimonios en video y sección de publicaciones.",
+    "Botón de donación visible en todo el sitio.",
+    "Muro de organizaciones aliadas."
+  ],
+  "web": [
+    {
+      "src": "/assets/portafolio/cedecur/web-inicio.webp",
+      "alt": "Inicio del sitio web de Cedecur"
+    },
+    {
+      "src": "/assets/portafolio/cedecur/web-modelo.webp",
+      "alt": "Modelo de intervención de Cedecur"
+    },
+    {
+      "src": "/assets/portafolio/cedecur/web-aliados.webp",
+      "alt": "Organizaciones aliadas"
+    }
+  ],
+  "mobile": "/assets/portafolio/cedecur/web-movil.webp",
+  "cats": [
+    "web"
+  ]
+}

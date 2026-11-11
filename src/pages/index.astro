@@ -2,8 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Title from '../components/Title.astro';
 import Cta from '../components/Cta.astro';
-import { services, contentService, why, approach, process, portfolio, claims } from '../data/site';
-import posts from '../data/posts.json';
+import { services, contentService, why, approach, process, portfolio, claims, home } from '../data/site';
+import posts from '../data/blog';
 import { u, wa } from '../lib/url';
 import { Picture } from 'astro:assets';
 import cataImg from '../assets/img/cata-burbuja.jpg';
@@ -20,9 +20,9 @@ const latest = posts.filter((p) => !p.featured).slice(0, 3);
     <div class="glow bottom-[-35%] left-[-20%] h-[620px] w-[620px] opacity-60" data-parallax="80"></div>
     <div class="wrap relative grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
       <div>
-        <span class="eyebrow hero-in">Agencia de Marketing Digital</span>
-        <Title as="h1" instant text="Tu negocio merece *brillar en digital*" class="mt-7 text-[clamp(3.2rem,6.2vw,6.4rem)]" />
-        <p class="hero-in mt-8 max-w-xl text-lg text-white/70 sm:text-xl" style="--d:350ms">Ayudamos a pymes y emprendedores a construir su presencia digital de forma estratégica, creativa y efectiva. Diseño, marketing y tecnología en un solo lugar.</p>
+        <span class="eyebrow hero-in">{home.etiqueta}</span>
+        <Title as="h1" instant text={home.titulo} class="mt-7 text-[clamp(3.2rem,6.2vw,6.4rem)]" />
+        <p class="hero-in mt-8 max-w-xl text-lg text-white/70 sm:text-xl" style="--d:350ms">{home.subtitulo}</p>
         <div class="hero-in mt-10 flex flex-wrap gap-4" style="--d:480ms">
           <a href={u('contacto.html')} class="btn btn-primary" data-magnetic>Hablemos de tu proyecto <span aria-hidden="true">→</span></a>
           <a href={u('portafolio.html')} class="btn btn-ghost" data-magnetic>Ver portafolio</a>
@@ -150,7 +150,7 @@ const latest = posts.filter((p) => !p.featured).slice(0, 3);
         {featured.map((p) => (
           <a href={u(`portafolio.html#caso-${p.slug}`)} data-reveal data-tilt class="card-paper group flex flex-col overflow-hidden">
             <div class="relative h-56 overflow-hidden bg-navy">
-              <img src={u((p.web?.[0] ?? p.posts![0]).src)} alt="" loading="lazy" decoding="async" width="1200" height="750" class={`h-full w-full object-cover ${p.web?.[0] ? 'object-top' : 'object-center'} transition-transform duration-700 group-hover:scale-105`} />
+              <img src={u(p.web?.[0]?.src ?? p.posts?.[0]?.src ?? p.mobile ?? 'assets/logo-color.png')} alt="" loading="lazy" decoding="async" width="1200" height="750" class={`h-full w-full object-cover ${p.web?.[0] ? 'object-top' : 'object-center'} transition-transform duration-700 group-hover:scale-105`} />
               <span class="absolute top-4 left-4 rounded-full bg-cyan px-3 py-1 text-xs font-extrabold text-navy">{p.tag}</span>
             </div>
             <div class="flex flex-1 flex-col p-7"><h3 class="text-2xl">{p.name}</h3><p class="mt-3 flex-1 text-navy/70">{p.short}</p>
@@ -195,7 +195,7 @@ const latest = posts.filter((p) => !p.featured).slice(0, 3);
       <div class="mt-14 grid gap-6 md:grid-cols-3" data-stagger>
         {latest.map((p) => (
           <a href={u(`blog/${p.slug}.html`)} data-reveal class="card-paper group flex flex-col overflow-hidden transition hover:-translate-y-1">
-            <div class="aspect-[16/9] overflow-hidden bg-navy"><img src={u(`assets/blog/${p.slug}.webp`)} alt="" loading="lazy" decoding="async" width="1600" height="900" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
+            <div class="aspect-[16/9] overflow-hidden bg-navy"><img src={u(p.cover)} alt="" loading="lazy" decoding="async" width="1600" height="900" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
             <div class="flex flex-1 flex-col p-7">
             <p class="text-xs font-extrabold tracking-[.18em] text-blue uppercase">{p.categoryName}</p>
             <h3 class="mt-3 text-2xl leading-tight group-hover:text-blue">{p.title}</h3>

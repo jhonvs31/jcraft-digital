@@ -1,0 +1,36 @@
+{
+  "orden": 10,
+  "tag": "Internacional · EE. UU.",
+  "emoji": "⚖️",
+  "name": "Ehrlich & Naparstek",
+  "place": "🌎 Cliente internacional · Florida, Estados Unidos",
+  "slug": "ehrlich-naparstek",
+  "text": "Sitio web en inglés para firma de abogados de lesiones personales en Florida: casos que atienden, zonas, resultados, reseñas y evaluación gratuita.",
+  "result": "Diseño Web · Contenido en inglés",
+  "url": "https://eninjurylaw.com/",
+  "urlLabel": "eninjurylaw.com",
+  "intro": "Firma de abogados de Florida especializada en lesiones personales, accidentes de tránsito y compensación laboral, con oficinas en Palm Beach y la Treasure Coast.",
+  "did": [
+    "Sitio web en inglés con llamado constante a la evaluación gratuita y a llamar 24/7.",
+    "Páginas por tipo de caso y por cada ciudad o zona que atienden.",
+    "Secciones de abogados, resultados de casos, reseñas de clientes, preguntas frecuentes y noticias."
+  ],
+  "web": [
+    {
+      "src": "/assets/portafolio/ehrlich-naparstek/web-resultados.webp",
+      "alt": "Sección de resultados de casos de Ehrlich & Naparstek"
+    },
+    {
+      "src": "/assets/portafolio/ehrlich-naparstek/web-equipo.webp",
+      "alt": "Sección de los abogados de la firma"
+    },
+    {
+      "src": "/assets/portafolio/ehrlich-naparstek/web-contacto.webp",
+      "alt": "Llamado a contacto 24/7"
+    }
+  ],
+  "mobile": "/assets/portafolio/ehrlich-naparstek/web-movil.webp",
+  "cats": [
+    "web"
+  ]
+}

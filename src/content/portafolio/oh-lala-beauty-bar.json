@@ -1,0 +1,39 @@
+{
+  "orden": 4,
+  "tag": "Tienda online · Ads · SEO",
+  "emoji": "💅",
+  "name": "Oh Lala Beauty Bar",
+  "place": "📍 Cliente nacional",
+  "slug": "oh-lala-beauty-bar",
+  "text": "Rediseño completo de la tienda online de belleza con foco en experiencia de compra y conversión, estrategia SEO y campañas de Google Ads.",
+  "short": "Rediseño completo del sitio web, campañas de Google Ads y estrategia SEO para posicionamiento orgánico y captación de nuevas clientas.",
+  "result": "Tienda online · Google Ads · SEO",
+  "home": true,
+  "url": "https://ohlalabeautybar.com/",
+  "urlLabel": "ohlalabeautybar.com",
+  "intro": "Tienda de maquillaje, cuidado capilar, skincare y cuidado corporal, con envíos a todo Colombia.",
+  "did": [
+    "Rediseño de la tienda online: catálogo por categorías y marcas, ofertas, búsqueda de productos y carrito.",
+    "Pagos con tarjeta, Nequi, transferencia y compra ahora, paga después.",
+    "Botón de WhatsApp en todas las páginas para resolver dudas antes de comprar.",
+    "Estrategia SEO para categorías y productos, y campañas de Google Ads."
+  ],
+  "web": [
+    {
+      "src": "/assets/portafolio/oh-lala-beauty-bar/web-inicio.webp",
+      "alt": "Inicio de la tienda online de Oh Lala Beauty Bar"
+    },
+    {
+      "src": "/assets/portafolio/oh-lala-beauty-bar/web-productos.webp",
+      "alt": "Productos destacados y medios de pago"
+    },
+    {
+      "src": "/assets/portafolio/oh-lala-beauty-bar/web-marcas.webp",
+      "alt": "Productos organizados por marca"
+    }
+  ],
+  "mobile": "/assets/portafolio/oh-lala-beauty-bar/web-movil.webp",
+  "cats": [
+    "web"
+  ]
+}

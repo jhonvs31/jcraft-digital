@@ -1,0 +1,54 @@
+{
+  "orden": 5,
+  "tag": "Web · Redes",
+  "emoji": "🏗️",
+  "name": "Siamco Ingeniería",
+  "place": "📍 Cliente nacional · Cali",
+  "slug": "siamco",
+  "text": "Sitio web y redes sociales para empresa de ingeniería de Cali: servicios, proyectos y aliados en la web, y contenido técnico y visual para generar confianza y autoridad de marca.",
+  "result": "Diseño Web · Estrategia · Contenido · Redes",
+  "url": "https://siamcoingenieria.com/",
+  "urlLabel": "siamcoingenieria.com",
+  "intro": "Empresa de Cali especializada en impermeabilización, pisos arquitectónicos e industriales (concreto estampado, microcemento) y lavado de tanques de agua potable.",
+  "did": [
+    "Sitio web con los servicios de la empresa, proyectos recientes y marcas aliadas.",
+    "Botón de WhatsApp y llamados a la acción para pedir cotización.",
+    "Piezas para redes con contenido técnico: datos de impermeabilización, pisos y proyectos realizados."
+  ],
+  "web": [
+    {
+      "src": "/assets/portafolio/siamco/web-servicios.webp",
+      "alt": "Sección de servicios del sitio web de Siamco Ingeniería"
+    },
+    {
+      "src": "/assets/portafolio/siamco/web-proyectos.webp",
+      "alt": "Proyectos recientes de Siamco"
+    },
+    {
+      "src": "/assets/portafolio/siamco/web-aliados.webp",
+      "alt": "Marcas aliadas de Siamco"
+    }
+  ],
+  "posts": [
+    {
+      "src": "/assets/portafolio/siamco/post-scarlatta.webp",
+      "alt": "Post Proyecto Edificio Scarlatta"
+    },
+    {
+      "src": "/assets/portafolio/siamco/post-impermeabilizar.webp",
+      "alt": "Post ¿Sabías que? sobre impermeabilización"
+    },
+    {
+      "src": "/assets/portafolio/siamco/post-pisos.webp",
+      "alt": "Post Marca la diferencia en tus pisos"
+    },
+    {
+      "src": "/assets/portafolio/siamco/post-nuevo-proyecto.webp",
+      "alt": "Post ¿Un nuevo proyecto?"
+    }
+  ],
+  "cats": [
+    "web",
+    "redes"
+  ]
+}

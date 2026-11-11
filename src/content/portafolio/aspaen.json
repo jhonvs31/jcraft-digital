@@ -1,0 +1,38 @@
+{
+  "orden": 3,
+  "tag": "Redes Sociales",
+  "emoji": "🎓",
+  "name": "Aspaen",
+  "place": "📍 Cliente nacional · Cali",
+  "slug": "aspaen",
+  "text": "Manejo completo de redes sociales para institución educativa. Estrategia de contenido enfocada en comunidad y valores institucionales, con producción audiovisual y fotografía.",
+  "result": "Estrategia · Contenido · Redes · Foto & Video",
+  "intro": "Red de colegios y preescolares (Juanambú, Entrevalles, Tayana y Tacurí) con una ruta de formación desde el preescolar hasta la universidad.",
+  "did": [
+    "Estrategia de contenido para redes enfocada en comunidad y valores institucionales.",
+    "Piezas para la temporada de admisiones: agenda tu cita, entrevistas y Open Day.",
+    "Comunicación del regreso a clases y de las adecuaciones de las instalaciones.",
+    "Fotografía de estudiantes en el colegio con la línea gráfica de cada sede."
+  ],
+  "posts": [
+    {
+      "src": "/assets/portafolio/aspaen/post-formacion.webp",
+      "alt": "Post Ofrecemos una ruta de formación completa"
+    },
+    {
+      "src": "/assets/portafolio/aspaen/post-open-day.webp",
+      "alt": "Post Open Day, agenda tu visita"
+    },
+    {
+      "src": "/assets/portafolio/aspaen/post-libertad.webp",
+      "alt": "Post Libertad y confianza"
+    },
+    {
+      "src": "/assets/portafolio/aspaen/post-evolucionando.webp",
+      "alt": "Post En Aspaen seguimos evolucionando"
+    }
+  ],
+  "cats": [
+    "redes"
+  ]
+}

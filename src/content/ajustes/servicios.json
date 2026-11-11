@@ -1,0 +1,79 @@
+{
+  "servicios": [
+    {
+      "icon": "📱",
+      "short": "Redes Sociales",
+      "title": "Gestión de Redes Sociales",
+      "teaser": "Gestión completa de Instagram, Facebook y más. Estrategia, contenido, publicación y reporte de métricas para hacer crecer tu comunidad.",
+      "text": "Tu marca siempre activa, siempre relevante. Nos encargamos de todo para que tú te enfoques en tu negocio.",
+      "items": [
+        "Estrategia de contenido personalizada",
+        "Diseño de posts y stories profesionales",
+        "Publicación y programación de contenidos",
+        "Calendario editorial mensual",
+        "Reporte de métricas y crecimiento",
+        "Instagram, Facebook, LinkedIn, TikTok"
+      ]
+    },
+    {
+      "icon": "🌐",
+      "short": "Diseño Web",
+      "title": "Creación de Sitios Web",
+      "teaser": "Sitios web profesionales que se ven increíbles y convierten visitantes en clientes. Diseñamos y desarrollamos a medida.",
+      "text": "Tu sitio web es tu oficina digital abierta las 24 horas. Lo diseñamos para que se vea bien, funcione perfecto y convierta.",
+      "items": [
+        "Diseño único y adaptado a tu marca",
+        "100% responsivo (móvil, tablet, desktop)",
+        "Velocidad y rendimiento optimizados",
+        "SEO básico incluido desde el inicio",
+        "Formularios de contacto y WhatsApp",
+        "Panel de administración fácil de usar"
+      ]
+    },
+    {
+      "icon": "📣",
+      "short": "Pauta Digital",
+      "title": "Pauta Digital (Google & Meta Ads)",
+      "teaser": "Campañas de Google Ads y Meta Ads optimizadas para maximizar tu retorno de inversión. Cada peso invertido, bien invertido.",
+      "text": "Llevamos tu mensaje a las personas correctas, en el momento correcto, con el presupuesto que tengas disponible.",
+      "items": [
+        "Configuración y gestión de campañas",
+        "Segmentación de audiencias avanzada",
+        "Diseño de creativos para anuncios",
+        "Pruebas A/B de anuncios",
+        "Optimización semanal de campañas",
+        "Reporte detallado de resultados"
+      ]
+    },
+    {
+      "icon": "🎨",
+      "short": "Diseño Gráfico",
+      "title": "Diseño Gráfico e Identidad Visual",
+      "teaser": "Identidad visual, piezas para redes, brochures y materiales que reflejan la esencia de tu marca con calidad profesional.",
+      "text": "Una marca que se ve bien, genera confianza. Creamos tu identidad visual o renovamos la que ya tienes.",
+      "items": [
+        "Diseño de logo e identidad de marca",
+        "Manual de marca completo",
+        "Piezas gráficas para redes sociales",
+        "Brochures, flyers y catálogos",
+        "Presentaciones corporativas",
+        "Diseño de packaging y etiquetas"
+      ]
+    },
+    {
+      "icon": "📊",
+      "short": "Estrategia Digital",
+      "title": "Estrategia Digital Integral",
+      "teaser": "Analizamos tu negocio y construimos una hoja de ruta digital personalizada. Cada acción tiene un objetivo medible.",
+      "text": "Si necesitas un diagnóstico completo y una hoja de ruta clara para crecer en digital, este servicio es para ti.",
+      "items": [
+        "Auditoría de presencia digital actual",
+        "Análisis de competencia",
+        "Definición de buyer persona",
+        "Plan de contenidos y canales",
+        "Objetivos y KPIs definidos",
+        "Presentación ejecutiva de resultados"
+      ]
+    }
+  ]
+}

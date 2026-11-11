@@ -8,7 +8,9 @@ import { u, WA_NUMBER } from '../lib/url';
 
 const all = [...socialPlans, ...webPlans, ...otherPricing.flatMap((g) => g.plans)];
 const pick = (name: string) => {
-  const p = all.find((x) => x.name === name)!;
+  // Se busca por `id` (fijo, oculto en el panel) para que cambiar el nombre de un plan no rompa el test.
+  const p = all.find((x) => x.id === name) ?? all.find((x) => x.name === name);
+  if (!p) throw new Error(`Test: falta el plan «${name}» en Ajustes → Precios`);
   return { name: p.name, cop: p.cop, price: p.price, items: p.items, from: 'from' in p ? p.from : false, unit: 'unit' in p ? p.unit : '' };
 };
 const data = {

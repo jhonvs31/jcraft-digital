@@ -1,0 +1,288 @@
+# Panel de contenido de JCraft Digital (Sveltia CMS) → jcraft-digital.com/admin
+# Cada vez que guardas, el panel sube el cambio a GitHub y Vercel publica la web en 1 o 2 minutos.
+# Este archivo define qué se puede editar. Los cambios de diseño se siguen haciendo en el código.
+
+backend:
+  name: github
+  repo: jhonvs31/jcraft-digital
+  branch: main
+  auth_methods: [token]
+  commit_messages:
+    create: 'Panel: crea «{{slug}}» en {{collection}}'
+    update: 'Panel: actualiza «{{slug}}» en {{collection}}'
+    delete: 'Panel: borra «{{slug}}» de {{collection}}'
+    uploadMedia: 'Panel: sube {{path}}'
+    deleteMedia: 'Panel: borra {{path}}'
+
+site_url: https://jcraft-digital.com
+display_url: https://jcraft-digital.com
+logo:
+  src: /apple-touch-icon.png
+
+# Imágenes sueltas (las de cada sección tienen su propia carpeta más abajo)
+media_folder: public/assets/subidas
+public_folder: /assets/subidas
+
+# Las fotos que subas se convierten solas a WebP (más livianas) y se reducen a 2000 px de ancho como máximo.
+media_libraries:
+  default:
+    config:
+      max_file_size: 15000000
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2000
+
+# Sin vista previa al lado: el formulario ocupa toda la pantalla (la vista real es la web publicada).
+editor:
+  preview: false
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  # ───────────────────────────── BLOG
+  - name: blog
+    label: Blog
+    label_singular: Artículo
+    icon: article
+    description: 'Artículos del blog. Los nuevos se escriben en «Contenido». La portada se genera sola con el diseño de JCraft si no subes una.'
+    folder: src/content/blog
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    slug: '{{title}}'
+    identifier_field: title
+    summary: '{{title}} · {{iso}}'
+    sortable_fields:
+      fields: [iso, title]
+      default:
+        field: iso
+        direction: descending
+    media_folder: /public/assets/blog/subidas
+    public_folder: /assets/blog/subidas
+    fields:
+      - { name: title, label: Título, widget: string, hint: 'Si usas «:», lo que va después sale como subtítulo en la portada. Ej.: «SEO local: cómo aparecer en Google Maps».' }
+      - { name: iso, label: Fecha de publicación, widget: datetime, type: date, format: YYYY-MM-DD }
+      - name: category
+        label: Categoría
+        widget: select
+        options:
+          - { value: seo, label: SEO }
+          - { value: redes, label: Redes Sociales }
+          - { value: web, label: Diseño Web }
+          - { value: pauta, label: Pauta Digital }
+          - { value: marca, label: Marca }
+          - { value: estrategia, label: Estrategia }
+      - { name: description, label: Descripción para Google, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres. Es el texto que sale en Google debajo del título.' }
+      - { name: body, label: Contenido, widget: richtext, required: false, hint: 'Usa «Título 2» para las secciones y «Título 3» para los subtemas. Si terminas con una sección «Preguntas frecuentes» (Título 2) con cada pregunta en Título 3 y la respuesta debajo, Google la reconoce como preguntas frecuentes.' }
+      - { name: draft, label: Borrador (no se publica todavía), widget: boolean, default: false, required: false }
+      - { name: featured, label: Destacado arriba en el blog, widget: boolean, default: false, required: false, hint: 'Solo se destaca uno: el más reciente que tenga esto activado.' }
+      - { name: cover, label: Portada (opcional), widget: image, required: false, hint: 'Déjala vacía y se genera automáticamente con el diseño de la web (tarda unos minutos después de publicar). Si subes una, que sea horizontal (16:9).' }
+      - { name: emoji, label: Emoji de la portada, widget: string, default: '📝', required: false }
+      - { name: excerpt, label: Resumen para las tarjetas, widget: text, required: false, hint: 'Opcional. Si lo dejas vacío se usa la descripción para Google.' }
+      - { name: seoTitle, label: Título corto para Google, widget: string, required: false, maxlength: 60, hint: 'Opcional. Máximo 45 caracteres para que salga completo con «| JCraft Digital».' }
+      - { name: modified, label: Fecha de actualización, widget: datetime, type: date, format: YYYY-MM-DD, required: false, hint: 'Solo si actualizas un artículo ya publicado.' }
+      - { name: readTime, label: Tiempo de lectura, widget: string, required: false, hint: 'Opcional. Si lo dejas vacío se calcula solo. Ej.: «5 min».' }
+      - { name: html, label: Contenido en HTML (artículos anteriores al panel), widget: code, default_language: html, output_code_only: true, required: false, hint: 'Solo para los artículos que ya existían. Puedes corregir textos aquí con cuidado de no borrar las etiquetas <...>. Si llenas «Contenido», este se ignora.' }
+
+  # ───────────────────────────── PORTAFOLIO
+  - name: portafolio
+    label: Portafolio
+    label_singular: Caso
+    icon: work
+    description: 'Clientes del portafolio. «Orden» define la posición (1 es el primero). Las cifras de la web (clientes, países) se actualizan solas.'
+    folder: src/content/portafolio
+    extension: json
+    format: json
+    create: true
+    delete: true
+    slug: '{{fields.slug}}'
+    identifier_field: name
+    summary: '{{orden}}. {{name}}'
+    sortable_fields:
+      fields: [orden, name]
+      default:
+        field: orden
+        direction: ascending
+    media_folder: /public/assets/portafolio/{{slug}}
+    public_folder: /assets/portafolio/{{slug}}
+    fields:
+      - { name: orden, label: Orden, widget: number, value_type: int, min: 1, default: 99 }
+      - { name: name, label: Nombre del cliente, widget: string }
+      - { name: slug, label: Identificador, widget: string, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Solo minúsculas, números y guiones. Ej.: mi-cliente'], hint: 'Va en la dirección del caso (#caso-identificador). No lo cambies en casos que ya existen.' }
+      - { name: emoji, label: Emoji, widget: string, default: '✨' }
+      - name: cats
+        label: Filtro
+        widget: select
+        multiple: true
+        min: 1
+        options:
+          - { value: redes, label: Redes sociales }
+          - { value: web, label: Diseño web }
+      - { name: tag, label: Etiqueta, widget: string, hint: 'Ej.: «Web · Redes» o «Internacional · México».' }
+      - { name: place, label: Lugar, widget: string, hint: 'Empieza con 📍 para Colombia o 🌎 para internacional, y escribe el país: «🌎 Cliente internacional · México». El país se usa para contar los países atendidos.' }
+      - { name: text, label: Descripción de la tarjeta, widget: text }
+      - { name: result, label: Servicios (línea corta), widget: string, hint: 'Ej.: «Diseño Web · Redes · Contenido».' }
+      - { name: home, label: Mostrar en el inicio, widget: boolean, default: false, required: false, hint: 'El inicio muestra 3 casos.' }
+      - { name: short, label: Descripción corta para el inicio, widget: text, required: false }
+      - { name: intro, label: Sobre el cliente (ventana del caso), widget: text, required: false }
+      - { name: did, label: Lo que hicimos, label_singular: punto, widget: list, required: false, field: { name: item, label: Punto, widget: text } }
+      - { name: url, label: Sitio web del cliente, widget: string, type: url, required: false }
+      - { name: urlLabel, label: Texto del enlace, widget: string, required: false, hint: 'Ej.: «cliente.com».' }
+      - { name: ig, label: Instagram del cliente, widget: string, type: url, required: false }
+      - name: web
+        label: Capturas de la web
+        label_singular: captura
+        widget: list
+        required: false
+        hint: 'Capturas horizontales del sitio (la primera es la portada de la tarjeta).'
+        summary: '{{alt}}'
+        fields:
+          - { name: src, label: Imagen, widget: image }
+          - { name: alt, label: Descripción de la imagen, widget: string }
+      - { name: mobile, label: Captura en celular, widget: image, required: false, hint: 'Captura vertical del sitio en el celular.' }
+      - name: posts
+        label: Publicaciones de redes
+        label_singular: publicación
+        widget: list
+        required: false
+        hint: 'Piezas cuadradas o verticales. Si no hay capturas de web, la primera es la portada de la tarjeta.'
+        summary: '{{alt}}'
+        fields:
+          - { name: src, label: Imagen, widget: image }
+          - { name: alt, label: Descripción de la imagen, widget: string }
+
+  # ───────────────────────────── AJUSTES
+  - name: ajustes
+    label: Ajustes de la web
+    label_singular: Ajuste
+    icon: settings
+    files:
+      - name: contacto
+        label: Contacto
+        icon: call
+        file: src/content/ajustes/contacto.json
+        fields:
+          - { name: phone, label: Teléfono y WhatsApp, widget: string, hint: 'Con indicativo: +57 300 000 0000. Todos los botones de WhatsApp de la web usan este número.' }
+          - { name: email, label: Correo, widget: string, type: email }
+          - { name: instagram, label: Instagram, widget: string, type: url }
+          - { name: web, label: Dominio (pie de página), widget: string }
+          - { name: location, label: Ubicación, widget: string }
+          - { name: hours, label: Horario, label_singular: línea, widget: list, field: { name: line, label: Línea, widget: string } }
+
+      - name: inicio
+        label: Inicio (portada)
+        icon: home
+        file: src/content/ajustes/inicio.json
+        fields:
+          - { name: etiqueta, label: Etiqueta sobre el título, widget: string }
+          - { name: titulo, label: Título principal, widget: string, hint: 'Lo que pongas entre asteriscos sale resaltado en cursiva: «Tu negocio merece *brillar en digital*».' }
+          - { name: subtitulo, label: Texto bajo el título, widget: text }
+
+      - name: servicios
+        label: Servicios
+        icon: design_services
+        file: src/content/ajustes/servicios.json
+        fields:
+          - name: servicios
+            label: Servicios
+            label_singular: servicio
+            widget: list
+            allow_add: false
+            allow_remove: false
+            allow_reorder: false
+            summary: '{{icon}} {{title}}'
+            fields:
+              - { name: icon, label: Emoji, widget: string }
+              - { name: short, label: Nombre corto, widget: string }
+              - { name: title, label: Título, widget: string }
+              - { name: teaser, label: Resumen (inicio), widget: text }
+              - { name: text, label: Descripción (página de servicios), widget: text }
+              - { name: items, label: Qué incluye, label_singular: punto, widget: list, field: { name: item, label: Punto, widget: string } }
+
+      - name: precios
+        label: Precios y planes
+        icon: payments
+        file: src/content/ajustes/precios.json
+        fields:
+          - name: redes
+            label: Planes de redes sociales
+            label_singular: plan
+            widget: list
+            summary: '{{name}} · ${{cop}} COP'
+            fields:
+              - { name: id, widget: hidden }
+              - { name: name, label: Nombre, widget: string }
+              - { name: cop, label: Precio COP al mes, widget: number, value_type: int, min: 0 }
+              - { name: price, label: Precio USD, widget: number, value_type: int, min: 0 }
+              - { name: eur, label: Precio EUR, widget: number, value_type: int, min: 0 }
+              - { name: total, label: Contenidos al mes, widget: number, value_type: int, min: 0 }
+              - { name: featured, label: Recomendado, widget: boolean, default: false, required: false }
+              - { name: items, label: Qué incluye, label_singular: punto, widget: list, field: { name: item, label: Punto, widget: string } }
+          - name: web
+            label: Planes de páginas web
+            label_singular: plan
+            widget: list
+            summary: '{{name}} · ${{cop}} COP'
+            fields:
+              - { name: id, widget: hidden }
+              - { name: name, label: Nombre, widget: string }
+              - { name: cop, label: Precio COP, widget: number, value_type: int, min: 0 }
+              - { name: price, label: Precio USD, widget: number, value_type: int, min: 0 }
+              - { name: eur, label: Precio EUR, widget: number, value_type: int, min: 0 }
+              - { name: text, label: Descripción, widget: text }
+              - { name: items, label: Qué incluye, label_singular: punto, widget: list, field: { name: item, label: Punto, widget: string } }
+          - name: mantenimiento
+            label: Mantenimiento web
+            widget: object
+            fields:
+              - { name: name, label: Nombre, widget: string }
+              - { name: cop, label: Precio COP al mes, widget: number, value_type: int, min: 0 }
+              - { name: price, label: Precio USD, widget: number, value_type: int, min: 0 }
+              - { name: eur, label: Precio EUR, widget: number, value_type: int, min: 0 }
+              - { name: text, label: Descripción, widget: text }
+          - name: otros
+            label: Otros servicios
+            label_singular: grupo
+            widget: list
+            allow_add: false
+            allow_remove: false
+            summary: '{{title}}'
+            fields:
+              - { name: title, label: Grupo, widget: string }
+              - { name: period, label: Forma de pago, widget: string, hint: 'Ej.: «al mes» o «pago único».' }
+              - { name: note, label: Nota, widget: text, required: false }
+              - name: plans
+                label: Planes
+                label_singular: plan
+                widget: list
+                summary: '{{name}} · ${{cop}} COP'
+                fields:
+                  - { name: id, widget: hidden }
+                  - { name: name, label: Nombre, widget: string }
+                  - { name: cop, label: Precio COP, widget: number, value_type: int, min: 0 }
+                  - { name: price, label: Precio USD, widget: number, value_type: int, min: 0 }
+                  - { name: eur, label: Precio EUR, widget: number, value_type: int, min: 0 }
+                  - { name: unit, label: Unidad, widget: string, required: false, hint: 'Opcional, va después del precio. Ej.: «/mes» o «por pieza».' }
+                  - { name: from, label: Mostrar «desde», widget: boolean, default: false, required: false }
+                  - { name: free, label: Gratis, widget: boolean, default: false, required: false }
+                  - { name: items, label: Qué incluye, label_singular: punto, widget: list, field: { name: item, label: Punto, widget: string } }
+
+      - name: faq
+        label: Preguntas frecuentes
+        icon: help
+        file: src/content/ajustes/faq.json
+        fields:
+          - name: preguntas
+            label: Preguntas (página de servicios)
+            label_singular: pregunta
+            widget: list
+            summary: '{{q}}'
+            fields:
+              - { name: q, label: Pregunta, widget: string }
+              - { name: a, label: Respuesta, widget: text }

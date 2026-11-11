@@ -1,0 +1,56 @@
+{
+  "orden": 7,
+  "tag": "Internacional · EE. UU.",
+  "emoji": "🏗️",
+  "name": "HR Unlimited Builders",
+  "place": "🌎 Cliente internacional · Estados Unidos",
+  "slug": "hr-unlimited",
+  "text": "Sitio web y contenido para redes en inglés para constructora residencial de Florida: empresa, servicios, portafolio de proyectos y piezas educativas.",
+  "result": "Diseño Web · Redes · Contenido en inglés",
+  "url": "https://hrunlimitedbuilders.com/",
+  "urlLabel": "hrunlimitedbuilders.com",
+  "intro": "Constructora residencial de Florida fundada en 2018, clasificada como Minority Business por el Florida State Minority Supplier Development Council.",
+  "did": [
+    "Sitio web en inglés para el mercado de Estados Unidos.",
+    "Secciones de empresa, valores (diseño, seguridad, diversidad), servicios y contacto.",
+    "Portafolio de proyectos residenciales en carrusel.",
+    "Opciones de accesibilidad y enlaces a Instagram y Facebook.",
+    "Diseño de piezas para redes en inglés: datos del sector, tips para construir y decorar, y contenido sobre BIM."
+  ],
+  "web": [
+    {
+      "src": "/assets/portafolio/hr-unlimited/web-nosotros.webp",
+      "alt": "Sección About Us de HR Unlimited Builders"
+    },
+    {
+      "src": "/assets/portafolio/hr-unlimited/web-portafolio.webp",
+      "alt": "Portafolio de proyectos residenciales"
+    },
+    {
+      "src": "/assets/portafolio/hr-unlimited/web-servicios.webp",
+      "alt": "Servicios: consultoría, programación y administración de contratos"
+    }
+  ],
+  "posts": [
+    {
+      "src": "/assets/portafolio/hr-unlimited/post-sabias-que.webp",
+      "alt": "Post Did you know that… sobre construcción de edificios"
+    },
+    {
+      "src": "/assets/portafolio/hr-unlimited/post-tips-casa.webp",
+      "alt": "Carrusel 3 tips para construir tu casa"
+    },
+    {
+      "src": "/assets/portafolio/hr-unlimited/post-real-estate.webp",
+      "alt": "Carrusel 3 datos de finca raíz"
+    },
+    {
+      "src": "/assets/portafolio/hr-unlimited/post-bim.webp",
+      "alt": "Post sobre Building Information Modeling (BIM)"
+    }
+  ],
+  "cats": [
+    "web",
+    "redes"
+  ]
+}

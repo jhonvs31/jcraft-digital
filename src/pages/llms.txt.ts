@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import posts from '../data/posts.json';
+import posts from '../data/blog';
 import { services, contact } from '../data/site';
 
 // Resumen del sitio para modelos de lenguaje (propuesta llms.txt): qué es JCraft y dónde está cada cosa.

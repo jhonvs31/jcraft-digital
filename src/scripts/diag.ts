@@ -4,7 +4,7 @@
 import type gsapType from 'gsap';
 
 const FN_URL = 'https://jjgepsfiajhommbruzbn.supabase.co/functions/v1/diagnostico';
-const WA = '573008113078';
+import { WA_NUMBER as WA } from '../lib/url';
 const HIDE_KEY = 'jc-diag-oculto';
 const DONE_KEY = 'jc-diag-hecho'; // solo marca que ya lo hizo, para no volver a mostrarle el aviso grande
 const store = {

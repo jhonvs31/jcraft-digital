@@ -1,0 +1,244 @@
+{
+  "redes": [
+    {
+      "id": "Básico",
+      "name": "Básico",
+      "cop": 120000,
+      "price": 39,
+      "eur": 35,
+      "total": 12,
+      "featured": false,
+      "items": [
+        "3 posts",
+        "2 carruseles",
+        "6 stories",
+        "1 reel con motion graphics",
+        "Textos y hashtags",
+        "Calendario del mes",
+        "Publicamos por ti",
+        "Reporte mensual de métricas",
+        "1 ronda de cambios"
+      ]
+    },
+    {
+      "id": "Plus",
+      "name": "Plus",
+      "cop": 200000,
+      "price": 59,
+      "eur": 53,
+      "total": 18,
+      "featured": true,
+      "items": [
+        "4 posts",
+        "3 carruseles",
+        "9 stories",
+        "2 reels con motion graphics",
+        "Textos y hashtags",
+        "Calendario del mes",
+        "Publicamos por ti",
+        "Reporte mensual de métricas",
+        "1 ronda de cambios"
+      ]
+    },
+    {
+      "id": "Pro",
+      "name": "Pro",
+      "cop": 300000,
+      "price": 89,
+      "eur": 80,
+      "total": 26,
+      "featured": false,
+      "items": [
+        "6 posts",
+        "4 carruseles",
+        "12 stories",
+        "4 reels con motion graphics",
+        "Textos y hashtags",
+        "Calendario del mes",
+        "Publicamos por ti",
+        "Reporte mensual de métricas",
+        "2 rondas de cambios"
+      ]
+    }
+  ],
+  "web": [
+    {
+      "id": "Sitio web",
+      "name": "Sitio web",
+      "cop": 1000000,
+      "price": 320,
+      "eur": 287,
+      "text": "Tu web profesional, lista para que te encuentren y te escriban.",
+      "items": [
+        "Hasta 7 páginas",
+        "Diseño adaptado a tu marca",
+        "Se ve bien en móvil, tablet y computador",
+        "SEO básico desde el inicio",
+        "Formulario de contacto y botón de WhatsApp"
+      ]
+    },
+    {
+      "id": "Tienda online",
+      "name": "Tienda online",
+      "cop": 1500000,
+      "price": 470,
+      "eur": 421,
+      "text": "Para vender tus productos por internet.",
+      "items": [
+        "Catálogo de productos",
+        "Carrito de compras y pago en línea",
+        "Diseño adaptado a tu marca",
+        "Se ve bien en móvil, tablet y computador",
+        "SEO básico desde el inicio"
+      ]
+    }
+  ],
+  "mantenimiento": {
+    "name": "Mantenimiento web",
+    "cop": 80000,
+    "price": 25,
+    "eur": 22,
+    "text": "Cambios de textos e imágenes, copias de seguridad y revisión de que todo funcione."
+  },
+  "otros": [
+    {
+      "title": "Pauta digital",
+      "period": "al mes",
+      "note": "La inversión en anuncios la pagas directamente a Meta o Google y no está incluida.",
+      "plans": [
+        {
+          "id": "Pauta Básica",
+          "name": "Pauta Básica",
+          "cop": 150000,
+          "price": 49,
+          "eur": 44,
+          "unit": "/mes",
+          "items": [
+            "Meta Ads (Instagram y Facebook)",
+            "Hasta 2 campañas",
+            "4 creativos",
+            "Ajustes cada semana",
+            "Reporte mensual"
+          ]
+        },
+        {
+          "id": "Pauta Plus",
+          "name": "Pauta Plus",
+          "cop": 250000,
+          "price": 79,
+          "eur": 71,
+          "unit": "/mes",
+          "items": [
+            "Meta Ads y Google Ads",
+            "Hasta 4 campañas",
+            "8 creativos",
+            "Pruebas A/B de anuncios",
+            "Reporte mensual"
+          ]
+        },
+        {
+          "id": "Pack Redes + Pauta",
+          "name": "Pack Redes + Pauta",
+          "cop": 240000,
+          "price": 75,
+          "eur": 67,
+          "unit": "/mes",
+          "items": [
+            "Plan de redes Básico (12 contenidos)",
+            "Pauta Básica en Meta Ads",
+            "Reporte mensual de redes y pauta",
+            "Más barato que contratarlos por separado"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Diseño gráfico e identidad",
+      "period": "pago único",
+      "plans": [
+        {
+          "id": "Logo",
+          "name": "Logo",
+          "cop": 350000,
+          "price": 110,
+          "eur": 99,
+          "items": [
+            "2 propuestas",
+            "2 rondas de cambios",
+            "Archivos finales en todos los formatos"
+          ]
+        },
+        {
+          "id": "Identidad de marca",
+          "name": "Identidad de marca",
+          "cop": 700000,
+          "price": 220,
+          "eur": 197,
+          "items": [
+            "Logo",
+            "Colores y tipografías",
+            "Manual de marca básico",
+            "5 plantillas para redes"
+          ]
+        },
+        {
+          "id": "Piezas sueltas",
+          "name": "Piezas sueltas",
+          "cop": 25000,
+          "price": 8,
+          "eur": 7,
+          "from": true,
+          "unit": "por pieza",
+          "items": [
+            "Flyer, post o banner"
+          ]
+        },
+        {
+          "id": "Brochure o catálogo",
+          "name": "Brochure o catálogo",
+          "cop": 150000,
+          "price": 47,
+          "eur": 42,
+          "from": true,
+          "items": [
+            "Hasta 6 páginas"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Estrategia digital",
+      "period": "pago único",
+      "plans": [
+        {
+          "id": "Diagnóstico digital",
+          "name": "Diagnóstico digital",
+          "cop": 0,
+          "price": 0,
+          "eur": 0,
+          "free": true,
+          "items": [
+            "Revisión de redes, web y ficha de Google",
+            "Comparación con 3 competidores",
+            "Informe con recomendaciones",
+            "1 reunión para explicarlo"
+          ]
+        },
+        {
+          "id": "Plan estratégico",
+          "name": "Plan estratégico",
+          "cop": 500000,
+          "price": 160,
+          "eur": 143,
+          "items": [
+            "Diagnóstico digital",
+            "Cliente ideal",
+            "Plan de contenidos y canales para 3 meses",
+            "Objetivos medibles",
+            "Presentación de resultados"
+          ]
+        }
+      ]
+    }
+  ]
+}

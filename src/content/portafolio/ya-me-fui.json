@@ -1,0 +1,37 @@
+{
+  "orden": 9,
+  "tag": "Internacional · México",
+  "emoji": "🎓",
+  "name": "Ya Me Fui",
+  "place": "🌎 Cliente internacional · México",
+  "slug": "ya-me-fui",
+  "text": "Sitio web para agencia de estudios en el extranjero: destinos, servicios, blog y agenda de asesorías gratuitas.",
+  "result": "Diseño Web · Contenido",
+  "url": "https://yamefui.com/",
+  "urlLabel": "yamefui.com",
+  "intro": "Agencia que asesora a estudiantes para estudiar en el extranjero: programas académicos, trámites de visa y adaptación cultural.",
+  "did": [
+    "Sitio web con llamado principal a agendar una asesoría educativa gratuita.",
+    "Fichas de destinos por continente: Canadá, Australia, Irlanda, Malta, España y más.",
+    "Secciones de servicios clave (seguro médico, traducción de documentos), equipo, preguntas frecuentes y blog.",
+    "Versión en español e inglés."
+  ],
+  "web": [
+    {
+      "src": "/assets/portafolio/ya-me-fui/web-inicio.webp",
+      "alt": "Inicio del sitio web de Ya Me Fui"
+    },
+    {
+      "src": "/assets/portafolio/ya-me-fui/web-destinos.webp",
+      "alt": "Destinos para estudiar en el extranjero"
+    },
+    {
+      "src": "/assets/portafolio/ya-me-fui/web-servicios.webp",
+      "alt": "Servicios clave: traducción de documentos"
+    }
+  ],
+  "mobile": "/assets/portafolio/ya-me-fui/web-movil.webp",
+  "cats": [
+    "web"
+  ]
+}

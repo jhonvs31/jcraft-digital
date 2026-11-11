@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import './nudges';
+import { WA_NUMBER } from '../lib/url';
 
 gsap.registerPlugin(ScrollTrigger);
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -119,7 +120,7 @@ form?.addEventListener('submit', (e) => {
   const d = new FormData(form);
   const line = (k: string, v: FormDataEntryValue | null) => (v ? `${k}: ${v}\n` : '');
   const msg = `Hola JCraft, quiero una consulta gratuita.\n\n${line('Nombre', d.get('nombre'))}${line('Negocio', d.get('empresa'))}${line('Correo', d.get('correo'))}${line('Teléfono', d.get('telefono'))}${line('Servicio', d.get('servicio'))}${line('Presupuesto', d.get('presupuesto'))}\n${d.get('mensaje') ?? ''}`;
-  window.open(`https://wa.me/573008113078?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
   const ok = document.querySelector<HTMLElement>('[data-form-ok]');
   if (ok) ok.hidden = false;
 });

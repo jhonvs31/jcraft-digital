@@ -45,7 +45,7 @@ const chips = (r: string) => r.split('·').map((x) => x.trim()).filter(Boolean);
       </div>
       <div id="proyectos" class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-stagger>
         {portfolio.map((p) => {
-          const cover = p.web?.[0]?.src ?? p.posts?.[0]?.src;
+          const cover = p.web?.[0]?.src ?? p.posts?.[0]?.src ?? p.mobile ?? 'assets/logo-color.png';
           return (
             <article data-cat={p.cat} data-reveal data-case-card={p.slug} class="card-paper case-card group relative flex flex-col overflow-hidden">
               <div class="relative h-56 overflow-hidden bg-navy">

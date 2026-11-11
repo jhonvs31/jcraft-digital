@@ -1,0 +1,60 @@
+{
+  "orden": 1,
+  "tag": "Full Digital",
+  "emoji": "✈️",
+  "name": "Pasaporte al Mundo Turismo",
+  "place": "📍 Cliente nacional · Cali",
+  "slug": "pasaporte-al-mundo",
+  "text": "Gestión 360° para agencia de viajes con 30 años en Cali: sitio web nuevo, estrategia SEO con blog, redes sociales con reels y piezas para campañas.",
+  "short": "Gestión 360° para agencia de viajes: redes sociales, diseño gráfico, Meta Ads, sitio web con estrategia SEO.",
+  "result": "Web · SEO · Redes · Diseño · Meta Ads",
+  "home": true,
+  "url": "https://pasaportealmundo.co/",
+  "urlLabel": "pasaportealmundo.co",
+  "ig": "https://www.instagram.com/pasaportealmundo_turismo/",
+  "intro": "Agencia de viajes de Cali que desde 1996 ayuda a sus clientes con visas, paquetes turísticos y seguros de viaje.",
+  "did": [
+    "Sitio web nuevo con formulario de asesoría y WhatsApp, y secciones de visas, paquetes, seguros y blog.",
+    "Estrategia SEO: auditoría del sitio y calendario de 36 artículos para el blog, de mayo a octubre de 2026.",
+    "Parrilla mensual de 20 piezas para Instagram, Facebook y TikTok: posts, carruseles, reels y stories.",
+    "Reels con motion graphics, como la serie que explica el trámite de la visa de Estados Unidos.",
+    "Piezas para campañas de paquetes y promociones, y pauta en Meta Ads."
+  ],
+  "web": [
+    {
+      "src": "/assets/portafolio/pasaporte-al-mundo/web-inicio.webp",
+      "alt": "Inicio del sitio web de Pasaporte al Mundo con formulario de asesoría"
+    },
+    {
+      "src": "/assets/portafolio/pasaporte-al-mundo/web-visas.webp",
+      "alt": "Sección del proceso de visa en 4 pasos"
+    },
+    {
+      "src": "/assets/portafolio/pasaporte-al-mundo/web-paquetes.webp",
+      "alt": "Sección de paquetes turísticos y asistencia"
+    }
+  ],
+  "mobile": "/assets/portafolio/pasaporte-al-mundo/web-movil.webp",
+  "posts": [
+    {
+      "src": "/assets/portafolio/pasaporte-al-mundo/post-30-anos.webp",
+      "alt": "Post 30 años de confianza"
+    },
+    {
+      "src": "/assets/portafolio/pasaporte-al-mundo/post-espana.webp",
+      "alt": "Post de paquete a España"
+    },
+    {
+      "src": "/assets/portafolio/pasaporte-al-mundo/post-aruba.webp",
+      "alt": "Post de paquete a Aruba"
+    },
+    {
+      "src": "/assets/portafolio/pasaporte-al-mundo/post-agendate.webp",
+      "alt": "Post Agéndate ya"
+    }
+  ],
+  "cats": [
+    "redes",
+    "web"
+  ]
+}

@@ -3,8 +3,12 @@
 // Uso: node scripts/blog-portadas.mjs            → solo las que faltan
 //      node scripts/blog-portadas.mjs --todas    → regenera todas
 //      node scripts/blog-portadas.mjs <slug>     → solo ese artículo
+//      node scripts/blog-portadas.mjs --categorias → portadas genéricas por categoría (se usan mientras se genera la del artículo)
+// Los artículos se leen de src/content/blog/*.md (los que se crean desde el panel /admin).
+// En GitHub, la acción «Portadas del blog» corre este script sola cuando se publica un artículo nuevo.
 // Necesita Playwright con Chromium (npx playwright install chromium) y sharp (ya viene con Astro).
-import { readFileSync, existsSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import YAML from 'yaml';
 import os from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
@@ -12,11 +16,20 @@ import sharp from 'sharp';
 import { chromium } from 'playwright';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const posts = JSON.parse(readFileSync(path.join(root, 'src/data/posts.json'), 'utf8'));
+const NOMBRES = { seo: 'SEO', redes: 'Redes Sociales', web: 'Diseño Web', pauta: 'Pauta Digital', marca: 'Marca', estrategia: 'Estrategia' };
+const EMOJIS = { seo: '🔎', redes: '📱', web: '🌐', pauta: '📣', marca: '🎨', estrategia: '🧭' };
+const dir = path.join(root, 'src/content/blog');
+const posts = readdirSync(dir).filter((f) => f.endsWith('.md')).map((f) => {
+  const fm = YAML.parse(readFileSync(path.join(dir, f), 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '') ?? {};
+  const category = fm.category ?? 'estrategia';
+  return { slug: f.replace(/\.md$/, ''), title: String(fm.title ?? ''), category, categoryName: NOMBRES[category] ?? category, emoji: fm.emoji ?? EMOJIS[category] ?? '📝', draft: fm.draft === true };
+}).filter((p) => p.title && !p.draft);
 const out = path.join(root, 'public/assets/blog');
 mkdirSync(path.join(out, 'og'), { recursive: true });
 const arg = process.argv[2];
-const list = posts.filter((p) => (arg && arg !== '--todas' ? p.slug === arg : arg === '--todas' || !existsSync(path.join(out, `${p.slug}.webp`))));
+const cats = Object.keys(NOMBRES).map((c) => ({ slug: `categoria/${c}`, title: `${NOMBRES[c]}: Blog de JCraft Digital`, category: c, categoryName: NOMBRES[c], emoji: EMOJIS[c] }));
+mkdirSync(path.join(out, 'categoria'), { recursive: true }); mkdirSync(path.join(out, 'og/categoria'), { recursive: true });
+const list = arg === '--categorias' ? cats : posts.filter((p) => (arg && arg !== '--todas' ? p.slug === arg : arg === '--todas' || !existsSync(path.join(out, `${p.slug}.webp`))));
 if (!list.length) { console.log('No hay portadas pendientes.'); process.exit(0); }
 
 const f = (p) => pathToFileURL(path.join(root, p)).href;
@@ -74,7 +87,7 @@ for (const p of list) {
   for (const [w, h, file, fmt] of [[1600, 900, `${p.slug}.webp`, 'webp'], [1200, 630, `og/${p.slug}.jpg`, 'jpeg']]) {
     await page.setViewportSize({ width: w, height: h });
     // Se abre como archivo local para que carguen las fuentes y el logo
-    const tmp = path.join(os.tmpdir(), `portada-${p.slug}-${w}.html`);
+    const tmp = path.join(os.tmpdir(), `portada-${p.slug.replace(/\//g, "-")}-${w}.html`);
     writeFileSync(tmp, html(p, w, h));
     await page.goto(pathToFileURL(tmp).href, { waitUntil: 'load' });
     rmSync(tmp);

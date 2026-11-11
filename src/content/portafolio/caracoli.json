@@ -1,0 +1,40 @@
+{
+  "orden": 2,
+  "tag": "Redes Sociales",
+  "emoji": "🧁",
+  "name": "Caracolí Pastelería",
+  "place": "📍 Cliente nacional · Cali",
+  "slug": "caracoli",
+  "text": "Gestión integral de redes sociales para pastelería en Cali. Desarrollamos la estrategia de contenido, producción creativa, edición de videos y fotografía profesional para posicionar la marca digitalmente.",
+  "short": "Gestión integral de redes sociales para pastelería en Cali. Estrategia de contenido, producción creativa, edición de videos y fotografía profesional.",
+  "result": "Estrategia · Contenido · Redes · Foto & Video",
+  "home": true,
+  "intro": "Pastelería de Cali con tortas, cupcakes y mesas dulces para celebraciones familiares y eventos empresariales.",
+  "did": [
+    "Estrategia de contenido para Instagram con su identidad: rosado, flores ilustradas y tipografía a mano.",
+    "Sesiones de fotografía de producto y con personas, en exteriores.",
+    "Carruseles para mostrar los productos y la línea de pastelería para eventos empresariales.",
+    "Contenido para fechas especiales, como el Día de la Madre."
+  ],
+  "posts": [
+    {
+      "src": "/assets/portafolio/caracoli/post-dulce-legado.webp",
+      "alt": "Carrusel Dulce legado, nuestros productos"
+    },
+    {
+      "src": "/assets/portafolio/caracoli/post-conoce.webp",
+      "alt": "Carrusel Conoce algunos de nuestros productos"
+    },
+    {
+      "src": "/assets/portafolio/caracoli/post-eventos.webp",
+      "alt": "Post de pastelería para eventos empresariales"
+    },
+    {
+      "src": "/assets/portafolio/caracoli/post-dia-madre.webp",
+      "alt": "Carrusel del Día de la Madre"
+    }
+  ],
+  "cats": [
+    "redes"
+  ]
+}
