@@ -1,17 +1,19 @@
 ---
 // Diagnóstico digital gratis: formulario corto en 4 pasos (ventana blanca) + aviso discreto flotante.
-// Las respuestas se guardan en Supabase (tabla diagnosticos: el público solo puede enviar, nunca leer)
-// y JCraft prepara la vista previa del diagnóstico y la envía por WhatsApp o correo.
+// Al final la persona deja su WhatsApp o correo y ve sus resultados al instante: la función «diagnostico» de Supabase
+// revisa su página web, calcula el puntaje con los criterios de los diagnósticos de JCraft y lo guarda en la tabla diagnosticos.
 import { u } from '../lib/url';
 const rubros = ['Comida y bebidas', 'Tienda o productos', 'Belleza y bienestar', 'Salud', 'Servicios profesionales', 'Educación', 'Turismo', 'Construcción o inmobiliaria', 'Otro'];
 const objetivos = ['Más clientes por WhatsApp', 'Vender en línea', 'Aparecer en Google', 'Más seguidores', 'Verme más profesional', 'Ordenar mis redes'];
 const maneja = ['Yo mismo', 'Alguien de mi equipo', 'Una agencia o freelance', 'Nadie por ahora'];
+const frecuencia = ['Casi nunca', '1 vez por semana', '2 o 3 veces por semana', 'Casi todos los días'];
+const marca = ['Sí, todo definido', 'Solo el logo', 'No tengo'];
 ---
 <!-- Aviso flotante: aparece a los pocos segundos; al cerrarlo queda solo la cápsula pequeña -->
 <div class="dg-teaser" data-dg-teaser hidden>
   <button type="button" class="dg-card" data-diag-open aria-label="Pedir mi diagnóstico digital gratis">
     <span class="dg-card-ic" aria-hidden="true">🔎</span>
-    <span class="dg-card-txt"><b>Diagnóstico digital gratis</b><span>Revisamos tu web y tus redes. Te toma 2 minutos.</span></span>
+    <span class="dg-card-txt"><b>Diagnóstico digital gratis</b><span>Descubre tu puntaje en 2 minutos, con resultados al instante.</span></span>
     <span class="dg-card-go" aria-hidden="true">→</span>
   </button>
   <button type="button" class="dg-x" data-dg-dismiss aria-label="Ocultar aviso">✕</button>
@@ -53,28 +55,48 @@ const maneja = ['Yo mismo', 'Alguien de mi equipo', 'Una agencia o freelance', '
       <div class="dg-field"><span id="dg-obj">Elige lo que más te importa *</span>
         <div class="dg-chips" aria-labelledby="dg-obj">{objetivos.map((r) => <label class="dg-chip"><input type="checkbox" name="objetivos" value={r} /><span>{r}</span></label>)}</div>
       </div>
-      <div class="dg-field"><span id="dg-man">¿Quién maneja tus redes hoy?</span>
+      <div class="dg-field"><span id="dg-frec">¿Cada cuánto publicas en redes? *</span>
+        <div class="dg-chips" role="radiogroup" aria-labelledby="dg-frec">{frecuencia.map((r) => <label class="dg-chip"><input type="radio" name="frecuencia" value={r} /><span>{r}</span></label>)}</div>
+      </div>
+      <div class="dg-field"><span id="dg-man">¿Quién maneja tus redes hoy? *</span>
         <div class="dg-chips" role="radiogroup" aria-labelledby="dg-man">{maneja.map((r) => <label class="dg-chip"><input type="radio" name="quien_maneja" value={r} /><span>{r}</span></label>)}</div>
       </div>
-      <label class="dg-field"><span>¿Algo en especial que quieras que revisemos?</span><textarea name="problema" maxlength="600" rows="3" placeholder="Ej: publico seguido pero no me escriben"></textarea></label>
+      <div class="dg-field"><span id="dg-marca">¿Tu marca tiene logo, colores y tipografías definidos? *</span>
+        <div class="dg-chips" role="radiogroup" aria-labelledby="dg-marca">{marca.map((r) => <label class="dg-chip"><input type="radio" name="marca" value={r} /><span>{r}</span></label>)}</div>
+      </div>
     </fieldset>
 
     <fieldset class="dg-step" data-dg-step="4" hidden>
-      <legend class="dg-legend">¿A dónde te enviamos los resultados?</legend>
+      <legend class="dg-legend">Tus resultados están listos</legend>
+      <p class="dg-note">Déjanos tu WhatsApp o tu correo para verlos. Ahí también te enviamos el diagnóstico completo si lo pides.</p>
       <label class="dg-field"><span>Tu nombre *</span><input name="nombre" required maxlength="80" autocomplete="name" placeholder="Ej: Laura" /></label>
       <label class="dg-field"><span>WhatsApp</span><input name="whatsapp" maxlength="30" inputmode="tel" autocomplete="tel" placeholder="Ej: 300 123 4567" /></label>
       <label class="dg-field"><span>Correo</span><input name="email" type="email" maxlength="160" autocomplete="email" placeholder="tu@correo.com" /></label>
-      <p class="dg-note">Déjanos al menos uno de los dos.</p>
-      <label class="dg-check"><input type="checkbox" name="acepta_datos" required /><span>Acepto que JCraft Digital use estos datos para preparar mi diagnóstico y contactarme, según la <a href={u('privacidad.html')} target="_blank">política de privacidad</a>.</span></label>
+            <label class="dg-check"><input type="checkbox" name="acepta_datos" required /><span>Acepto que JCraft Digital use estos datos para mi diagnóstico y para contactarme, según la <a href={u('privacidad.html')} target="_blank">política de privacidad</a>.</span></label>
       <input class="dg-hp" name="sitio" tabindex="-1" autocomplete="off" aria-hidden="true" />
     </fieldset>
 
     <div class="dg-done" data-dg-done hidden tabindex="-1">
-      <div class="dg-done-ic" aria-hidden="true">✓</div>
-      <h3 class="dg-h">¡Listo, <span data-dg-name></span>!</h3>
-      <p>Recibimos tus datos. Vamos a revisar tu web y tus redes y te enviamos tu diagnóstico por <span data-dg-via>WhatsApp</span>.</p>
-      <ul class="dg-list"><li>Una calificación de tu presencia digital</li><li>Lo que estás haciendo bien</li><li>3 mejoras prioritarias para empezar</li></ul>
-      <button type="button" class="dg-btn" data-dg-close>Seguir navegando</button>
+      <p class="dg-eyebrow">Tu diagnóstico digital</p>
+      <h3 class="dg-h"><span data-dg-name></span>, así está <span data-dg-biz></span> en digital</h3>
+      <div class="dg-score">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="dg-ring-bg" /><circle cx="60" cy="60" r="52" class="dg-ring" data-dg-ring /></svg>
+        <div class="dg-score-n"><b data-dg-score>0</b><span>de 100</span></div>
+      </div>
+      <p class="dg-level" data-dg-level></p>
+      <div class="dg-bars" data-dg-bars></div>
+      <div class="dg-cols">
+        <div><h4 class="dg-sub">✅ Lo que haces bien</h4><ul class="dg-good" data-dg-good></ul></div>
+        <div><h4 class="dg-sub">🚀 3 mejoras prioritarias</h4><ol class="dg-fix" data-dg-fix></ol></div>
+      </div>
+      <div class="dg-webinfo" data-dg-web hidden></div>
+      <div class="dg-cta">
+        <p class="dg-cta-t">¿Quieres el diagnóstico completo?</p>
+        <p class="dg-cta-p">Comparamos tu negocio con 3 competidores y te explicamos el plan en una reunión. Es gratis.</p>
+        <a class="dg-btn" data-dg-wa href="#" target="_blank" rel="noopener">Pedir el diagnóstico completo por WhatsApp</a>
+      </div>
+      <p class="dg-fine">Guardamos este resultado. Puedes volver a verlo desde el botón «Mi diagnóstico».</p>
+      <div class="dg-done-actions"><button type="button" class="dg-back" data-dg-again>Hacer otro diagnóstico</button><button type="button" class="dg-back" data-dg-close>Cerrar</button></div>
     </div>
 
     <p class="dg-error" data-dg-error role="alert" hidden></p>
