@@ -1,0 +1,47 @@
+# Portadas del blog: cuando se publica o cambia un artículo (desde el panel /admin o con push),
+# genera la portada con el diseño de JCraft si todavía no existe y la sube al repositorio.
+name: Portadas del blog
+
+on:
+  push:
+    branches: [main]
+    paths: ['src/content/blog/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: portadas-blog
+  cancel-in-progress: false
+
+jobs:
+  portadas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Instalar dependencias
+        run: |
+          npm ci
+          npm install --no-save playwright@1.64.1
+          npx playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-color-emoji
+      - name: Generar portadas que falten
+        run: node scripts/blog-portadas.mjs
+      - name: Subir portadas nuevas
+        run: |
+          git add public/assets/blog
+          if git diff --cached --quiet; then
+            echo "No hay portadas nuevas."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Blog: portadas generadas automáticamente"
+          git pull --rebase origin main
+          git push origin HEAD:main
