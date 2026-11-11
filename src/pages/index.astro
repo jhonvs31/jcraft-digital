@@ -27,6 +27,7 @@ const latest = posts.filter((p) => !p.featured).slice(0, 3);
           <a href={u('contacto.html')} class="btn btn-primary" data-magnetic>Hablemos de tu proyecto <span aria-hidden="true">→</span></a>
           <a href={u('portafolio.html')} class="btn btn-ghost" data-magnetic>Ver portafolio</a>
         </div>
+        <a href={u('test.html')} data-quiz-open class="hero-in qz-hero-link group mt-6" style="--d:540ms"><span class="qz-hero-dot" aria-hidden="true">🧪</span><span><b>¿No sabes qué necesitas?</b> Haz el test gratis en 60 segundos</span><span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span></a>
         {claims.show && (
           <dl class="hero-in mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-white/10 pt-8" style="--d:600ms">
             {claims.stats.map((s) => (
@@ -90,7 +91,7 @@ const latest = posts.filter((p) => !p.featured).slice(0, 3);
           </article>
         ))}
       </div>
-      <div class="mt-12" data-reveal><a href={u('servicios.html')} class="btn btn-primary" data-magnetic>Ver todos los servicios →</a></div>
+      <div class="mt-12 flex flex-wrap gap-4" data-reveal><a href={u('servicios.html')} class="btn btn-primary" data-magnetic>Ver todos los servicios →</a><a href={u('test.html')} data-quiz-open class="btn btn-ghost" data-magnetic>🧪 Haz el test: ¿qué necesito?</a></div>
     </div>
   </section>
 
