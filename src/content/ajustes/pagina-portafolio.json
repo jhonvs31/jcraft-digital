@@ -1,0 +1,19 @@
+{
+  "proceso": [
+    {
+      "icon": "🔍",
+      "title": "Descubrimiento",
+      "text": "Entendemos tu negocio, tu audiencia y tus objetivos antes de proponer cualquier solución."
+    },
+    {
+      "icon": "✏️",
+      "title": "Diseño y Estrategia",
+      "text": "Creamos la solución personalizada y la presentamos para tu aprobación antes de ejecutar."
+    },
+    {
+      "icon": "🚀",
+      "title": "Entrega y Seguimiento",
+      "text": "Lanzamos, medimos resultados y optimizamos continuamente para maximizar el impacto."
+    }
+  ]
+}

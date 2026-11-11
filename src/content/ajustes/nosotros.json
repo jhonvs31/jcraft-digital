@@ -1,0 +1,82 @@
+{
+  "equipo": [
+    {
+      "img": "/assets/jhon.jpg",
+      "name": "Jhon Vega",
+      "role": "Co-Fundador · Web, Paid Media & Diseño",
+      "text": "Especialista en creación de sitios web, pauta digital (Google & Meta Ads) y diseño gráfico. Transforma la visión de cada cliente en soluciones digitales que generan resultados reales."
+    },
+    {
+      "img": "/assets/catalina.jpg",
+      "name": "Catalina Escobar",
+      "role": "Co-Fundadora · Diseño Gráfico & Redes Sociales",
+      "text": "Especialista en diseño gráfico y gestión de redes sociales. Crea contenido visual que conecta con las audiencias y construye comunidades auténticas alrededor de cada marca."
+    }
+  ],
+  "valores": [
+    {
+      "icon": "🎨",
+      "title": "Creatividad",
+      "text": "Cada solución es diseñada a medida, sin plantillas genéricas."
+    },
+    {
+      "icon": "🤝",
+      "title": "Confianza",
+      "text": "Trabajamos con transparencia y comunicación constante."
+    },
+    {
+      "icon": "📊",
+      "title": "Resultados",
+      "text": "Cada acción tiene un objetivo medible. Sin excusas."
+    },
+    {
+      "icon": "❤️",
+      "title": "Pasión",
+      "text": "Amamos lo que hacemos y se nota en cada proyecto."
+    },
+    {
+      "icon": "🚀",
+      "title": "Crecimiento",
+      "text": "Aprendemos y evolucionamos junto a nuestros clientes."
+    }
+  ],
+  "historia": [
+    {
+      "year": "2023",
+      "title": "El origen",
+      "text": "Jhon y Catalina, dos esposos con habilidades complementarias, deciden unir fuerzas. La idea de JCraft Digital nace de una conversación de pareja: \"¿Por qué las pymes no tienen acceso a marketing digital de calidad?\""
+    },
+    {
+      "year": "2024",
+      "title": "Primeros clientes",
+      "text": "Comenzamos con los primeros proyectos: diseño web para un restaurante local y gestión de redes para una boutique. Los resultados superaron expectativas y la recomendación de boca en boca comenzó a funcionar."
+    },
+    {
+      "year": "2025",
+      "title": "JCraft Digital oficial",
+      "text": "Lanzamos JCraft Digital como agencia formal, con identidad de marca propia, portafolio de servicios completo y clientes en Colombia, México y Estados Unidos. El viaje apenas comienza."
+    },
+    {
+      "year": "→",
+      "title": "Lo que viene",
+      "text": "Seguimos creciendo, aprendiendo y mejorando. Nuestro objetivo es claro: ser la agencia de referencia para pymes que quieren crecer en el mundo digital."
+    }
+  ],
+  "diferencia": [
+    {
+      "icon": "👤",
+      "title": "Para el cliente",
+      "text": "Crecimiento digital real, presencia profesional y tranquilidad de tener un equipo que entiende su negocio."
+    },
+    {
+      "icon": "⭐",
+      "title": "Diferenciador",
+      "text": "Dos especialistas (diseño + tecnología) trabajando juntos en cada proyecto. Un equipo completo en una sola propuesta."
+    },
+    {
+      "icon": "🎯",
+      "title": "Nuestra promesa",
+      "text": "Soluciones digitales que se ven bien, funcionan bien y dan resultados. Sin complicaciones, con impacto real."
+    }
+  ]
+}

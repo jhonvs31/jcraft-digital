@@ -1,4 +1,5 @@
 ---
+import { seo } from '../data/site';
 import Base from '../layouts/Base.astro';
 import Title from '../components/Title.astro';
 import Cta from '../components/Cta.astro';
@@ -12,7 +13,7 @@ const cards = [...services.slice(0, 4), contentService, services[4]];
 const featured = portfolio.filter((p) => p.home);
 const latest = posts.filter((p) => !p.featured).slice(0, 3);
 ---
-<Base title="JCraft Digital | Agencia de Marketing Digital" description="Diseño web, redes sociales y pauta digital para pymes. Hacemos crecer tu negocio en internet.">
+<Base title={seo.index.titulo} description={seo.index.descripcion}>
   <!-- HERO -->
   <section class="grain relative min-h-[100svh] overflow-hidden bg-deep pt-36 pb-20 sm:pt-44">
     <div class="gridlines absolute inset-0"></div>

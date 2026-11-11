@@ -1,5 +1,5 @@
 ---
-import { nav, contact } from '../data/site';
+import { nav, contact, aviso } from '../data/site';
 import { u, wa } from '../lib/url';
 import Logo from './Logo.astro';
 const { current } = Astro.props as { current: string };
@@ -7,6 +7,13 @@ const isActive = (href: string) => current === href || (href === 'blog.html' && 
 const mobile = [...nav, { href: 'contacto.html', label: 'Contacto' }];
 ---
 <header data-header class="hdr">
+  {aviso.activo && aviso.texto && (
+    // Franja de aviso o promoción: se prende y se apaga desde el panel (Ajustes → Aviso en la web). Se oculta al bajar.
+    <a href={/^https?:/.test(aviso.enlace) ? aviso.enlace : u(aviso.enlace || 'index.html')} class="hdr-promo" data-aviso
+      target={/^https?:/.test(aviso.enlace) ? '_blank' : undefined} rel={/^https?:/.test(aviso.enlace) ? 'noopener' : undefined}>
+      <span class="hdr-promo-dot" aria-hidden="true"></span><span class="hdr-promo-text">{aviso.texto}</span>{aviso.boton && <b>{aviso.boton} <span aria-hidden="true">→</span></b>}
+    </a>
+  )}
   <div class="wrap">
     <div class="hdr-bar" data-header-inner>
       <a href={u('index.html')} class="relative z-10 shrink-0" aria-label="JCraft Digital, inicio">

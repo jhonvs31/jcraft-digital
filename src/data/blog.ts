@@ -18,6 +18,10 @@ export type Post = {
 const iso = (v: unknown) => (v instanceof Date ? v.toISOString().slice(0, 10) : String(v ?? '').slice(0, 10));
 const pub = (f: string) => existsSync(join(process.cwd(), 'public', f));
 
+// Fecha de hoy en Colombia: los artículos con fecha futura quedan programados y se publican ese día
+// (la acción «Publicar artículos programados» vuelve a publicar la web cada madrugada que hay uno).
+export const hoy = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Bogota' }).format(new Date());
+
 const files = import.meta.glob('../content/blog/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 
 export const posts: Post[] = Object.entries(files).map(([path, raw]) => {
@@ -40,7 +44,7 @@ export const posts: Post[] = Object.entries(files).map(([path, raw]) => {
     category, categoryName: categories[category] ?? category, emoji: String(fm.emoji ?? '📝'), featured: fm.featured === true,
     readTime: fm.readTime ? String(fm.readTime) : `${Math.max(1, Math.round(words / 200))} min`, body, cover, og, draft: fm.draft === true,
   };
-}).filter((p) => p.iso && !p.draft).sort((a, b) => b.iso.localeCompare(a.iso));
+}).filter((p) => p.iso && !p.draft && p.iso <= hoy).sort((a, b) => b.iso.localeCompare(a.iso));
 
 // Un solo destacado: el primero marcado (el más reciente) o, si no hay ninguno, el más reciente.
 const top = posts.find((p) => p.featured) ?? posts[0];

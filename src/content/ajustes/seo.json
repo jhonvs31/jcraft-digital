@@ -1,0 +1,38 @@
+{
+  "index": {
+    "titulo": "JCraft Digital | Agencia de Marketing Digital",
+    "descripcion": "Diseño web, redes sociales y pauta digital para pymes. Hacemos crecer tu negocio en internet."
+  },
+  "servicios": {
+    "titulo": "Servicios | JCraft Digital",
+    "descripcion": "Redes sociales, diseño web, pauta digital en Google y Meta, diseño gráfico y estrategia digital para pymes."
+  },
+  "portafolio": {
+    "titulo": "Portafolio | JCraft Digital",
+    "descripcion": "Proyectos reales de redes sociales, diseño web, SEO y pauta digital para marcas de Colombia, México y Estados Unidos."
+  },
+  "nosotros": {
+    "titulo": "Nosotros | JCraft Digital",
+    "descripcion": "Jhon Vega y Catalina Escobar: diseño, tecnología y marketing en el mismo equipo para hacer crecer pymes en digital."
+  },
+  "blog": {
+    "titulo": "Blog de marketing digital para pymes | JCraft Digital",
+    "descripcion": "Tips, tendencias y estrategias de marketing digital para pymes, sin tecnicismos."
+  },
+  "contacto": {
+    "titulo": "Contacto | JCraft Digital",
+    "descripcion": "Primera consulta gratuita, sin compromiso. Escríbenos por WhatsApp, correo o Instagram y te respondemos en menos de 24 horas."
+  },
+  "test": {
+    "titulo": "Test: ¿qué necesita tu negocio en digital? | JCraft Digital",
+    "descripcion": "Responde 7 preguntas en 60 segundos y descubre si tu negocio necesita redes sociales, página web, pauta, marca o estrategia, con el plan y el precio que más te conviene."
+  },
+  "privacidad": {
+    "titulo": "Política de privacidad | JCraft Digital",
+    "descripcion": "Cómo JCraft Digital recoge, usa y protege tus datos personales, qué cookies usamos y cómo ejercer tus derechos según la Ley 1581 de 2012."
+  },
+  "links": {
+    "titulo": "Enlaces | JCraft Digital",
+    "descripcion": "Todos los enlaces de JCraft Digital: consulta gratuita por WhatsApp, servicios, portafolio, blog y contacto."
+  }
+}

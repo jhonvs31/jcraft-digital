@@ -1,0 +1,70 @@
+{
+  "titulo": "Hacemos que tu negocio *se vea*",
+  "subtitulo": "Diseño, marketing y tecnología para pymes · Colombia y LATAM",
+  "enlaces": [
+    {
+      "tipo": "whatsapp",
+      "icono": "💬",
+      "titulo": "Consulta gratuita por WhatsApp",
+      "subtitulo": "Respuesta en horario laboral",
+      "valor": "Hola JCraft! Vengo de Instagram y quiero una consulta gratuita.",
+      "destacado": true
+    },
+    {
+      "tipo": "test",
+      "icono": "🧪",
+      "titulo": "Test: ¿qué necesita tu negocio?",
+      "subtitulo": "7 preguntas · resultado al instante",
+      "valor": "",
+      "destacado": false
+    },
+    {
+      "tipo": "pagina",
+      "icono": "🧭",
+      "titulo": "Nuestros servicios",
+      "subtitulo": "Redes · Web · Pauta · Diseño · Estrategia",
+      "valor": "/servicios",
+      "destacado": false
+    },
+    {
+      "tipo": "pagina",
+      "icono": "🗂️",
+      "titulo": "Portafolio",
+      "subtitulo": "Proyectos en Colombia, México y EE. UU.",
+      "valor": "/portafolio",
+      "destacado": false
+    },
+    {
+      "tipo": "ultimo-articulo",
+      "icono": "",
+      "titulo": "Nuevo en el blog",
+      "subtitulo": "",
+      "valor": "",
+      "destacado": false
+    },
+    {
+      "tipo": "pagina",
+      "icono": "📚",
+      "titulo": "Blog: tips para pymes",
+      "subtitulo": "Marketing digital sin tecnicismos",
+      "valor": "/blog",
+      "destacado": false
+    },
+    {
+      "tipo": "pagina",
+      "icono": "✍️",
+      "titulo": "Cuéntanos tu proyecto",
+      "subtitulo": "Formulario de contacto",
+      "valor": "/contacto",
+      "destacado": false
+    },
+    {
+      "tipo": "correo",
+      "icono": "📧",
+      "titulo": "Escríbenos un correo",
+      "subtitulo": "",
+      "valor": "",
+      "destacado": false
+    }
+  ]
+}

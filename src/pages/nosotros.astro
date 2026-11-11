@@ -1,4 +1,5 @@
 ---
+import { seo } from '../data/site';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Title from '../components/Title.astro';
@@ -10,7 +11,7 @@ import jhon from '../assets/img/jhon.jpg';
 import cata from '../assets/img/catalina.jpg';
 const photos: Record<string, ImageMetadata> = { 'assets/jhon.jpg': jhon, 'assets/catalina.jpg': cata };
 ---
-<Base title="Nosotros | JCraft Digital" description="Jhon Vega y Catalina Escobar: diseño, tecnología y marketing en el mismo equipo para hacer crecer pymes en digital." page="nosotros.html" crumbs={[{ name: 'Nosotros', page: 'nosotros.html' }]}>
+<Base title={seo.nosotros.titulo} description={seo.nosotros.descripcion} page="nosotros.html" crumbs={[{ name: 'Nosotros', page: 'nosotros.html' }]}>
   <PageHero crumb="Nosotros" title="Sobre *JCraft Digital*" text="Dos emprendedores apasionados por el diseño y la tecnología, unidos por un propósito: hacer crecer tu negocio en digital." />
 
   <section class="bg-deep pb-28 sm:pb-36">

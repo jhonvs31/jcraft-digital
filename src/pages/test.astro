@@ -1,9 +1,10 @@
 ---
+import { seo } from '../data/site';
 // Test interactivo: 7 preguntas → recomendación de servicio y plan con los precios publicados en Servicios.
 import Base from '../layouts/Base.astro';
 import QuizBody from '../components/QuizBody.astro';
 ---
-<Base title="Test: ¿qué necesita tu negocio en digital? | JCraft Digital" description="Responde 7 preguntas en 60 segundos y descubre si tu negocio necesita redes sociales, página web, pauta, marca o estrategia, con el plan y el precio que más te conviene." page="test.html" crumbs={[{ name: 'Test', page: 'test.html' }]}>
+<Base title={seo.test.titulo} description={seo.test.descripcion} page="test.html" crumbs={[{ name: 'Test', page: 'test.html' }]}>
   <section class="qz grain" data-quiz>
     <QuizBody />
   </section>

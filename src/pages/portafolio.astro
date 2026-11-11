@@ -1,4 +1,5 @@
 ---
+import { seo } from '../data/site';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Title from '../components/Title.astro';
@@ -8,7 +9,7 @@ import { u, wa } from '../lib/url';
 
 const chips = (r: string) => r.split('·').map((x) => x.trim()).filter(Boolean);
 ---
-<Base title="Portafolio | JCraft Digital" description="Proyectos reales de redes sociales, diseño web, SEO y pauta digital para marcas de Colombia, México y Estados Unidos." page="portafolio.html" crumbs={[{ name: 'Portafolio', page: 'portafolio.html' }]}>
+<Base title={seo.portafolio.titulo} description={seo.portafolio.descripcion} page="portafolio.html" crumbs={[{ name: 'Portafolio', page: 'portafolio.html' }]}>
   <PageHero crumb="Portafolio" title="Nuestro *portafolio*" text="Proyectos reales, resultados reales. Toca cada empresa para ver qué hicimos." />
 
   {claims.show && (

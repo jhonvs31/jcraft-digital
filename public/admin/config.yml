@@ -6,7 +6,11 @@ backend:
   name: github
   repo: jhonvs31/jcraft-digital
   branch: main
-  auth_methods: [token]
+  # Dos formas de entrar: botón «Iniciar sesión con GitHub» (funciones en /api) o pegando un token.
+  auth_methods: [oauth, token]
+  base_url: https://jcraft-digital.com
+  auth_endpoint: api/auth
+  auth_scope: public_repo
   commit_messages:
     create: 'Panel: crea «{{slug}}» en {{collection}}'
     update: 'Panel: actualiza «{{slug}}» en {{collection}}'
@@ -68,7 +72,7 @@ collections:
     public_folder: /assets/blog/subidas
     fields:
       - { name: title, label: Título, widget: string, hint: 'Si usas «:», lo que va después sale como subtítulo en la portada. Ej.: «SEO local: cómo aparecer en Google Maps».' }
-      - { name: iso, label: Fecha de publicación, widget: datetime, type: date, format: YYYY-MM-DD }
+      - { name: iso, label: Fecha de publicación, widget: datetime, type: date, format: YYYY-MM-DD, hint: 'Si pones una fecha futura, el artículo queda programado y se publica solo ese día (a la medianoche, hora de Colombia).' }
       - name: category
         label: Categoría
         widget: select
@@ -158,32 +162,91 @@ collections:
           - { name: src, label: Imagen, widget: image }
           - { name: alt, label: Descripción de la imagen, widget: string }
 
-  # ───────────────────────────── AJUSTES
-  - name: ajustes
-    label: Ajustes de la web
-    label_singular: Ajuste
-    icon: settings
+  # ───────────────────────────── PÁGINAS
+  - name: paginas
+    label: Páginas
+    label_singular: Página
+    icon: web
+    description: 'Textos de cada página de la web.'
     files:
-      - name: contacto
-        label: Contacto
-        icon: call
-        file: src/content/ajustes/contacto.json
-        fields:
-          - { name: phone, label: Teléfono y WhatsApp, widget: string, hint: 'Con indicativo: +57 300 000 0000. Todos los botones de WhatsApp de la web usan este número.' }
-          - { name: email, label: Correo, widget: string, type: email }
-          - { name: instagram, label: Instagram, widget: string, type: url }
-          - { name: web, label: Dominio (pie de página), widget: string }
-          - { name: location, label: Ubicación, widget: string }
-          - { name: hours, label: Horario, label_singular: línea, widget: list, field: { name: line, label: Línea, widget: string } }
-
       - name: inicio
         label: Inicio (portada)
         icon: home
         file: src/content/ajustes/inicio.json
         fields:
           - { name: etiqueta, label: Etiqueta sobre el título, widget: string }
-          - { name: titulo, label: Título principal, widget: string, hint: 'Lo que pongas entre asteriscos sale resaltado en cursiva: «Tu negocio merece *brillar en digital*».' }
+          - { name: titulo, label: Título principal, widget: string, hint: 'Lo que pongas entre asteriscos sale resaltado en cursiva: «Tu negocio merece \*brillar en digital\*».' }
           - { name: subtitulo, label: Texto bajo el título, widget: text }
+          - name: contenido
+            label: Sexta tarjeta de servicios (solo en el inicio)
+            widget: object
+            fields:
+              - { name: icon, label: Emoji, widget: string }
+              - { name: short, label: Nombre, widget: string }
+              - { name: teaser, label: Resumen, widget: text }
+          - name: porque
+            label: Por qué elegirnos
+            label_singular: razón
+            widget: list
+            summary: '{{icon}} {{title}}'
+            fields:
+              - { name: icon, label: Emoji, widget: string }
+              - { name: title, label: Título, widget: string }
+              - { name: text, label: Texto, widget: text }
+          - { name: enfoque, label: Nuestro enfoque, label_singular: punto, widget: list, field: { name: item, label: Punto, widget: string } }
+          - name: proceso
+            label: Proceso de trabajo (se numera solo)
+            label_singular: paso
+            widget: list
+            summary: '{{title}}'
+            fields:
+              - { name: title, label: Paso, widget: string }
+              - { name: text, label: Texto, widget: text }
+
+      - name: nosotros
+        label: Nosotros
+        icon: groups
+        file: src/content/ajustes/nosotros.json
+        media_folder: /public/assets/equipo
+        public_folder: /assets/equipo
+        fields:
+          - name: equipo
+            label: Equipo
+            label_singular: persona
+            widget: list
+            summary: '{{name}} · {{role}}'
+            fields:
+              - { name: img, label: Foto, widget: image, hint: 'Foto real, cuadrada o vertical.' }
+              - { name: name, label: Nombre, widget: string }
+              - { name: role, label: Cargo, widget: string }
+              - { name: text, label: Descripción, widget: text }
+          - name: historia
+            label: Historia
+            label_singular: momento
+            widget: list
+            summary: '{{year}} · {{title}}'
+            fields:
+              - { name: year, label: Año, widget: string, hint: 'Ej.: 2024, o «→» para lo que viene.' }
+              - { name: title, label: Título, widget: string }
+              - { name: text, label: Texto, widget: text }
+          - name: valores
+            label: Valores
+            label_singular: valor
+            widget: list
+            summary: '{{icon}} {{title}}'
+            fields:
+              - { name: icon, label: Emoji, widget: string }
+              - { name: title, label: Valor, widget: string }
+              - { name: text, label: Texto, widget: text }
+          - name: diferencia
+            label: Lo que nos diferencia
+            label_singular: punto
+            widget: list
+            summary: '{{icon}} {{title}}'
+            fields:
+              - { name: icon, label: Emoji, widget: string }
+              - { name: title, label: Título, widget: string }
+              - { name: text, label: Texto, widget: text }
 
       - name: servicios
         label: Servicios
@@ -205,6 +268,95 @@ collections:
               - { name: teaser, label: Resumen (inicio), widget: text }
               - { name: text, label: Descripción (página de servicios), widget: text }
               - { name: items, label: Qué incluye, label_singular: punto, widget: list, field: { name: item, label: Punto, widget: string } }
+
+      - name: pagina-portafolio
+        label: Portafolio (proceso)
+        icon: work
+        file: src/content/ajustes/pagina-portafolio.json
+        fields:
+          - name: proceso
+            label: Cómo trabajamos
+            label_singular: paso
+            widget: list
+            summary: '{{icon}} {{title}}'
+            fields:
+              - { name: icon, label: Emoji, widget: string }
+              - { name: title, label: Paso, widget: string }
+              - { name: text, label: Texto, widget: text }
+
+      - name: pagina-contacto
+        label: Contacto (página)
+        icon: mail
+        file: src/content/ajustes/pagina-contacto.json
+        fields:
+          - { name: respuesta, label: Tiempo de respuesta, widget: string, hint: 'Solo si es real. Ej.: «Tiempo promedio de respuesta: menos de 2 horas en horario laboral.»' }
+          - name: despues
+            label: Qué pasa después de escribirnos (se numera solo)
+            label_singular: paso
+            widget: list
+            summary: '{{title}}'
+            fields:
+              - { name: title, label: Paso, widget: string }
+              - { name: text, label: Texto, widget: text }
+          - { name: servicios, label: Opciones de servicio del formulario, label_singular: opción, widget: list, field: { name: item, label: Opción, widget: string } }
+          - { name: presupuestos, label: Rangos de presupuesto del formulario, label_singular: rango, widget: list, field: { name: item, label: Rango, widget: string } }
+
+      - name: enlaces
+        label: Página de enlaces (bio de Instagram)
+        icon: link
+        file: src/content/ajustes/enlaces.json
+        fields:
+          - { name: titulo, label: Título, widget: string, hint: 'Lo que pongas entre asteriscos sale resaltado: «Hacemos que tu negocio \*se vea\*».' }
+          - { name: subtitulo, label: Texto bajo el título, widget: string }
+          - name: enlaces
+            label: Botones
+            label_singular: botón
+            widget: list
+            hint: 'Arrástralos para cambiar el orden. Los enlaces a páginas de la web llevan seguimiento de Instagram automático.'
+            summary: '{{icono}} {{titulo}}'
+            fields:
+              - name: tipo
+                label: Tipo
+                widget: select
+                default: pagina
+                options:
+                  - { value: whatsapp, label: WhatsApp (con mensaje) }
+                  - { value: pagina, label: Página de la web }
+                  - { value: externo, label: Enlace externo }
+                  - { value: test, label: 'Test «¿qué necesita tu negocio?»' }
+                  - { value: ultimo-articulo, label: Último artículo del blog (se actualiza solo) }
+                  - { value: correo, label: Correo de contacto }
+              - { name: icono, label: Emoji, widget: string, required: false }
+              - { name: titulo, label: Título, widget: string }
+              - { name: subtitulo, label: Texto pequeño, widget: string, required: false }
+              - { name: valor, label: 'Mensaje, página o enlace', widget: string, required: false, hint: 'WhatsApp: el mensaje que llega escrito. Página de la web: la ruta, ej. /servicios o /diagnostico. Enlace externo: la dirección completa con https://. Los demás tipos lo dejan vacío.' }
+              - { name: destacado, label: Destacado (botón principal), widget: boolean, default: false, required: false }
+
+      - name: privacidad
+        label: Política de privacidad
+        icon: policy
+        file: src/content/paginas/privacidad.md
+        fields:
+          - { name: actualizado, label: Fecha de actualización, widget: string, hint: 'Ej.: «5 de noviembre de 2026». Cámbiala cuando hagas un cambio importante.' }
+          - { name: body, label: Texto, widget: richtext, hint: 'Puedes usar {{correo}}, {{telefono}} y {{fecha}}: se reemplazan solos por el correo, el WhatsApp y la fecha de actualización. Un enlace a #preferencias-cookies abre el panel de cookies.' }
+
+  # ───────────────────────────── AJUSTES
+  - name: ajustes
+    label: Ajustes de la web
+    label_singular: Ajuste
+    icon: settings
+    files:
+      - name: contacto
+        label: Datos de contacto
+        icon: call
+        file: src/content/ajustes/contacto.json
+        fields:
+          - { name: phone, label: Teléfono y WhatsApp, widget: string, hint: 'Con indicativo: +57 300 000 0000. Todos los botones de WhatsApp de la web usan este número.' }
+          - { name: email, label: Correo, widget: string, type: email }
+          - { name: instagram, label: Instagram, widget: string, type: url }
+          - { name: web, label: Dominio (pie de página), widget: string }
+          - { name: location, label: Ubicación, widget: string }
+          - { name: hours, label: Horario, label_singular: línea, widget: list, field: { name: line, label: Línea, widget: string } }
 
       - name: precios
         label: Precios y planes
@@ -287,3 +439,110 @@ collections:
             fields:
               - { name: q, label: Pregunta, widget: string }
               - { name: a, label: Respuesta, widget: text }
+
+      - name: testimonios
+        label: Testimonios
+        icon: reviews
+        file: src/content/ajustes/testimonios.json
+        fields:
+          - { name: mostrar, label: Mostrar testimonios en la web, widget: boolean, default: false, hint: 'Se muestran en el inicio y en contacto cuando esto está activo y hay al menos uno.' }
+          - name: testimonios
+            label: Testimonios
+            label_singular: testimonio
+            widget: list
+            required: false
+            hint: 'Solo testimonios reales y con permiso del cliente.'
+            summary: '{{nombre}}'
+            fields:
+              - { name: texto, label: Lo que dijo, widget: text }
+              - { name: nombre, label: Nombre, widget: string }
+              - { name: cargo, label: Cargo y negocio, widget: string, required: false, hint: 'Ej.: «Gerente, Caracolí Pastelería».' }
+              - { name: estrellas, label: Estrellas, widget: number, value_type: int, min: 1, max: 5, default: 5 }
+
+      - name: aviso
+        label: Aviso en la web
+        icon: campaign
+        file: src/content/ajustes/aviso.json
+        fields:
+          - { name: activo, label: Mostrar el aviso, widget: boolean, default: false, hint: 'Franja delgada arriba de toda la web. Se oculta sola al bajar.' }
+          - { name: texto, label: Texto, widget: string, maxlength: 110 }
+          - { name: boton, label: Texto del botón, widget: string, required: false }
+          - { name: enlace, label: Enlace, widget: string, hint: 'Página de la web (ej. /diagnostico o /servicios) o dirección completa con https://.' }
+
+      - name: seo
+        label: Google (títulos y descripciones)
+        icon: travel_explore
+        file: src/content/ajustes/seo.json
+        fields:
+          - name: index
+            label: Inicio
+            widget: object
+            collapsed: true
+            summary: '{{titulo}}'
+            fields:
+              - { name: titulo, label: Título, widget: string, maxlength: 70, hint: 'Lo que sale en Google y al compartir la página. Máximo 60 caracteres.' }
+              - { name: descripcion, label: Descripción, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres.' }
+          - name: servicios
+            label: Servicios
+            widget: object
+            collapsed: true
+            summary: '{{titulo}}'
+            fields:
+              - { name: titulo, label: Título, widget: string, maxlength: 70, hint: 'Lo que sale en Google y al compartir la página. Máximo 60 caracteres.' }
+              - { name: descripcion, label: Descripción, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres.' }
+          - name: portafolio
+            label: Portafolio
+            widget: object
+            collapsed: true
+            summary: '{{titulo}}'
+            fields:
+              - { name: titulo, label: Título, widget: string, maxlength: 70, hint: 'Lo que sale en Google y al compartir la página. Máximo 60 caracteres.' }
+              - { name: descripcion, label: Descripción, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres.' }
+          - name: nosotros
+            label: Nosotros
+            widget: object
+            collapsed: true
+            summary: '{{titulo}}'
+            fields:
+              - { name: titulo, label: Título, widget: string, maxlength: 70, hint: 'Lo que sale en Google y al compartir la página. Máximo 60 caracteres.' }
+              - { name: descripcion, label: Descripción, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres.' }
+          - name: blog
+            label: Blog
+            widget: object
+            collapsed: true
+            summary: '{{titulo}}'
+            fields:
+              - { name: titulo, label: Título, widget: string, maxlength: 70, hint: 'Lo que sale en Google y al compartir la página. Máximo 60 caracteres.' }
+              - { name: descripcion, label: Descripción, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres.' }
+          - name: contacto
+            label: Contacto
+            widget: object
+            collapsed: true
+            summary: '{{titulo}}'
+            fields:
+              - { name: titulo, label: Título, widget: string, maxlength: 70, hint: 'Lo que sale en Google y al compartir la página. Máximo 60 caracteres.' }
+              - { name: descripcion, label: Descripción, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres.' }
+          - name: test
+            label: Test
+            widget: object
+            collapsed: true
+            summary: '{{titulo}}'
+            fields:
+              - { name: titulo, label: Título, widget: string, maxlength: 70, hint: 'Lo que sale en Google y al compartir la página. Máximo 60 caracteres.' }
+              - { name: descripcion, label: Descripción, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres.' }
+          - name: privacidad
+            label: Política de privacidad
+            widget: object
+            collapsed: true
+            summary: '{{titulo}}'
+            fields:
+              - { name: titulo, label: Título, widget: string, maxlength: 70, hint: 'Lo que sale en Google y al compartir la página. Máximo 60 caracteres.' }
+              - { name: descripcion, label: Descripción, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres.' }
+          - name: links
+            label: Página de enlaces
+            widget: object
+            collapsed: true
+            summary: '{{titulo}}'
+            fields:
+              - { name: titulo, label: Título, widget: string, maxlength: 70, hint: 'Lo que sale en Google y al compartir la página. Máximo 60 caracteres.' }
+              - { name: descripcion, label: Descripción, widget: text, maxlength: 170, hint: 'Entre 140 y 160 caracteres.' }

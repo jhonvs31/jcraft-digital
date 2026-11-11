@@ -1,0 +1,36 @@
+{
+  "respuesta": "Tiempo promedio de respuesta: menos de 2 horas en horario laboral.",
+  "despues": [
+    {
+      "title": "Respuesta en 24h",
+      "text": "Te contactamos para confirmar que recibimos tu mensaje y agendar la reunión."
+    },
+    {
+      "title": "Consulta gratuita",
+      "text": "Conversamos sobre tu negocio, tus objetivos y qué soluciones se adaptan mejor."
+    },
+    {
+      "title": "Propuesta personalizada",
+      "text": "Preparamos una propuesta a medida con el plan, alcance y precio según tu negocio."
+    },
+    {
+      "title": "¡Empezamos!",
+      "text": "Si estás de acuerdo, arrancamos. Sin burocracia, con toda la energía del primer día."
+    }
+  ],
+  "servicios": [
+    "Gestión de Redes Sociales",
+    "Diseño y Desarrollo Web",
+    "Pauta Digital (Google / Meta Ads)",
+    "Diseño Gráfico e Identidad Visual",
+    "Estrategia Digital Integral",
+    "Varios servicios / No sé aún"
+  ],
+  "presupuestos": [
+    "Menos de $500.000/mes",
+    "$500.000 – $1.000.000/mes",
+    "$1.000.000 – $3.000.000/mes",
+    "Más de $3.000.000/mes",
+    "Por definir"
+  ]
+}

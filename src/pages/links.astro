@@ -1,4 +1,5 @@
 ---
+import { seo } from '../data/site';
 import Logo from '../components/Logo.astro';
 // Página de enlaces para la bio de Instagram (tipo Linktree).
 // Cada enlace lleva UTM para medir en Google Analytics / Search Console las visitas que llegan desde Instagram.
@@ -10,20 +11,29 @@ import { Picture } from 'astro:assets';
 import cata from '../assets/img/catalina.jpg';
 import jhon from '../assets/img/jhon.jpg';
 
-const utm = (path: string, content: string) => `${u(path)}?utm_source=instagram&utm_medium=bio&utm_campaign=linkinbio&utm_content=${content}`;
+import enlaces from '../content/ajustes/enlaces.json';
+
+// Los botones se editan desde el panel (Ajustes → Página de enlaces).
+const content = (path: string) => path.replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9]+/gi, '_') || 'inicio';
+const utm = (path: string, c = content(path)) => `${u(path)}?utm_source=instagram&utm_medium=bio&utm_campaign=linkinbio&utm_content=${c}`;
 const latest = posts[0];
-const links = [
-  { href: wa('Hola JCraft! Vengo de Instagram y quiero una consulta gratuita.'), icon: '💬', title: 'Consulta gratuita por WhatsApp', sub: 'Respuesta en horario laboral', primary: true, ext: true },
-  { href: utm('test.html', 'test'), icon: '🧪', title: 'Test: ¿qué necesita tu negocio?', sub: '7 preguntas · resultado al instante', quiz: true },
-  { href: utm('servicios.html', 'servicios'), icon: '🧭', title: 'Nuestros servicios', sub: 'Redes · Web · Pauta · Diseño · Estrategia' },
-  { href: utm('portafolio.html', 'portafolio'), icon: '🗂️', title: 'Portafolio', sub: 'Proyectos en Colombia, México y EE. UU.' },
-  { href: utm(`blog/${latest.slug}.html`, 'ultimo_articulo'), icon: latest.emoji, title: 'Nuevo en el blog', sub: latest.title },
-  { href: utm('blog.html', 'blog'), icon: '📚', title: 'Blog: tips para pymes', sub: 'Marketing digital sin tecnicismos' },
-  { href: utm('contacto.html', 'contacto'), icon: '✍️', title: 'Cuéntanos tu proyecto', sub: 'Formulario de contacto' },
-  { href: `mailto:${contact.email}`, icon: '📧', title: 'Escríbenos un correo', sub: contact.email },
-];
+type Enlace = { tipo: string; icono?: string; titulo: string; subtitulo?: string; valor?: string; destacado?: boolean };
+const links = (enlaces.enlaces as Enlace[]).map((l) => {
+  const base = { icon: l.icono || '🔗', title: l.titulo, sub: l.subtitulo ?? '', primary: !!l.destacado, ext: false, quiz: false, href: '' };
+  switch (l.tipo) {
+    case 'whatsapp': return { ...base, href: wa(l.valor || 'Hola JCraft! Vengo de Instagram.'), ext: true };
+    case 'test': return { ...base, href: utm('test.html', 'test'), quiz: true };
+    case 'ultimo-articulo': return { ...base, href: utm(`blog/${latest.slug}.html`, 'ultimo_articulo'), icon: l.icono || latest.emoji, sub: l.subtitulo || latest.title };
+    case 'correo': return { ...base, href: `mailto:${contact.email}`, sub: l.subtitulo || contact.email };
+    case 'externo': return { ...base, href: l.valor ?? '', ext: true };
+    default: return { ...base, href: utm(`${(l.valor ?? '').replace(/^\//, '')}`) };
+  }
+}).filter((l) => l.href);
+// Título con *resaltado* en cursiva, como en el resto de la web
+const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+const titulo = esc(enlaces.titulo).replace(/\*(.+?)\*/g, '<em class="k">$1</em>');
 ---
-<Base title="Enlaces | JCraft Digital" description="Todos los enlaces de JCraft Digital: consulta gratuita por WhatsApp, servicios, portafolio, blog y contacto." page="links.html" noindex bare>
+<Base title={seo.links.titulo} description={seo.links.descripcion} page="links.html" noindex bare>
   <section class="lg-page relative min-h-[100svh] overflow-hidden px-5 py-14" data-lg>
     <!-- Fondo de color en movimiento: es lo que el vidrio refracta -->
     <div class="lg-bg" aria-hidden="true"><span class="lg-blob b1"></span><span class="lg-blob b2"></span><span class="lg-blob b3"></span><span class="lg-blob b4"></span></div>
@@ -48,8 +58,8 @@ const links = [
           ))}
         </div>
         <div class="mt-6 flex justify-center"><Logo class="h-10 w-auto" /></div>
-        <h1 class="mt-4 text-3xl sm:text-4xl">Hacemos que tu negocio <em class="k">se vea</em></h1>
-        <p class="mt-3 text-white/75">Diseño, marketing y tecnología para pymes · Colombia y LATAM</p>
+        <h1 class="mt-4 text-3xl sm:text-4xl" set:html={titulo} />
+        <p class="mt-3 text-white/75">{enlaces.subtitulo}</p>
       </div>
 
       <ul class="mt-5 w-full space-y-3.5" data-stagger>

@@ -1,5 +1,57 @@
 {
   "etiqueta": "Agencia de Marketing Digital",
   "titulo": "Tu negocio merece *brillar en digital*",
-  "subtitulo": "Ayudamos a pymes y emprendedores a construir su presencia digital de forma estratégica, creativa y efectiva. Diseño, marketing y tecnología en un solo lugar."
+  "subtitulo": "Ayudamos a pymes y emprendedores a construir su presencia digital de forma estratégica, creativa y efectiva. Diseño, marketing y tecnología en un solo lugar.",
+  "contenido": {
+    "icon": "✍️",
+    "short": "Contenido Estratégico",
+    "teaser": "Creamos el contenido que tu audiencia quiere ver: textos, imágenes y videos que enganchan y generan conversaciones."
+  },
+  "porque": [
+    {
+      "icon": "🎯",
+      "title": "Soluciones a medida",
+      "text": "Cada estrategia es diseñada específicamente para tu negocio. Sin plantillas, sin atajos."
+    },
+    {
+      "icon": "🤝",
+      "title": "Transparencia total",
+      "text": "Comunicación constante, reportes claros y resultados medibles. Sabrás exactamente qué hacemos y por qué."
+    },
+    {
+      "icon": "🚀",
+      "title": "Dos especialistas, un equipo",
+      "text": "Diseño + Tecnología trabajando en sinergia. La combinación perfecta para resultados integrales."
+    },
+    {
+      "icon": "❤️",
+      "title": "Pasión en cada proyecto",
+      "text": "Amamos lo que hacemos y se nota. Nos involucramos con tu negocio como si fuera nuestro."
+    }
+  ],
+  "enfoque": [
+    "Diagnóstico inicial gratuito",
+    "Estrategia personalizada",
+    "Ejecución con calidad",
+    "Reportes mensuales",
+    "Optimización continua"
+  ],
+  "proceso": [
+    {
+      "title": "Diagnóstico",
+      "text": "Analizamos tu negocio, mercado y competencia para entender el punto de partida."
+    },
+    {
+      "title": "Estrategia",
+      "text": "Diseñamos un plan digital personalizado con objetivos claros y métricas definidas."
+    },
+    {
+      "title": "Ejecución",
+      "text": "Implementamos con calidad, creatividad y atención al detalle en cada pieza."
+    },
+    {
+      "title": "Resultados",
+      "text": "Medimos, reportamos y optimizamos continuamente para maximizar el impacto."
+    }
+  ]
 }
