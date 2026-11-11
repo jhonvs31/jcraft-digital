@@ -18,11 +18,11 @@ const strip = (s: string) => s.replace(/<[^>]+>/g, '').trim();
 const faqs = [...faqHtml.matchAll(/<h3>(.*?)<\/h3>\s*<p>(.*?)<\/p>/gs)].map((m) => ({ '@type': 'Question', name: strip(m[1]), acceptedAnswer: { '@type': 'Answer', text: strip(m[2]) } }));
 const schema: object[] = [{
   '@type': 'BlogPosting', '@id': `${pageUrl}#post`, headline: post.title, description: post.description, datePublished: post.iso, dateModified: post.modified ?? post.iso,
-  inLanguage: 'es-CO', mainEntityOfPage: pageUrl, image: new URL(u('og.jpg'), Astro.site).href, articleSection: post.categoryName,
+  inLanguage: 'es-CO', mainEntityOfPage: pageUrl, image: new URL(u(`assets/blog/${post.slug}.webp`), Astro.site).href, articleSection: post.categoryName,
   author: { '@type': 'Organization', name: 'JCraft Digital', url: home }, publisher: { '@id': `${home}#org` },
 }, ...(faqs.length ? [{ '@type': 'FAQPage', mainEntity: faqs }] : [])];
 ---
-<Base title={post.seoTitle.length + 16 <= 62 ? `${post.seoTitle} | JCraft Digital` : post.seoTitle} description={post.description} page={page} type="article"
+<Base title={post.seoTitle.length + 16 <= 62 ? `${post.seoTitle} | JCraft Digital` : post.seoTitle} description={post.description} page={page} image={`assets/blog/og/${post.slug}.jpg`} type="article"
   crumbs={[{ name: 'Blog', page: 'blog.html' }, { name: post.title, page }]} schema={schema}>
   <meta slot="head" property="article:published_time" content={post.iso} />
   <meta slot="head" property="article:section" content={post.categoryName} />
@@ -39,8 +39,11 @@ const schema: object[] = [{
         <p class="hero-in mt-8 flex flex-wrap gap-5 text-sm font-semibold text-white/60" style="--d:260ms"><span>📅 <time datetime={post.iso}>{post.date}</time></span><span>⏱️ {post.readTime} de lectura</span><span>Por JCraft Digital</span></p>
       </div>
     </header>
-    <div class="bg-paper py-16 sm:py-24">
-      <div class="prose-jc wrap max-w-3xl" set:html={post.body} />
+    <div class="bg-paper pb-16 sm:pb-24">
+      <figure class="wrap relative z-10 -mt-10 max-w-4xl sm:-mt-14">
+        <img src={u(`assets/blog/${post.slug}.webp`)} alt={`Portada del artículo: ${post.title}`} decoding="async" fetchpriority="high" width="1600" height="900" class="aspect-[16/9] w-full rounded-3xl object-cover shadow-[0_40px_80px_-35px_rgba(6,29,71,.75)]" />
+      </figure>
+      <div class="prose-jc wrap mt-14 max-w-3xl sm:mt-16" set:html={post.body} />
     </div>
   </article>
 
@@ -51,8 +54,8 @@ const schema: object[] = [{
       <h2 class="text-4xl sm:text-5xl">Sigue <em class="k">leyendo</em></h2>
       <div class="mt-10 grid gap-6 md:grid-cols-3">
         {related.map((p) => (
-          <a href={u(`blog/${p.slug}.html`)} class="card-paper group block p-7 transition hover:-translate-y-1"><span class="text-4xl" aria-hidden="true">{p.emoji}</span>
-            <p class="mt-5 text-xs font-extrabold tracking-[.18em] text-blue uppercase">{p.categoryName}</p><h3 class="mt-3 text-xl leading-tight group-hover:text-blue">{p.title}</h3></a>
+          <a href={u(`blog/${p.slug}.html`)} class="card-paper group block overflow-hidden transition hover:-translate-y-1"><div class="aspect-[16/9] overflow-hidden bg-navy"><img src={u(`assets/blog/${p.slug}.webp`)} alt="" loading="lazy" decoding="async" width="1600" height="900" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /></div><div class="p-7">
+            <p class="text-xs font-extrabold tracking-[.18em] text-blue uppercase">{p.categoryName}</p><h3 class="mt-3 text-xl leading-tight group-hover:text-blue">{p.title}</h3></div></a>
         ))}
       </div>
     </div>

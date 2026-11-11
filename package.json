@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "portal:cargar": "node scripts/portal-cargar.mjs",
-    "portal:reemplazar": "node scripts/portal-reemplazar.mjs"
+    "portal:reemplazar": "node scripts/portal-reemplazar.mjs",
+    "blog:portadas": "node scripts/blog-portadas.mjs"
   },
   "engines": {
     "node": ">=20.19"
