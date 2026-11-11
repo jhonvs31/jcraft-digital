@@ -149,6 +149,11 @@
       "permanent": true
     },
     {
+      "source": "/diagnostico",
+      "destination": "/?utm_source=whatsapp&utm_medium=respuesta&utm_campaign=diagnostico#diagnostico",
+      "permanent": false
+    },
+    {
       "source": "/portal",
       "destination": "/portal/acceso",
       "permanent": false
