@@ -54,3 +54,12 @@ begin
 end $$;
 revoke execute on function public.diagnosticos_notify() from public, anon, authenticated;
 create trigger diagnosticos_notify after insert on public.diagnosticos for each row execute function public.diagnosticos_notify();
+
+-- Cambio del 10-nov-2026 (pedido de Jhon): el informe se muestra en pantalla y se borra al cerrar.
+-- En la base solo queda el contacto (nombre, negocio, WhatsApp o correo).
+alter table public.diagnosticos
+  drop column rubro, drop column ciudad, drop column web, drop column instagram, drop column otras_redes,
+  drop column ficha_google, drop column objetivos, drop column frecuencia, drop column quien_maneja, drop column marca,
+  drop column problema, drop column pagina, drop column puntaje, drop column resultado;
+-- El aviso por ntfy ya no lleva el puntaje (no se guarda):
+-- 'message', format('🔎 %s hizo su diagnóstico en la web. Sus datos de contacto están en Supabase (tabla diagnosticos).', new.negocio)

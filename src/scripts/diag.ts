@@ -1,11 +1,12 @@
 // Diagnóstico digital gratis: aviso flotante discreto + formulario de 4 pasos con resultados al instante.
-// La función «diagnostico» de Supabase revisa la web del negocio, calcula el puntaje y guarda la solicitud.
+// La función «diagnostico» de Supabase revisa la web del negocio y calcula el puntaje. El informe NO se guarda:
+// se muestra mientras la ventana está abierta y se borra al cerrarla (en la base solo queda el contacto).
 import type gsapType from 'gsap';
 
 const FN_URL = 'https://jjgepsfiajhommbruzbn.supabase.co/functions/v1/diagnostico';
 const WA = '573008113078';
 const HIDE_KEY = 'jc-diag-oculto';
-const RESULT_KEY = 'jc-diag-resultado';
+const DONE_KEY = 'jc-diag-hecho'; // solo marca que ya lo hizo, para no volver a mostrarle el aviso grande
 const store = {
   get: (k: string) => { try { return localStorage.getItem(k); } catch { return null; } },
   set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* sin almacenamiento */ } },
@@ -37,22 +38,21 @@ export function initDiag(gsap: typeof gsapType, reduce: boolean) {
   const pill = document.querySelector<HTMLElement>('[data-dg-pill]');
   let step = 0;
   let openedAt = 0;
-  const saved = (): Saved | null => { try { return JSON.parse(store.get(RESULT_KEY) || 'null'); } catch { return null; } };
+  let current: Saved | null = null; // el informe vive solo en memoria mientras la ventana está abierta
 
   // ── Aviso flotante: tarjeta blanca a los 9 s o al bajar un 35 %; si la cierran (o ya hizo el diagnóstico) queda la cápsula
   const showPill = () => {
     if (!pill) return;
-    if (saved()) pill.innerHTML = '<span aria-hidden="true">📊</span> Mi diagnóstico';
     pill.hidden = false; requestAnimationFrame(() => pill.classList.add('is-in'));
   };
   const showTeaser = () => {
     if (!teaser || d.open || !teaser.hidden) return;
-    if (saved() || (store.get(HIDE_KEY) && Date.now() - Number(store.get(HIDE_KEY)) < 3 * 864e5)) return showPill();
+    if (store.get(DONE_KEY) || (store.get(HIDE_KEY) && Date.now() - Number(store.get(HIDE_KEY)) < 3 * 864e5)) return showPill();
     teaser.hidden = false; requestAnimationFrame(() => teaser.classList.add('is-in'));
   };
   const dismiss = () => { store.set(HIDE_KEY, String(Date.now())); teaser?.classList.remove('is-in'); setTimeout(() => { if (teaser) teaser.hidden = true; showPill(); }, 350); };
   teaser?.querySelector('[data-dg-dismiss]')?.addEventListener('click', dismiss);
-  if (saved()) showPill();
+  if (store.get(DONE_KEY)) showPill();
   else {
     const t = window.setTimeout(showTeaser, 9000);
     const onScroll = () => { const h = document.documentElement; if (h.scrollTop / Math.max(1, h.scrollHeight - innerHeight) > 0.35) { clearTimeout(t); showTeaser(); removeEventListener('scroll', onScroll); } };
@@ -118,9 +118,9 @@ export function initDiag(gsap: typeof gsapType, reduce: boolean) {
       if (r.status === 429) throw new Error('limite');
       if (!r.ok) throw new Error(String(r.status));
       const res = (await r.json()) as Res;
-      const s: Saved = { r: res, nombre: body.nombre.split(' ')[0], negocio: body.negocio };
-      store.set(RESULT_KEY, JSON.stringify(s));
-      show(s, true);
+      current = { r: res, nombre: body.nombre.split(' ')[0], negocio: body.negocio };
+      store.set(DONE_KEY, '1');
+      show(current, true);
       const g = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
       const tag = document.querySelector<HTMLScriptElement>('script[data-aw]');
       g?.('event', 'diagnostico_enviado', { rubro: body.rubro, puntaje: res.puntaje, page_path: location.pathname });
@@ -152,7 +152,18 @@ export function initDiag(gsap: typeof gsapType, reduce: boolean) {
       webBox.hidden = false;
       webBox.innerHTML = '<p class="dg-sub">🔍 Tu web</p><p class="dg-note">No pudimos abrir tu página web para revisarla. Revisa que la dirección esté bien y que esté en línea.</p>';
     } else webBox.hidden = true;
-    const msg = `¡Hola JCraft! Hice el diagnóstico digital gratis de ${s.negocio} en la web y saqué ${r.puntaje}/100. Quiero el diagnóstico completo.`;
+    // Cierre: plan sugerido según el área más débil + regalo del diagnóstico completo al contratar
+    const PLAN: Record<string, [string, string, string]> = {
+      web: ['tu página web', 'Sitio web', 'clientes que te encuentran'],
+      redes: ['tus redes sociales', 'Redes Plus', 'clientes que te escriben'],
+      google: [r.web?.revisada ? 'tu presencia en Google' : 'tu página web', r.web?.revisada ? 'Redes Plus' : 'Sitio web', 'clientes que te encuentran'],
+      marca: ['tu marca', 'Identidad de marca', 'una marca que inspire confianza'],
+    };
+    const [area, plan, goal] = PLAN[r.prioridad] ?? PLAN.redes;
+    out.querySelector('[data-dg-area]')!.textContent = area;
+    out.querySelector('[data-dg-plan]')!.textContent = plan;
+    out.querySelector('[data-dg-goal]')!.textContent = goal;
+    const msg = `¡Hola JCraft! Hice el diagnóstico digital gratis de ${s.negocio} en la web y saqué ${r.puntaje}/100. Quiero empezar con el plan ${plan} y recibir el diagnóstico completo con estudio de mercado.`;
     out.querySelector<HTMLAnchorElement>('[data-dg-wa]')!.href = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
     form.scrollTo({ top: 0 });
     // Animaciones: el anillo y el número suben, las barras crecen
@@ -174,12 +185,14 @@ export function initDiag(gsap: typeof gsapType, reduce: boolean) {
     }
     out.focus({ preventScroll: true });
   };
-  out.querySelector('[data-dg-again]')?.addEventListener('click', () => { store.del(RESULT_KEY); form.reset(); go(0); });
+  const wipe = () => { current = null; form.reset(); step = 0; go(0); };
+  out.querySelector('[data-dg-again]')?.addEventListener('click', wipe);
 
   // ── Abrir y cerrar
   const close = () => {
     if (!d.open) return;
-    const end = () => { d.close(); d.classList.remove('is-open'); gsap.set(form, { clearProps: 'all' }); document.documentElement.style.overflow = ''; };
+    // Al cerrar se borra el informe y todo lo que escribió (no se guarda en ningún lado)
+    const end = () => { d.close(); d.classList.remove('is-open'); gsap.set(form, { clearProps: 'all' }); document.documentElement.style.overflow = ''; if (current) wipe(); };
     d.classList.remove('is-open');
     if (reduce) return end();
     gsap.to(form, { opacity: 0, y: 30, scale: 0.97, duration: 0.3, ease: 'power2.in', onComplete: end });
@@ -195,8 +208,7 @@ export function initDiag(gsap: typeof gsapType, reduce: boolean) {
     d.showModal();
     document.documentElement.style.overflow = 'hidden';
     requestAnimationFrame(() => d.classList.add('is-open'));
-    const s = saved();
-    if (s) show(s, false); else go(step);
+    go(step);
     if (!reduce) gsap.fromTo(form, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'expo.out', clearProps: 'transform,opacity' });
   };
   document.addEventListener('click', (e) => {

@@ -406,3 +406,14 @@ body.overflow-hidden [data-wa-float], body.overflow-hidden [data-nudge] { opacit
 .dg-cta .dg-btn { display: inline-flex; margin: 16px 0 0; }
 .dg-fine { margin-top: 14px; font-size: 13px; color: rgba(10, 47, 110, .55); text-align: center; }
 .dg-done-actions { display: flex; justify-content: center; gap: 18px; margin-top: 6px; }
+.dg-done .dg-cta-k { color: #6FE7F5; font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; margin-top: 0; }
+.dg-done .dg-cta-t { margin-top: 6px; font-size: 24px; line-height: 1.1; letter-spacing: -.02em; }
+.dg-done .dg-cta-t span { font-family: var(--font-serif); font-style: italic; font-weight: 400; color: #6FE7F5; }
+.dg-done .dg-cta-p b { color: #fff; }
+.dg-gift { display: flex; gap: 12px; align-items: flex-start; margin-top: 16px; padding: 14px 16px; border-radius: 16px; background: rgba(0, 188, 212, .14); border: 1px solid rgba(0, 188, 212, .45); }
+.dg-gift span { font-size: 24px; line-height: 1; }
+.dg-done .dg-gift p { margin: 0; color: rgba(255, 255, 255, .85); font-size: 14px; line-height: 1.45; }
+.dg-done .dg-gift b { color: #fff; }
+.dg-cta-btns { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 18px; }
+.dg-cta .dg-cta-btns .dg-btn { margin: 0; }
+.dg-cta-link { color: #fff; font-weight: 700; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }

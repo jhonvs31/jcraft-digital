@@ -1,6 +1,6 @@
 // Diagnóstico digital gratis de jcraft-digital.com.
 // Recibe las respuestas del formulario, revisa la página web del negocio (si la dio), calcula el puntaje
-// con los mismos criterios de los diagnósticos iniciales de JCraft y guarda todo en public.diagnosticos.
+// con los mismos criterios de los diagnósticos iniciales de JCraft y devuelve el informe. En public.diagnosticos solo se guarda el contacto.
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 
@@ -141,7 +141,8 @@ Deno.serve(async (req) => {
     fecha: new Date().toISOString(),
   };
 
-  const { error } = await sb.from('diagnosticos').insert({ ...d, puntaje, resultado });
+  // Solo se guarda el contacto; el informe se devuelve a la persona y no queda en la base (decisión de Jhon, 10-nov-2026)
+  const { error } = await sb.from('diagnosticos').insert({ negocio: d.negocio, nombre: d.nombre, whatsapp: d.whatsapp, email: d.email, acepta_datos: true });
   if (error) { console.error(error); return json(origin, { error: 'guardar' }, 500); }
   return json(origin, resultado);
 });

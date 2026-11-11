@@ -1,7 +1,7 @@
 ---
 // Diagnóstico digital gratis: formulario corto en 4 pasos (ventana blanca) + aviso discreto flotante.
 // Al final la persona deja su WhatsApp o correo y ve sus resultados al instante: la función «diagnostico» de Supabase
-// revisa su página web, calcula el puntaje con los criterios de los diagnósticos de JCraft y lo guarda en la tabla diagnosticos.
+// revisa su página web y calcula el puntaje con los criterios de los diagnósticos de JCraft. En la base solo queda el contacto.
 import { u } from '../lib/url';
 const rubros = ['Comida y bebidas', 'Tienda o productos', 'Belleza y bienestar', 'Salud', 'Servicios profesionales', 'Educación', 'Turismo', 'Construcción o inmobiliaria', 'Otro'];
 const objetivos = ['Más clientes por WhatsApp', 'Vender en línea', 'Aparecer en Google', 'Más seguidores', 'Verme más profesional', 'Ordenar mis redes'];
@@ -68,7 +68,7 @@ const marca = ['Sí, todo definido', 'Solo el logo', 'No tengo'];
 
     <fieldset class="dg-step" data-dg-step="4" hidden>
       <legend class="dg-legend">Tus resultados están listos</legend>
-      <p class="dg-note">Déjanos tu WhatsApp o tu correo para verlos. Ahí también te enviamos el diagnóstico completo si lo pides.</p>
+      <p class="dg-note">Déjanos tu WhatsApp o tu correo para verlos. Solo guardamos tu contacto; el informe no se guarda.</p>
       <label class="dg-field"><span>Tu nombre *</span><input name="nombre" required maxlength="80" autocomplete="name" placeholder="Ej: Laura" /></label>
       <label class="dg-field"><span>WhatsApp</span><input name="whatsapp" maxlength="30" inputmode="tel" autocomplete="tel" placeholder="Ej: 300 123 4567" /></label>
       <label class="dg-field"><span>Correo</span><input name="email" type="email" maxlength="160" autocomplete="email" placeholder="tu@correo.com" /></label>
@@ -91,11 +91,13 @@ const marca = ['Sí, todo definido', 'Solo el logo', 'No tengo'];
       </div>
       <div class="dg-webinfo" data-dg-web hidden></div>
       <div class="dg-cta">
-        <p class="dg-cta-t">¿Quieres el diagnóstico completo?</p>
-        <p class="dg-cta-p">Comparamos tu negocio con 3 competidores y te explicamos el plan en una reunión. Es gratis.</p>
-        <a class="dg-btn" data-dg-wa href="#" target="_blank" rel="noopener">Pedir el diagnóstico completo por WhatsApp</a>
+        <p class="dg-cta-k">Tu siguiente paso</p>
+        <p class="dg-cta-t">Convierte este puntaje en <span data-dg-goal>clientes</span></p>
+        <p class="dg-cta-p">Ya sabes qué te falta. Lo más rápido para mejorar es empezar por <b data-dg-area>tu prioridad</b> con el plan <b data-dg-plan>que más te conviene</b>.</p>
+        <div class="dg-gift"><span aria-hidden="true">🎁</span><p><b>Si empiezas un plan con nosotros, te regalamos el diagnóstico completo con estudio de mercado:</b> tu competencia, tus oportunidades y el plan de acción para tu negocio.</p></div>
+        <div class="dg-cta-btns"><a class="dg-btn" data-dg-wa href="#" target="_blank" rel="noopener">Quiero empezar →</a><a class="dg-cta-link" href="/servicios#precios">Ver planes y precios</a></div>
       </div>
-      <p class="dg-fine">Guardamos este resultado. Puedes volver a verlo desde el botón «Mi diagnóstico».</p>
+      <p class="dg-fine">Por tu privacidad, este informe no se guarda: al cerrar la ventana se borra. Si quieres conservarlo, tómale una captura de pantalla.</p>
       <div class="dg-done-actions"><button type="button" class="dg-back" data-dg-again>Hacer otro diagnóstico</button><button type="button" class="dg-back" data-dg-close>Cerrar</button></div>
     </div>
 
