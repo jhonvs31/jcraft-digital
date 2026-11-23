@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#FBE3E4">
+<title>Para Cata</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 28S3 20 3 11a6.5 6.5 0 0 1 13-1 6.5 6.5 0 0 1 13 1c0 9-13 17-13 17z' fill='%23D2152B'/%3E%3C/svg%3E">
+<link rel="preload" href="/cata/fonts/gloock.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/cata/fonts/caveat-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/cata/cata.css">
+<script src="/cata/cata.js" defer></script>
+</head>
+<body class="is-locked">
+
+<div class="lock" id="lock" role="dialog" aria-modal="true" aria-labelledby="lock-title">
+  <svg class="lock__thread" viewBox="0 0 40 400" preserveAspectRatio="none" aria-hidden="true"><path d="M20 0 C 8 80, 32 160, 20 240 S 8 340, 20 400"/></svg>
+  <div class="lock__card">
+    <p class="lock__for">Para mi cielito lindo</p>
+    <h1 class="lock__title" id="lock-title">Nuestra aventura</h1>
+    <form class="lock__form" id="lock-form" autocomplete="off" novalidate>
+      <label class="lock__label" for="lock-code">Escribe la clave para entrar</label>
+      <div class="lock__field">
+        <div class="lock__digits" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <input class="lock__input" id="lock-code" name="code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-describedby="lock-hint">
+      </div>
+      <p class="lock__hint" id="lock-hint">Pista: el día y el mes que son doblemente nuestros.</p>
+      <p class="lock__error" id="lock-error" role="alert"></p>
+    </form>
+  </div>
+</div>
+
+<canvas class="fx" id="fx" aria-hidden="true"></canvas>
+
+<main class="story" id="story" aria-label="Nuestra historia">
+  <svg class="thread" id="thread" aria-hidden="true"><path class="thread__ghost" id="thread-ghost"/><path class="thread__line" id="thread-line"/><circle class="thread__tip" id="thread-tip" r="5"/></svg>
+  <div id="stops"></div>
+</main>
+
+<nav class="next" aria-label="Avanzar">
+  <button class="next__btn" id="next" type="button">
+    <span id="next-label">Siguiente momento</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15m0 0-6-6m6 6 6-6"/></svg>
+  </button>
+</nav>
+
+<dialog class="lightbox" id="lightbox" aria-label="Foto ampliada">
+  <button class="lightbox__close" type="button" id="lightbox-close" aria-label="Cerrar">×</button>
+  <img id="lightbox-img" alt="">
+  <p class="lightbox__cap" id="lightbox-cap"></p>
+</dialog>
+
+<noscript><p class="noscript">Esta sorpresa necesita JavaScript activado para funcionar.</p></noscript>
+</body>
+</html>
