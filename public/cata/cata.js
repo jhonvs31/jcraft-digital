@@ -199,13 +199,13 @@
     const lane = s.lane ? LANES[s.lane] : '';
     const count = s.count ? `<div class="wide count" data-count="${s.count.to}" data-from="${s.count.from}"><span class="count__num">${fmt(s.count.from)}</span><span class="count__label">${esc(s.count.label)}</span></div>` : '';
     const dates = s.dates ? `<div class="wide dates" aria-label="Del 1 de agosto de 2019 al 1 de agosto de 2026"><span class="dates__line" aria-hidden="true">1 de agosto de <span class="dates__year" data-year>2019</span></span><span class="dates__note">Mismo día, siete años después</span></div>` : '';
-    const sand = s.sand ? `<div class="wide"><svg class="sand" viewBox="0 0 300 140" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><path class="heart" d="M150 120C90 82 62 58 66 38a26 26 0 0 1 84-6 26 26 0 0 1 84 6c4 20-24 44-84 82z"/><rect class="wave" x="0" y="0" width="300" height="140" rx="60"/></svg><p class="sand__note">Pasó la ola… y el corazón sigue ahí.</p></div>` : '';
+    const sand = s.sand ? `<div class="sandbox"><svg class="sand" viewBox="0 0 300 140" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><path class="heart" d="M150 120C90 82 62 58 66 38a26 26 0 0 1 84-6 26 26 0 0 1 84 6c4 20-24 44-84 82z"/><rect class="wave" x="0" y="0" width="300" height="140" rx="60"/></svg><p class="sand__note">Pasó la ola… y el corazón sigue ahí.</p></div>` : '';
     const badge = s.badge ? `<p class="badge wide">${esc(s.badge)}</p>` : '';
     let body;
     if (s.ask) {
       body = `${lane}<div class="ask" data-burst="${s.ask.burst}">${ICONS[s.ask.icon]}<p class="ask__q">${esc(s.ask.q)}</p><div class="ask__btns">${s.ask.yes.map((y, i) => `<button type="button" class="ask__btn ${i ? 'ask__btn--alt' : ''}">${esc(y)}</button>`).join('')}</div></div><div class="ask__after">${mediaBlock(s)}${letter(s)}</div>`;
     } else {
-      body = `${lane}${count}${dates}${sand}${mediaBlock(s)}${letter(s)}${badge}`;
+      body = `${lane}${count}${dates}${mediaBlock(s)}${letter(s)}${sand}${badge}`;
     }
     const attrs = [`id="${s.id}"`, s.sky ? `data-sky="${s.sky}"` : '', s.night != null ? `data-night="${s.night ? 1 : 0}"` : '', s.ambient != null ? `data-ambient="${s.ambient}"` : '', s.burst ? `data-burst="${s.burst}"` : ''].join(' ');
     return `<section class="stop" ${attrs}>${head}<div class="stop__body">${body}</div></section>`;
