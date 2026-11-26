@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Propuesta de sitio web y redes · LV Pretensados</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=IBM+Plex+Mono:wght@500&family=Inter:wght@400;600&display=swap">
+<style>
+  :root{--hueso:#F4F2EE;--grafito:#23272A;--verde:#2D9D49;--obra:#197836;--gris:#5C6166;--line:rgba(35,39,42,.25)}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--hueso);background-image:linear-gradient(rgba(35,39,42,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(35,39,42,.06) 1px,transparent 1px);background-size:32px 32px;color:var(--grafito);font:400 18px/1.6 'Inter',system-ui,sans-serif;padding:24px 16px}
+  main{width:100%;max-width:440px;display:grid;gap:20px;background:#fff;border:2px solid var(--grafito);padding:32px 28px}
+  .eyebrow{font:500 12px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--obra)}
+  h1{font:800 52px/.92 'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;margin:0}
+  h1 span{color:var(--verde)}
+  p{margin:0;color:var(--gris)}
+  form{display:grid;gap:12px}
+  label{font-weight:600;font-size:16px}
+  input{font:inherit;padding:14px 16px;min-height:54px;border:2px solid #8a9096;background:var(--hueso);color:var(--grafito)}
+  input:focus{outline:3px solid #F2B705;outline-offset:2px}
+  button{font:800 22px/1 'Barlow Condensed',Impact,sans-serif;letter-spacing:.06em;text-transform:uppercase;min-height:56px;border:0;background:var(--verde);color:#fff;cursor:pointer}
+  button:hover{background:var(--obra)}
+  button:disabled{opacity:.6;cursor:wait}
+  #msg{min-height:1.6em;font-size:15px;color:#a3261b}
+  small{font:500 12px/1.5 'IBM Plex Mono',monospace;color:var(--gris)}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Propuesta privada · JCraft Digital</div>
+  <h1>LV Pretensados<br><span>Sitio web y redes</span></h1>
+  <p>Esta página es solo para ustedes. Escriban la contraseña que les enviamos para ver la propuesta.</p>
+  <form id="gate">
+    <label for="pass">Contraseña</label>
+    <input id="pass" type="password" autocomplete="current-password" required autofocus>
+    <button id="go" type="submit">Ver la propuesta</button>
+    <div id="msg" role="status" aria-live="polite"></div>
+  </form>
+  <small>© JCraft Digital · Maqueta de muestra con fotos de referencia. No publicada.</small>
+</main>
+<script src="gate.js"></script>
+</body>
+</html>
