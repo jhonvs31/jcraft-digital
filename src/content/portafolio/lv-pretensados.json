@@ -1,0 +1,42 @@
+{
+  "orden": 1,
+  "propuesta": true,
+  "tag": "Propuesta · Web, marca y redes",
+  "emoji": "🏗️",
+  "name": "LV Pretensados",
+  "place": "📍 Propuesta · Cali",
+  "slug": "lv-pretensados",
+  "text": "Propuesta para una empresa de prefabricados en concreto con más de 40 años en Cali: transición de marca a LV Pretensados, nueva web y contenido para redes.",
+  "short": "Propuesta de transición de marca, nueva web y contenido para una empresa de prefabricados en concreto de Cali.",
+  "result": "Estrategia · Branding · Web · Redes",
+  "home": true,
+  "intro": "Empresa familiar de Cali que fabrica y monta estructuras prefabricadas en concreto, en transición de LV Estructuras a LV Pretensados.",
+  "did": [
+    "Estrategia y tablero de marca para pasar de LV Estructuras a LV Pretensados conservando el símbolo de siempre.",
+    "Propuesta de sitio web con catálogo de productos, obras, PQR, chat y cotización por WhatsApp.",
+    "Parrilla del primer mes para redes sociales.",
+    "Muestras de post, carrusel de 5 láminas, storie y reel con video generado con IA."
+  ],
+  "posts": [
+    {
+      "src": "/assets/portafolio/lv-pretensados/tablero-marca.webp",
+      "alt": "Tablero de marca de LV Pretensados"
+    },
+    {
+      "src": "/assets/portafolio/lv-pretensados/post-simbolo.webp",
+      "alt": "Post Mismo símbolo, misma experiencia, nuevo nombre"
+    },
+    {
+      "src": "/assets/portafolio/lv-pretensados/carrusel-razones.webp",
+      "alt": "Carrusel 5 razones para construir con pretensados"
+    },
+    {
+      "src": "/assets/portafolio/lv-pretensados/reel-obra.webp",
+      "alt": "Portada del reel Se monta en obra"
+    }
+  ],
+  "cats": [
+    "web",
+    "redes"
+  ]
+}

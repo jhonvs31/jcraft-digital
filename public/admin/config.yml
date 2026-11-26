@@ -133,7 +133,8 @@ collections:
       - { name: place, label: Lugar, widget: string, hint: 'Empieza con 📍 para Colombia o 🌎 para internacional, y escribe el país: «🌎 Cliente internacional · México». El país se usa para contar los países atendidos.' }
       - { name: text, label: Descripción de la tarjeta, widget: text }
       - { name: result, label: Servicios (línea corta), widget: string, hint: 'Ej.: «Diseño Web · Redes · Contenido».' }
-      - { name: home, label: Mostrar en el inicio, widget: boolean, default: false, required: false, hint: 'El inicio muestra 3 casos.' }
+      - { name: propuesta, label: Es una propuesta, widget: boolean, default: false, required: false, hint: 'Actívalo si es trabajo para un prospecto que aún no contrata. No cuenta como cliente en las cifras.' }
+      - { name: home, label: Mostrar en el inicio, widget: boolean, default: false, required: false, hint: 'Aparece en «trabajos más recientes» del inicio.' }
       - { name: short, label: Descripción corta para el inicio, widget: text, required: false }
       - { name: intro, label: Sobre el cliente (ventana del caso), widget: text, required: false }
       - { name: did, label: Lo que hicimos, label_singular: punto, widget: list, required: false, field: { name: item, label: Punto, widget: text } }

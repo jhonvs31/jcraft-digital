@@ -47,7 +47,7 @@ export const process = inicio.proceso.map((x, i) => ({ n: num(i), ...x }));
 // Solo datos verificables: nada de cifras de resultados sin respaldo.
 export type Case = {
   cat: string; tag: string; emoji: string; name: string; place: string; text: string; short?: string; result: string; home?: boolean;
-  slug: string; url?: string; urlLabel?: string; ig?: string; intro?: string; did?: string[];
+  slug: string; propuesta?: boolean; url?: string; urlLabel?: string; ig?: string; intro?: string; did?: string[];
   web?: { src: string; alt: string }[]; mobile?: string; posts?: { src: string; alt: string }[];
 };
 // Cada caso es un archivo en src/content/portafolio/<slug>.json; el campo `orden` define la posición.
@@ -82,8 +82,10 @@ export const afterContact = paginaContacto.despues.map((x, i) => ({ n: String(i 
 
 // ── Cifras: se calculan a partir del portafolio para que coincidan en toda la web.
 // Si se agrega un cliente al portafolio, las cifras se actualizan solas.
-const clientCount = portfolio.length;
-const countries = new Set(portfolio.map((p) => (p.place.includes('México') ? 'México' : p.place.includes('Estados Unidos') ? 'Estados Unidos' : 'Colombia'))).size;
+// Las propuestas (trabajo hecho para prospectos que aún no contratan) no cuentan como clientes ni países.
+const clientes = portfolio.filter((p) => !p.propuesta);
+const clientCount = clientes.length;
+const countries = new Set(clientes.map((p) => (p.place.includes('México') ? 'México' : p.place.includes('Estados Unidos') ? 'Estados Unidos' : 'Colombia'))).size;
 
 export const claims = {
   show: true,
@@ -96,7 +98,7 @@ export const claims = {
     { value: 100, suffix: '%', label: 'Compromiso total' },
   ],
   portfolioStats: [
-    { value: clientCount, suffix: '', label: 'Proyectos en el portafolio' },
+    { value: portfolio.length, suffix: '', label: 'Proyectos en el portafolio' },
     { value: clientCount, suffix: '', label: 'Clientes atendidos' },
     { value: countries, suffix: '', label: 'Países atendidos' },
     { value: 100, suffix: '%', label: 'Compromiso en cada proyecto' },

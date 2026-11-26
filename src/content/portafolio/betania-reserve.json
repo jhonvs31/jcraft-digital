@@ -1,0 +1,41 @@
+{
+  "orden": 3,
+  "propuesta": true,
+  "tag": "Propuesta · Marca y redes",
+  "emoji": "☕",
+  "name": "Betania Reserve",
+  "place": "📍 Propuesta · Quindío",
+  "slug": "betania-reserve",
+  "text": "Propuesta de identidad y contenido para un café de origen familiar del Quindío: línea gráfica, pilares, parrilla del primer mes y muestras para Instagram.",
+  "short": "Propuesta de identidad y contenido para un café de origen familiar del Quindío.",
+  "result": "Branding · Redes · Reel",
+  "home": true,
+  "intro": "Café de origen de una familia del Quindío, con una sola presentación y la frase «Alma en cada grano».",
+  "did": [
+    "Línea gráfica a partir de su logo: paleta, tipografías, fotos en arco y adornos grabados.",
+    "Pilares de contenido (origen, familia, ritual y pedidos) y parrilla de 12 piezas para el primer mes.",
+    "Muestras de post, carrusel de 6 láminas y storie con encuesta.",
+    "Reel de 20 segundos con motion graphics y música original tipo carranga."
+  ],
+  "posts": [
+    {
+      "src": "/assets/portafolio/betania-reserve/post-quindio.webp",
+      "alt": "Post Del Quindío a tu taza"
+    },
+    {
+      "src": "/assets/portafolio/betania-reserve/carrusel-taza.webp",
+      "alt": "Carrusel Lo que hay detrás de una taza"
+    },
+    {
+      "src": "/assets/portafolio/betania-reserve/storie-ritual.webp",
+      "alt": "Storie con encuesta ¿Cómo te tomas tu café?"
+    },
+    {
+      "src": "/assets/portafolio/betania-reserve/reel-cosecha.webp",
+      "alt": "Portada del reel Cosechado a mano"
+    }
+  ],
+  "cats": [
+    "redes"
+  ]
+}

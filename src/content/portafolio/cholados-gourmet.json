@@ -1,0 +1,42 @@
+{
+  "orden": 2,
+  "propuesta": true,
+  "tag": "Propuesta · Marca y redes",
+  "emoji": "🍧",
+  "name": "Cholados Gourmet",
+  "place": "📍 Propuesta · Parque del Perro, Cali",
+  "slug": "cholados-gourmet",
+  "text": "Propuesta de marca y contenido para una cholaería familiar de Cali: sistema gráfico, logo de una sola tinta, pilares y parrilla del primer mes con reel en motion graphics.",
+  "short": "Propuesta de marca y contenido para una cholaería familiar de Cali, con logo, parrilla y reel en motion graphics.",
+  "result": "Branding · Logo · Redes · Reel",
+  "home": true,
+  "intro": "Cholaería familiar del Parque del Perro, en Cali, donde cada cholado lleva el nombre de un ícono caleño.",
+  "did": [
+    "Revisión de la competencia y diagnóstico de su Instagram.",
+    "Manual básico: paleta de colores frutales, tipografías y elementos gráficos inspirados en el vaso.",
+    "Propuesta de logo con tres opciones de icono de una sola tinta, pensadas para bordar y estampar.",
+    "Pilares de contenido y parrilla de 12 piezas para el primer mes.",
+    "Muestras de post, carrusel, storie con encuesta y reel de 24 segundos con música original."
+  ],
+  "posts": [
+    {
+      "src": "/assets/portafolio/cholados-gourmet/carrusel-nombre-propio.webp",
+      "alt": "Carrusel Cholados con nombre propio"
+    },
+    {
+      "src": "/assets/portafolio/cholados-gourmet/post-amparo-arrebato.webp",
+      "alt": "Post Se llama Amparo Arrebato"
+    },
+    {
+      "src": "/assets/portafolio/cholados-gourmet/storie-encuesta.webp",
+      "alt": "Storie con encuesta ¿Equipo lulo o maracuyá?"
+    },
+    {
+      "src": "/assets/portafolio/cholados-gourmet/reel-portada.webp",
+      "alt": "Portada del reel Esto no es un cholado cualquiera"
+    }
+  ],
+  "cats": [
+    "redes"
+  ]
+}
