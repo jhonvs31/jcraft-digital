@@ -136,12 +136,10 @@
 
   const CARTA = [
     'Cielito lindo:',
-    'Hoy cumples 25 y yo todavía no me creo que la niña «fresa» del entreno de voleibol sea mi esposa. Si el Jhon de 2019 hubiera sabido lo que le esperaba, se habría volteado a mirarte en esa foto en vez de quedarse de espaldas JAJAJA.',
-    'Gracias por estos siete años. Por ser mi mejor amiga antes que todo, por aguantarme el susto el día que te pedí que fuéramos novios, por esperarme esos seis meses que estuve lejos y por recibirme como si nunca me hubiera ido.',
-    'Gracias por cada almuerzo, cada sushi, cada viaje y cada aventura que nos inventamos (hasta ordeñar una vaca, quién lo diría). Contigo hasta lo más sencillo se vuelve mi plan favorito.',
-    'Me encanta verte feliz: frente al castillo con tu tiara, lanzando la nieve, cumpliendo tus metas. Y lo que más me gusta es que siempre me dejas estar ahí, a tu lado.',
-    'Este es tu primer cumpleaños como mi esposa, y quiero que sepas que no hay un lugar en el mundo donde prefiera estar que contigo. Lo que venga nos va a encontrar juntos, como siempre: riéndonos, comiendo algo rico y planeando el próximo viaje.',
-    'Feliz cumpleaños, mi amor. Y feliz 5 años de novios, porque sí, hoy también es nuestro día.',
+    'Feliz cumpleaños, mi amor. No sabes lo feliz que me hace poder decírtelo por primera vez siendo tu esposo.',
+    'Me pongo a pensar en todo lo que hemos vivido y la verdad no me alcanzan las palabras. Ha habido momentos muy lindos y otros más duros, pero siempre juntos, y eso es lo que más valoro de nosotros.',
+    'Gracias por amarme como lo haces, por tenerme paciencia, por reírte de mis bobadas y por hacerme sentir en casa donde sea que estemos.',
+    'Quiero que este año sea tan bonito como tú. Que se te cumpla todo lo que sueñas, y yo voy a estar ahí como siempre, a tu lado.',
     'Te amo 3 millones, hasta el infinito y más allá.',
   ];
 
