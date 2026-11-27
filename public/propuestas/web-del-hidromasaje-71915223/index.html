@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Propuesta para Web del Hidromasaje · JCraft Digital</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Manrope:wght@400;600;700&display=swap">
+<style>
+  :root{--azul:#003C53;--agua:#5CAEB7;--espuma:#F6F3EE;--piedra:#D9CBB4;--noche:#0F2229;--gris:#4A5A5F}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--espuma);color:var(--noche);font:400 18px/1.6 Manrope,system-ui,sans-serif;padding:24px 16px}
+  main{width:100%;max-width:440px;display:grid;gap:20px;background:#fff;border-radius:18px;padding:36px 30px;box-shadow:0 10px 40px rgba(15,34,41,.08)}
+  .eyebrow{font:700 12px/1 Manrope,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#A85A33}
+  h1{font:500 40px/1.05 Fraunces,Georgia,serif;margin:0;color:var(--azul)}
+  p{margin:0;color:var(--gris)}
+  form{display:grid;gap:12px}
+  label{font-weight:600;font-size:16px}
+  input{font:inherit;padding:14px 16px;min-height:54px;border:2px solid var(--piedra);border-radius:12px;background:var(--espuma);color:var(--noche)}
+  input:focus{outline:3px solid var(--agua);outline-offset:2px}
+  button{font:700 18px/1 Manrope,sans-serif;min-height:56px;border:0;border-radius:999px;background:var(--azul);color:#fff;cursor:pointer}
+  button:hover{background:var(--noche)}
+  button:disabled{opacity:.6;cursor:wait}
+  #msg{min-height:1.6em;font-size:15px;color:#a3261b}
+  small{font-size:13px;color:var(--gris)}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Propuesta privada · JCraft Digital</div>
+  <h1>Web del Hidromasaje</h1>
+  <p>Esta página es solo para ustedes. Escriban la contraseña que les enviamos para ver la propuesta.</p>
+  <form id="gate">
+    <label for="pass">Contraseña</label>
+    <input id="pass" type="password" autocomplete="current-password" required autofocus>
+    <button id="go" type="submit">Ver la propuesta</button>
+    <div id="msg" role="status" aria-live="polite"></div>
+  </form>
+  <small>© JCraft Digital · Propuesta privada, no publicada.</small>
+</main>
+<script src="gate.js"></script>
+</body>
+</html>
