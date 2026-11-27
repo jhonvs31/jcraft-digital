@@ -7,7 +7,7 @@ iso: 2026-11-27
 category: estrategia
 emoji: 📈
 featured: false
-draft: true
+draft: false
 readTime: 5 min
 html: |
   <p>Esta semana se juntan dos cosas que afectan a cualquier negocio que venda por internet en Colombia: la temporada de Black Friday y Cyber Monday, y una tanda de cambios en Instagram. Revisamos las cifras y los anuncios más recientes para contarte qué está pasando y qué puedes hacer con eso, sin humo.</p>
