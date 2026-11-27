@@ -222,6 +222,21 @@ body.is-night .stop__day { color: #FF6B7E; }
 .ask__after { display: none; }
 .ask.is-done ~ .ask__after { display: grid; gap: 1.6rem; }
 
+/* Trivia */
+.trivia { display: grid; gap: .7rem; background: var(--paper); color: var(--ink); border-radius: 14px; padding: 1.1rem 1.1rem 1rem; max-width: 34rem; box-shadow: 0 14px 30px -18px rgba(42, 31, 61, .45); }
+.trivia__tag { margin: 0; justify-self: start; background: var(--thread); color: #fff; border-radius: 999px; padding: .05rem .8rem; font-size: 1.15rem; font-weight: 700; }
+.trivia__q { margin: 0; font: 400 clamp(1.5rem, 6vw, 2.1rem)/1.1 var(--serif); }
+.trivia__opts { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
+.trivia__opt { border: 2px solid #E9C3C8; background: #fff; color: var(--ink); border-radius: 12px; padding: .5rem .6rem; font-size: 1.3rem; line-height: 1.1; cursor: pointer; text-align: center; transition: transform .2s var(--ease-land), border-color .2s, background-color .2s; }
+.trivia__opt:hover:not(:disabled) { border-color: var(--thread); transform: translateY(-2px); }
+.trivia__opt.is-wrong { background: #F3EEF1; color: #A79AB0; border-color: #E6DDE3; text-decoration: line-through; cursor: default; }
+.trivia__opt.is-right { background: var(--thread); border-color: var(--thread); color: #fff; transform: scale(1.04); }
+.trivia.is-done .trivia__opt:not(.is-right) { opacity: .35; }
+.trivia__msg { margin: 0; min-height: 1.5em; font-size: 1.3rem; font-weight: 700; color: var(--thread); }
+.trivia.is-shake .trivia__opts { animation: shake .45s; }
+.trivia.is-done ~ .ask__after { display: grid; gap: 1.2rem; }
+.trivia ~ .ask__after { grid-template-columns: minmax(0, 1fr); }
+
 /* Contadores */
 .count { display: grid; gap: .1rem; }
 .count__num { font: 400 clamp(3.2rem, 15vw, 6rem)/1 var(--serif); color: var(--thread); font-variant-numeric: tabular-nums; }
@@ -300,6 +315,23 @@ body.is-night .count__num { color: #FF6B7E; }
 .final__sign { margin: 1.2rem 0 0; font-weight: 700; color: var(--thread); font-size: 1.6rem; }
 .final__again { margin-top: 1.4rem; border: 0; background: none; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; font-size: 1.3rem; color: var(--ink-soft); }
 
+.final__score { margin: 1rem 0 0; font-size: 1.35rem; color: var(--ink-soft); }
+.final__score:empty { display: none; }
+.final__more { margin: 1.2rem 0 0; font-size: 1.3rem; color: var(--ink-soft); }
+
+/* Carta final */
+.carta { position: relative; z-index: 2; padding: 10vh 18px 18vh; display: grid; justify-items: center; gap: 1.6rem; }
+.carta__paper {
+  width: min(100%, 38rem); background: var(--paper); color: var(--ink); border-radius: 4px; padding: 2rem 1.5rem 1.6rem;
+  box-shadow: 0 2px 4px rgba(42, 31, 61, .08), 0 24px 50px -24px rgba(42, 31, 61, .5); transform: rotate(-.6deg);
+  background-image: repeating-linear-gradient(transparent 0 2.15rem, rgba(210, 21, 43, .1) 2.15rem calc(2.15rem + 1px));
+  background-position: 0 1.95rem;
+}
+.carta__paper p { margin: 0 0 .9rem; font-size: 1.6rem; line-height: 2.15rem; opacity: 0; transform: translateY(10px); transition: opacity .9s ease var(--d), transform .9s ease var(--d); }
+.carta.is-in .carta__paper p { opacity: 1; transform: none; }
+.carta__paper p:first-child { font-weight: 700; }
+.carta__sign { text-align: right; font-weight: 700; color: var(--thread); font-size: 1.8rem !important; }
+
 /* Botón siguiente */
 .next { position: fixed; left: 0; right: 0; bottom: max(14px, env(safe-area-inset-bottom)); display: flex; justify-content: center; z-index: 40; pointer-events: none; }
 .next__btn {
@@ -346,6 +378,10 @@ body.is-locked .next { display: none; }
   .album { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .stamps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .mosaic { grid-template-columns: repeat(10, 1fr); grid-auto-rows: 20vh; }
+  .trivia { grid-column: 1 / -1; }
+  .trivia ~ .ask__after { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.6rem 5vw; align-items: center; }
+  .trivia ~ .ask__after > .wide { grid-column: 1 / -1; }
+  .trivia__opts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .ask { grid-column: 1 / -1; justify-items: start; text-align: left; }
   .ask__btns { justify-content: flex-start; }
   .ask.is-done ~ .ask__after { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem 6vw; align-items: center; }

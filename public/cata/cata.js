@@ -14,20 +14,20 @@
   /* ---------------- La historia ---------------- */
   const CHAPTERS = [
     { n: 1, title: 'Cómo empezó', years: '2019 a 2021', sky: '#FBE3E4', stops: [
-      { id: 'cancha', date: '2019-08-01', when: '1 de agosto de 2019', title: 'Donde empezó todo', place: 'Entreno de voleibol de la universidad',
+      { id: 'cancha', trivia: { q: '¿Cómo te dije el día que nos conocimos?', opts: ['Gomela', 'Fresa', 'Princesa', 'Chiquita'], ok: 1, nope: 'Casi… pero era una frutica 🍓' }, date: '2019-08-01', when: '1 de agosto de 2019', title: 'Donde empezó todo', place: 'Entreno de voleibol de la universidad',
         lane: 'ball', media: [{ img: 'cancha', cap: 'Nuestra primera foto (y yo de espaldas)' }],
         msg: ['Ese 1 de agosto llegaste al entreno y yo, muy sabio, te dije «fresa» por venir de colegio gomelo.', 'Lo que no sabía era que esa fresa iba a ser lo más dulce que me iba a pasar en la vida. Mírate en esa foto: tú ya ibas adelante sonriendo, y yo ahí de espaldas, sin enterarme de nada.'] },
-      { id: 'amigos', when: '2019 a 2021', title: 'Años de amigos', place: 'Y una serie que nos unió',
+      { id: 'amigos', trivia: { q: '¿Qué serie nos unió cuando éramos amigos?', opts: ['Friends', "Grey's Anatomy", 'Glee', 'La casa de papel'], ok: 2, nope: 'Pista: tenía mucho canto 🎤' }, when: '2019 a 2021', title: 'Años de amigos', place: 'Y una serie que nos unió',
         count: { from: 1, to: 581, label: 'días siendo los mejores amigos' },
         media: [{ img: 'glee', cap: 'Hasta por videollamada la seguíamos viendo juntos' }],
         msg: ['Antes de ser «nosotros» fuimos los mejores amigos, por años.', 'Y teníamos nuestra serie: capítulo tras capítulo, aunque fuera cada uno desde su casa y por videollamada, Glee nos fue uniendo. Todavía te veo cantando y sufriendo con cada episodio.'] },
-      { id: 'karens', date: '2021-03-04', when: '4 de marzo de 2021', title: 'La primera cita', place: "Karen's Pizza",
+      { id: 'karens', trivia: { q: '¿Dónde fue nuestra primera cita?', opts: ["Karen's Pizza", 'En un sushi', 'Parque del Café', 'Crepes & Waffles'], ok: 0, nope: 'Nop. Pista: había queso derretido 🍕' }, date: '2021-03-04', when: '4 de marzo de 2021', title: 'La primera cita', place: "Karen's Pizza",
         media: [{ vid: 'v-karens', cap: 'Tú tapando la cámara, yo insistiendo' }],
         msg: ["Después de años de ser los mejores amigos, un 4 de marzo nos sentamos en Karen's Pizza «solo a comer».", 'Tú tapando la cámara, yo insistiendo… y al final esa sonrisa. Ahí entendí que lo nuestro ya no cabía en la palabra «amigos». Poquito a poco, como las cosas que valen la pena.'] },
       { id: 'trabajo', when: '2021', title: 'Después del trabajo, siempre tú', place: 'Salidas a comer entre semana', layout: 'strip',
         media: [{ img: 'carro', cap: 'Saliendo del trabajo directo a verte' }, { vid: 'v-plazoleta', cap: 'Tú haciendo caras, yo posando atrás' }, { vid: 'v-besos', cap: 'La evidencia de los besitos' }],
         msg: ['Salía del trabajo cansado, pero igual iba a verte, porque comer contigo era el mejor plan del día.', 'Poquito a poco lo fuimos volviendo serio… y llegaron los besitos. Tú no sabías muy bien cómo darlos (JAJAJA, perdón, pero la evidencia está en video), y aun así para mí fueron los mejores del mundo.'] },
-      { id: 'restrepo', when: '2021', title: 'La prueba de fuego (en bicicleta)', place: 'La finca en Restrepo, con toda tu familia',
+      { id: 'restrepo', trivia: { q: '¿Qué hicimos el día de mi examen con el suegrito?', opts: ['Nadar en la piscina', 'Montar bicicleta', 'Jugar fútbol', 'Karaoke'], ok: 1, nope: 'Nop. Pista: necesitaba casco 🚴' }, when: '2021', title: 'La prueba de fuego (en bicicleta)', place: 'La finca en Restrepo, con toda tu familia',
         media: [{ img: 'ciclas', cap: 'El examen final con mi suegrito' }, { img: 'mantel', cap: '«Como amigos», ajá' }],
         badge: 'Logro desbloqueado: aprobado por el suegrito',
         msg: ['Oficialmente íbamos «como amigos» a la finca en Restrepo (ajá, sí, claro).', 'Conocí a toda tu familia, y ese día en bicicleta fue mi examen final con mi suegrito lindo. Pedaleé como si me jugara la vida… porque en el fondo sí me la estaba jugando: me estaba jugando quedarme contigo.'] },
@@ -58,7 +58,7 @@
           { img: 'quindio', cap: 'Quindío y tu besito en el cachete' },
           { img: 'otaku', cap: 'Mesario otaku: ramen y anime' },
         ] },
-      { id: 'sushi', date: '2022-02-12', when: '12 de febrero de 2022', title: 'El día que nació una adicción', place: 'Tu primer sushi',
+      { id: 'sushi', trivia: { q: '¿Cuándo probaste sushi por primera vez?', opts: ['14 de febrero de 2022', '28 de noviembre de 2021', '12 de febrero de 2022', '1 de agosto de 2021'], ok: 2, nope: 'Cerquita… fue dos días antes de San Valentín 🍣' }, date: '2022-02-12', when: '12 de febrero de 2022', title: 'El día que nació una adicción', place: 'Tu primer sushi',
         media: [{ vid: 'v-sushi', cap: 'El primer bocado. Ya no hubo vuelta atrás' }],
         msg: ['Un 12 de febrero probaste sushi por primera vez y, bueno… ya sabemos cómo terminó eso.', 'Me hace feliz haber sido yo quien te metió en este vicio. Prometo seguir patrocinándolo toda la vida.'] },
     ] },
@@ -67,7 +67,7 @@
       { id: 'aeropuerto', date: '2022-03-08', when: '8 de marzo de 2022', title: 'Hasta pronto, no adiós', place: 'El aeropuerto',
         lane: 'plane', media: [{ img: 'aeropuerto', cap: 'El abrazo más difícil' }],
         msg: ['El 8 de marzo me tocó despedirme de ti en ese aeropuerto. Fue de los días más duros, porque por primera vez nuestro camino se partía en dos.', 'Pero ni la distancia ni los kilómetros lograron soltar el hilo que nos unía.'] },
-      { id: 'seismeses', when: 'Marzo a septiembre de 2022', title: 'Seis meses, dos países, un mismo hilo', place: 'Cali y USA, por videollamada', layout: 'phones',
+      { id: 'seismeses', trivia: { q: '¿Cuántos meses estuvimos lejos?', opts: ['3 meses', '6 meses', '9 meses', '1 año'], ok: 1, nope: 'Se sintieron más… pero no 😅' }, when: 'Marzo a septiembre de 2022', title: 'Seis meses, dos países, un mismo hilo', place: 'Cali y USA, por videollamada', layout: 'phones',
         count: { from: 1, to: 180, label: 'días lejos, y el hilo nunca se soltó' },
         media: [{ img: 'dormida', cap: 'Dormida en llamada' }, { img: 'corazon', cap: 'Un corazón para mí' }, { img: 'boquita', cap: 'Besito a distancia' }, { vid: 'v-baile', cap: 'Bailando para mí', wide: true }],
         msg: ['Fueron los 6 meses más duros, pero también de los más bonitos. Nos quedábamos dormidos en llamada, me hacías corazones con las manos, bailabas para mí al otro lado de la pantalla…', 'Y lo supimos llevar muy bien. Ahí entendí que lo nuestro podía con todo.'] },
@@ -91,7 +91,7 @@
     ] },
 
     { n: 5, title: 'USA juntos', years: 'Diciembre de 2024', sky: '#E4E0F4', stops: [
-      { id: 'primervuelo', date: '2024-12', when: 'Diciembre de 2024', title: 'Tu primer vuelo al mundo', place: 'Tu primera vez fuera de Colombia',
+      { id: 'primervuelo', trivia: { q: '¿Qué prenda mía sale en casi todos nuestros viajes?', opts: ['La gorra de los Yankees', 'La camiseta de la galaxia', 'El buzo rojo', 'La chaqueta negra'], ok: 2, nope: 'Mira bien las fotos… es rojo 👀' }, date: '2024-12', when: 'Diciembre de 2024', title: 'Tu primer vuelo al mundo', place: 'Tu primera vez fuera de Colombia',
         lane: 'plane2', media: [{ img: 'malecon', cap: 'Mirando atrás, sonriéndome' }, { img: 'universal', cap: 'El buzo rojo, presente como siempre' }],
         msg: ['El mismo lugar que un día nos separó se convirtió en el lugar donde te vi cumplir un sueño.', 'Estar a tu lado en tu primera vez fuera del país, viéndote descubrir todo con esos ojos, me aguó el ojo. Ya no era «yo allá y tú acá». Ahora éramos nosotros, juntos, conociendo el mundo.'] },
       { id: 'disney', when: 'Diciembre de 2024', title: 'Tu sueño más grande (hasta ahora)', place: 'Disney, con tiara y todo', layout: 'strip', parade: true, burst: 'fireworks',
@@ -125,13 +125,24 @@
     ] },
 
     { n: 7, title: 'Para siempre', years: '2026', sky: '#F4F3F8', stops: [
-      { id: 'boda', date: '2026-08-01', when: '1 de agosto de 2026', title: 'Sí, acepto', place: 'El mismo día en que te conocí', layout: 'strip', burst: 'petals', dates: true,
+      { id: 'boda', trivia: { q: '¿Por qué nos casamos un 1 de agosto?', opts: ['Porque había descuento', 'Porque es el día que nos conocimos', 'Porque cumplía mi suegrito', 'Fue casualidad'], ok: 1, nope: 'JAJAJA no. Piensa en una cancha de voleibol 🏐' }, date: '2026-08-01', when: '1 de agosto de 2026', title: 'Sí, acepto', place: 'El mismo día en que te conocí', layout: 'strip', burst: 'petals', dates: true,
         media: [{ img: 'boda-ceremonia', cap: 'Riéndonos en nuestra propia boda' }, { img: 'boda-cancion', cap: 'Cantándonos' }, { img: 'boda-ramo', cap: 'Mi esposa' }],
         msg: ['Un 1 de agosto te conocí en una cancha y te dije «fresa». Siete años después, otro 1 de agosto, te dije «sí, acepto».', 'La vida tiene formas muy bonitas de cerrar círculos, y la nuestra fue volver al mismo día para empezarlo todo de nuevo, ahora como esposos.'] },
       { id: 'lunademiel', date: '2026-09', when: 'Septiembre de 2026', title: 'Y esto apenas empieza', place: 'Luna de miel en crucero, Curazao', layout: 'strip',
         media: [{ img: 'curazao', cap: 'Curazao y sus casitas de colores' }, { vid: 'v-crucero', cap: 'Desayuno frente al mar' }, { img: 'sushi-clase', cap: 'De adicta al sushi a hacerlo tú misma' }, { img: 'piscina', cap: 'Flotando, como en las nubes' }],
         msg: ['Por más viajes, más experiencias y muchas cosas más juntos (hasta clases de sushi, quién lo diría).', 'Gracias por amarme y por hacerme realmente feliz. Te amo hasta el infinito y más allá.'] },
     ] },
+  ];
+
+  const CARTA = [
+    'Cielito lindo:',
+    'Hoy cumples 25 y yo todavía no me creo que la niña «fresa» del entreno de voleibol sea mi esposa. Si el Jhon de 2019 hubiera sabido lo que le esperaba, se habría volteado a mirarte en esa foto en vez de quedarse de espaldas JAJAJA.',
+    'Gracias por estos siete años. Por ser mi mejor amiga antes que todo, por aguantarme el susto el día que te pedí que fuéramos novios, por esperarme esos seis meses que estuve lejos y por recibirme como si nunca me hubiera ido.',
+    'Gracias por cada almuerzo, cada sushi, cada viaje y cada aventura que nos inventamos (hasta ordeñar una vaca, quién lo diría). Contigo hasta lo más sencillo se vuelve mi plan favorito.',
+    'Me encanta verte feliz: frente al castillo con tu tiara, lanzando la nieve, cumpliendo tus metas. Y lo que más me gusta es que siempre me dejas estar ahí, a tu lado.',
+    'Este es tu primer cumpleaños como mi esposa, y quiero que sepas que no hay un lugar en el mundo donde prefiera estar que contigo. Lo que venga nos va a encontrar juntos, como siempre: riéndonos, comiendo algo rico y planeando el próximo viaje.',
+    'Feliz cumpleaños, mi amor. Y feliz 5 años de novios, porque sí, hoy también es nuestro día.',
+    'Te amo 3 millones, hasta el infinito y más allá.',
   ];
 
   /* ---------------- Utilidades ---------------- */
@@ -202,7 +213,10 @@
     const sand = s.sand ? `<div class="sandbox"><svg class="sand" viewBox="0 0 300 140" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><path class="heart" d="M150 120C90 82 62 58 66 38a26 26 0 0 1 84-6 26 26 0 0 1 84 6c4 20-24 44-84 82z"/><rect class="wave" x="0" y="0" width="300" height="140" rx="60"/></svg><p class="sand__note">Pasó la ola… y el corazón sigue ahí.</p></div>` : '';
     const badge = s.badge ? `<p class="badge wide">${esc(s.badge)}</p>` : '';
     let body;
-    if (s.ask) {
+    if (s.trivia) {
+      const t = s.trivia;
+      body = `${lane}<div class="trivia" data-ok="${t.ok}"><p class="trivia__tag">Trivia</p><p class="trivia__q">${esc(t.q)}</p><div class="trivia__opts" role="group" aria-label="${esc(t.q)}">${t.opts.map((o, i) => `<button type="button" class="trivia__opt" data-i="${i}">${esc(o)}</button>`).join('')}</div><p class="trivia__msg" role="status" data-nope="${esc(t.nope)}"></p></div><div class="ask__after">${count}${dates}${mediaBlock(s)}${letter(s)}${sand}${badge}</div>`;
+    } else if (s.ask) {
       body = `${lane}<div class="ask" data-burst="${s.ask.burst}">${ICONS[s.ask.icon]}<p class="ask__q">${esc(s.ask.q)}</p><div class="ask__btns">${s.ask.yes.map((y, i) => `<button type="button" class="ask__btn ${i ? 'ask__btn--alt' : ''}">${esc(y)}</button>`).join('')}</div></div><div class="ask__after">${mediaBlock(s)}${letter(s)}</div>`;
     } else {
       body = `${lane}${count}${dates}${mediaBlock(s)}${letter(s)}${sand}${badge}`;
@@ -224,7 +238,8 @@
     }
     const thumbs = Object.keys(DIMS).filter((k) => !/^(d-raton|d-pato|u-pandilla)$/.test(k));
     const total = dayN('2026-11-28');
-    parts.push(`<section class="final" id="final" data-sky="#2A0F2E" data-night="1" data-ambient="stars" data-burst="fireworks"><div class="mosaic" aria-hidden="true">${thumbs.map((k, i) => `<img src="${M}${k}-t.webp" alt="" loading="lazy" decoding="async" style="--x:${((i * 37) % 200) - 100}px;--y:${((i * 53) % 240) - 120}px;--r:${((i * 29) % 40) - 20}deg;--d:${(i * 0.025).toFixed(3)}s">`).join('')}</div><div class="final__card"><h2 class="final__title">Feliz cumpleaños, mi amor</h2><p class="final__line">28 de noviembre: el día que llegaste al mundo… y el día que dijiste que sí.</p><p class="final__line">Hoy cumples 25 años, y nosotros cumplimos 5 de novios. Son ${fmt(total)} días desde aquella cancha, y quiero todos los que vienen.</p><div class="final__love count" data-count="3000000" data-from="0"><span class="count__label">Te amo</span><span class="count__num">0</span></div><p class="final__sign">${SIGN}</p><button type="button" class="final__again" id="again">Volver a recorrer la aventura</button></div></section>`);
+    parts.push(`<section class="final" id="final" data-sky="#2A0F2E" data-night="1" data-ambient="stars" data-burst="fireworks"><div class="mosaic" aria-hidden="true">${thumbs.map((k, i) => `<img src="${M}${k}-t.webp" alt="" loading="lazy" decoding="async" style="--x:${((i * 37) % 200) - 100}px;--y:${((i * 53) % 240) - 120}px;--r:${((i * 29) % 40) - 20}deg;--d:${(i * 0.025).toFixed(3)}s">`).join('')}</div><div class="final__card"><h2 class="final__title">Feliz cumpleaños, mi amor</h2><p class="final__line">28 de noviembre: el día que llegaste al mundo… y el día que dijiste que sí.</p><p class="final__line">Hoy cumples 25 años, y nosotros cumplimos 5 de novios. Son ${fmt(total)} días desde aquella cancha, y quiero todos los que vienen.</p><p class="final__score" id="score"></p><div class="final__love count" data-count="3000000" data-from="0"><span class="count__label">Te amo</span><span class="count__num">0</span></div><p class="final__sign">${SIGN}</p><p class="final__more">Baja un poquito más: te escribí algo.</p></div></section>`);
+    parts.push(`<section class="carta" id="carta" data-sky="#FBE3E4" data-night="0" data-ambient=""><div class="carta__paper">${CARTA.map((p, i) => `<p style="--d:${(i * 0.35).toFixed(2)}s">${esc(p)}</p>`).join('')}<p class="carta__sign" style="--d:${(CARTA.length * 0.35).toFixed(2)}s">${SIGN}</p></div><button type="button" class="final__again" id="again">Volver a recorrer la aventura</button></section>`);
     $('#stops').innerHTML = parts.join('');
   }
 
@@ -375,9 +390,9 @@
     if (sec.classList.contains('is-in')) return;
     sec.classList.add('is-in');
     if (sec.dataset.burst && !sec.dataset.fired) { sec.dataset.fired = '1'; setTimeout(() => fx.burst(sec.dataset.burst), 500); }
-    $$('.count[data-count]', sec).forEach((c) => { if (!c.closest('.final__love')) countUp(c); });
-    $$('[data-year]', sec).forEach(yearsRoll);
-    $$('[data-parade]', sec).forEach(parade);
+    $$('.count[data-count]', sec).forEach((c) => { if (!c.closest('.final__love, .ask__after')) countUp(c); });
+    $$('[data-year]', sec).filter((y) => !y.closest('.ask__after')).forEach(yearsRoll);
+    $$('[data-parade]', sec).filter((y) => !y.closest('.ask__after')).forEach(parade);
     if (sec.id === 'final') setTimeout(() => { countUp($('.final__love', sec)); fx.burst('confetti'); }, 2400);
   }
 
@@ -393,7 +408,7 @@
   /* ---------------- Arranque ---------------- */
   function start() {
     render();
-    const secs = $$('.hero, .chapter, .stop, .final');
+    const secs = $$('.hero, .chapter, .stop, .final, .carta');
     const ioIn = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) onEnter(e.target); }), { rootMargin: '0px 0px -30% 0px', threshold: 0 });
     const ioSky = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) setSky(e.target); }), { rootMargin: '-48% 0px -48% 0px' });
     secs.forEach((s) => { ioIn.observe(s); ioSky.observe(s); });
@@ -419,6 +434,30 @@
       });
     });
 
+    // Trivia
+    let aciertos = 0, intentos = 0;
+    const totalTrivia = $$('.trivia').length;
+    const paintScore = () => { const el = $('#score'); if (el && intentos) el.textContent = `Acertaste ${aciertos} de ${totalTrivia} preguntas a la primera${aciertos === totalTrivia ? '. ¡Te sabes nuestra historia de memoria!' : '. Igual te lo perdono 😘'}`; };
+    $$('.trivia').forEach((tv) => {
+      let first = true;
+      const msg = $('.trivia__msg', tv);
+      $$('.trivia__opt', tv).forEach((b) => b.addEventListener('click', () => {
+        if (tv.classList.contains('is-done')) return;
+        const right = b.dataset.i === tv.dataset.ok;
+        if (!right) {
+          first = false; b.classList.add('is-wrong'); b.disabled = true;
+          msg.textContent = msg.dataset.nope; tv.classList.remove('is-shake'); void tv.offsetWidth; tv.classList.add('is-shake');
+          return;
+        }
+        intentos++; if (first) aciertos++; paintScore();
+        b.classList.add('is-right'); tv.classList.add('is-done');
+        msg.textContent = first ? '¡Exacto! 💛' : '¡Esa sí! 💛';
+        fx.burst('confetti');
+        const after = tv.nextElementSibling;
+        requestAnimationFrame(() => { $$('video', after).forEach((v) => ioVid.observe(v)); $$('.count[data-count]', after).forEach(countUp); $$('[data-year]', after).forEach(yearsRoll); $$('[data-parade]', after).forEach(parade); buildThread(); });
+      }));
+    });
+
     // Hilo: recalcular cuando cambie el tamaño
     let qt = 0; const queue = () => { cancelAnimationFrame(qt); qt = requestAnimationFrame(buildThread); };
     new ResizeObserver(queue).observe($('#stops'));
@@ -429,14 +468,14 @@
 
     // Siguiente momento
     const nextBtn = $('#next'), nextLabel = $('#next-label');
-    const marks = () => $$('.hero, .chapter, .stop, .final');
+    const marks = () => $$('.hero, .chapter, .stop, .final, .carta');
     nextBtn.addEventListener('click', () => {
       const y = scrollY + 8;
       const nxt = marks().find((s) => s.getBoundingClientRect().top + scrollY > y + 4);
-      if (!nxt || nxt.id === 'final' && nxt.getBoundingClientRect().top < 20) { scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); return; }
+      if (!nxt) { scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); return; }
       nxt.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
     });
-    const upd = () => { const atEnd = $('#final').getBoundingClientRect().top < innerHeight * 0.3; nextLabel.textContent = atEnd ? 'Volver al inicio' : 'Siguiente momento'; nextBtn.classList.toggle('is-up', atEnd); };
+    const upd = () => { const atEnd = $('#carta').getBoundingClientRect().top < innerHeight * 0.5; nextLabel.textContent = atEnd ? 'Volver al inicio' : 'Siguiente momento'; nextBtn.classList.toggle('is-up', atEnd); };
     addEventListener('scroll', upd, { passive: true });
     $('#again').addEventListener('click', () => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
 
